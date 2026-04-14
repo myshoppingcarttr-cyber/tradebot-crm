@@ -8,25 +8,45 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Update Ayse with daily prices
-        run: |
-          node -e "
-          const https=require('https');
-          function req(o,b){return new Promise((rs,rj)=>{const r=https.request(o,resp=>{let d='';resp.on('data',c=>d+=c);resp.on('end',()=>{try{rs(JSON.parse(d))}catch(e){rs({})}})});r.on('error',rj);if(b)r.write(JSON.stringify(b));r.end()})}
-          async function main(){
-            const TK=process.env.TK,AK=process.env.AK,VK=process.env.VK,AID=process.env.AID;
-            const p={};
-            for(const s of ['BTC/USD','XAU/USD','EUR/USD']){try{const d=await req({hostname:'api.twelvedata.com',path:'/price?symbol='+encodeURIComponent(s)+'&apikey='+TK,method:'GET'});p[s]=parseFloat(d.price)||0}catch(e){p[s]=0}}
-            const today=new Date().toLocaleDateString('tr-TR');
-            const cr=await req({hostname:'api.anthropic.com',path:'/v1/messages',method:'POST',headers:{'x-api-key':AK,'anthropic-version':'2023-06-01','Content-Type':'application/json'}},{model:'claude-sonnet-4-20250514',max_tokens:300,messages:[{role:'user',content:'Bugun '+today+' BTC:'+p['BTC/USD']+' ALTIN:'+p['XAU/USD']+' EUR:'+p['EUR/USD']+'. Ayse icin Turkce analiz. SADECE JSON:{"btc":{"price":"x","opener":"x"},"gold":{"price":"x","opener":"x"},"urgency":"x"}'}]});
-            let a={};try{a=JSON.parse((cr.content||[{text:'{}'}])[0].text.replace(/```[a-z]*/g,'').trim())}catch(e){}
-            const sys='Sen Global Eksbina finansal danismani Aysesin. Turkce konuş. Kisaltma yok. Kisa cumle.\nANALIZ ('+today+'):\nBitcoin: '+(a.btc?.price||p['BTC/USD'])+'$ - '+(a.btc?.opener||'Bitcoin guncel.')+'\nAltin: '+(a.gold?.price||p['XAU/USD'])+'$ - '+(a.gold?.opener||'Altin analizi.')+'\nEURUSD: '+p['EUR/USD']+'\nACiLiYET: '+(a.urgency||'Piyasalar hareketli.')+'\nMusterinin ilgisine gore uygun urunu sun. Demo hesabi oner.';
-            await req({hostname:'api.vapi.ai',path:'/assistant/'+AID,method:'PATCH',headers:{'Authorization':'Bearer '+VK,'Content-Type':'application/json'}},{model:{provider:'anthropic',model:'claude-sonnet-4-20250514',messages:[{role:'system',content:sys}],temperature:0.7,maxTokens:150}});
-            console.log('OK',today,'BTC:'+p['BTC/USD']);
-          }
-          main().catch(e=>{console.error(e.message);process.exit(1)});
-          "
+        uses: actions/github-script@v7
         env:
           TK: ${{ secrets.TWELVE_DATA_API_KEY }}
           AK: ${{ secrets.ANTHROPIC_API_KEY }}
           VK: ${{ secrets.VAPI_API_KEY }}
           AID: ${{ secrets.VAPI_ASSISTANT_ID }}
+        with:
+          script: |
+            const https = require('https');
+            function req(o, b) {
+              return new Promise((rs, rj) => {
+                const r = https.request(o, resp => {
+                  let d = '';
+                  resp.on('data', c => d += c);
+                  resp.on('end', () => { try { rs(JSON.parse(d)); } catch(e) { rs({}); } });
+                });
+                r.on('error', rj);
+                if (b) r.write(JSON.stringify(b));
+                r.end();
+              });
+            }
+            const TK = process.env.TK, AK = process.env.AK, VK = process.env.VK, AID = process.env.AID;
+            const p = {};
+            for (const s of ['BTC/USD', 'XAU/USD', 'EUR/USD']) {
+              try {
+                const d = await req({ hostname: 'api.twelvedata.com', path: '/price?symbol=' + encodeURIComponent(s) + '&apikey=' + TK, method: 'GET' });
+                p[s] = parseFloat(d.price) || 0;
+              } catch(e) { p[s] = 0; }
+            }
+            const today = new Date().toLocaleDateString('tr-TR');
+            const cr = await req(
+              { hostname: 'api.anthropic.com', path: '/v1/messages', method: 'POST', headers: { 'x-api-key': AK, 'anthropic-version': '2023-06-01', 'Content-Type': 'application/json' } },
+              { model: 'claude-sonnet-4-20250514', max_tokens: 300, messages: [{ role: 'user', content: 'Bugun ' + today + ' BTC:' + p['BTC/USD'] + ' ALTIN:' + p['XAU/USD'] + ' EUR:' + p['EUR/USD'] + '. Ayse icin Turkce analiz. SADECE JSON: {"btc":{"price":"x","opener":"x"},"gold":{"price":"x","opener":"x"},"urgency":"x"}' }] }
+            );
+            let a = {};
+            try { a = JSON.parse(cr.content[0].text.replace(/```[a-z]*/g, '').trim()); } catch(e) {}
+            const sys = 'Sen Global Eksbina finansal danismani Aysesin. Turkce konuş. Kisaltma yok. Kisa cumle.\nANALIZ (' + today + '):\nBitcoin: ' + (a.btc && a.btc.price ? a.btc.price : p['BTC/USD']) + '$ - ' + (a.btc && a.btc.opener ? a.btc.opener : 'Bitcoin guncel.') + '\nAltin: ' + (a.gold && a.gold.price ? a.gold.price : p['XAU/USD']) + '$ - ' + (a.gold && a.gold.opener ? a.gold.opener : 'Altin analizi.') + '\nEURUSD: ' + p['EUR/USD'] + '\nACiLiYET: ' + (a.urgency ? a.urgency : 'Piyasalar hareketli.') + '\nMusterinin ilgisine gore uygun urunu sun. Demo hesabi oner.';
+            await req(
+              { hostname: 'api.vapi.ai', path: '/assistant/' + AID, method: 'PATCH', headers: { 'Authorization': 'Bearer ' + VK, 'Content-Type': 'application/json' } },
+              { model: { provider: 'anthropic', model: 'claude-sonnet-4-20250514', messages: [{ role: 'system', content: sys }], temperature: 0.7, maxTokens: 150 } }
+            );
+            console.log('OK', today, 'BTC:' + p['BTC/USD']);
