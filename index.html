@@ -609,20 +609,26 @@ let allLeads = [];
 
 // --- API ---
 async function sb(path, method='GET', body=null) {
-  const opts = {
-    method,
-    headers: {
-      'apikey': SB_KEY,
-      'Authorization': 'Bearer ' + SB_KEY,
-      'Content-Type': 'application/json',
-      'Prefer': method === 'POST' ? 'return=representation' : 'return=representation'
-    }
+  const headers = {
+    'apikey': SB_KEY,
+    'Authorization': 'Bearer ' + SB_KEY,
+    'Content-Type': 'application/json'
   };
+  if (method === 'POST' || method === 'PATCH') {
+    headers['Prefer'] = 'return=representation';
+  }
+  const opts = { method, headers };
   if (body) opts.body = JSON.stringify(body);
   const r = await fetch(SB_URL + '/rest/v1/' + path, opts);
-  if (!r.ok) { const e = await r.json(); throw new Error(e.message || r.status); }
-  if (r.status === 204 || r.headers.get('content-length') === '0') return [];
-  return r.json();
+  if (!r.ok) {
+    let msg = r.status;
+    try { const e = await r.json(); msg = e.message || e.error || msg; } catch(_) {}
+    throw new Error(msg);
+  }
+  if (r.status === 204) return [];
+  const text = await r.text();
+  if (!text || text === '') return [];
+  return JSON.parse(text);
 }
 
 // --- AUTH ---
@@ -942,14 +948,27 @@ async function bulkDelete() {
   if (!selected.length) { notify('Hiç lead seçilmedi','err'); return; }
   if (!confirm(`${selected.length} lead silinsin mi? Bu işlem geri alınamaz.`)) return;
   try {
-    const BATCH = 50;
+    const BATCH = 30;
     for (let i = 0; i < selected.length; i += BATCH) {
       const batch = selected.slice(i, i + BATCH);
-      await sb(`customers?id=in.(${batch.join(',')})`, 'DELETE');
+      const ids = batch.join(',');
+      const r = await fetch(SB_URL + '/rest/v1/customers?id=in.(' + ids + ')', {
+        method: 'DELETE',
+        headers: {
+          'apikey': SB_KEY,
+          'Authorization': 'Bearer ' + SB_KEY,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!r.ok) {
+        let msg = r.status;
+        try { const e = await r.json(); msg = e.message || e.error || msg; } catch(_) {}
+        throw new Error('DELETE hatası: ' + msg);
+      }
     }
     notify(`${selected.length} lead silindi`);
     clearSelection();
-    loadLeads();
+    await loadLeads();
   } catch(e) {
     notify('Silme hatası: ' + e.message, 'err');
   }
