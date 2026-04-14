@@ -939,15 +939,17 @@ async function bulkAssign() {
 
 async function bulkDelete() {
   const selected = [...document.querySelectorAll('.lead-chk:checked')].map(c => c.value);
-  if (!selected.length) return;
+  if (!selected.length) { notify('Hiç lead seçilmedi','err'); return; }
   if (!confirm(`${selected.length} lead silinsin mi? Bu işlem geri alınamaz.`)) return;
-  let done = 0;
-  for (const id of selected) {
-    try { await sb(`customers?id=eq.${id}`, 'DELETE'); done++; } catch(e) {}
+  try {
+    const ids = selected.join(',');
+    await sb(`customers?id=in.(${ids})`, 'DELETE');
+    notify(`${selected.length} lead silindi`);
+    clearSelection();
+    loadLeads();
+  } catch(e) {
+    notify('Silme hatası: ' + e.message, 'err');
   }
-  notify(`${done} lead silindi`);
-  clearSelection();
-  loadLeads();
 }
 
 function showLeadModal(lead=null) {
