@@ -549,8 +549,12 @@ textarea.input{resize:vertical}
       CSV formatı: <strong style="color:var(--gold)">full_name, phone, email, city, interest</strong><br>
       Her satır bir müşteri. İlk satır başlık olabilir.
     </div>
-    <div class="form-group"><div class="form-label">CSV İçeriği</div>
-      <textarea class="input" id="csv-data" rows="8" placeholder="Ahmet Yılmaz,+905551234567,ahmet@mail.com,İstanbul,Bitcoin&#10;Fatma Demir,+905559876543,,Ankara,Altın"></textarea>
+    <div class="form-group"><div class="form-label">CSV Dosyası Seç</div>
+      <input type="file" accept=".csv,.txt" id="csv-file" class="input" style="padding:8px;cursor:pointer" onchange="loadCSVFile(this)">
+      <div style="font-size:10px;color:var(--text3);margin-top:4px" id="csv-file-info"></div>
+    </div>
+    <div class="form-group"><div class="form-label">veya İçeriği Yapıştır</div>
+      <textarea class="input" id="csv-data" rows="5" placeholder="Ahmet Yılmaz,+905551234567,ahmet@mail.com,İstanbul,Bitcoin&#10;Fatma Demir,+905559876543,,Ankara,Altın"></textarea>
     </div>
     <div class="form-row">
       <div><div class="form-label">Personele Ata</div>
@@ -1133,7 +1137,23 @@ async function updateCampaignStatus(id, status) {
 }
 
 // --- CSV IMPORT ---
-function showImportModal() { fillAgentSelects('csv-agent'); openModal('import-modal'); }
+function showImportModal() {
+  fillAgentSelects('csv-agent');
+  document.getElementById('csv-data').value = '';
+  document.getElementById('csv-file-info').textContent = '';
+  openModal('import-modal');
+}
+
+function loadCSVFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('csv-data').value = e.target.result;
+    document.getElementById('csv-file-info').textContent = `✓ ${file.name} — ${file.size} byte`;
+  };
+  reader.readAsText(file, 'UTF-8');
+}
 
 async function importCSV() {
   const raw = document.getElementById('csv-data').value.trim();
