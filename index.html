@@ -1,66 +1,1193 @@
-<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Global Eksbina CRM</title><style>*{box-sizing:border-box;margin:0;padding:0}:root{--gold:#C9A96E;--d1:#0d0d11;--d2:#13131a;--d3:#1a1a24;--d4:#21212e;--d5:#2a2a3a;--t1:#f0ede8;--t2:#a8a4b0;--t3:#5a566a;--green:#22c55e;--red:#ef4444;--blue:#60a5fa;--purple:#a78bfa;--orange:#f97316;--bd:rgba(201,169,110,.12);--bd2:rgba(201,169,110,.25)}body{background:var(--d1);color:var(--t1);font-family:system-ui,sans-serif;font-size:13px;min-height:100vh}#login{display:flex;align-items:center;justify-content:center;min-height:100vh}.lbox{background:var(--d2);border:1px solid var(--bd);border-radius:12px;padding:40px;width:340px}.llogo{text-align:center;margin-bottom:32px}.lname{font-size:16px;font-weight:700;color:var(--gold);letter-spacing:2px}.lsub{font-size:9px;color:var(--t3);letter-spacing:3px;margin-top:4px}.li{width:100%;background:var(--d4);border:1px solid var(--bd);border-radius:6px;padding:10px 12px;font-size:13px;color:var(--t1);outline:none;margin-bottom:12px;display:block}.li:focus{border-color:rgba(201,169,110,.4)}.lbtn{width:100%;background:var(--gold);color:#000;border:none;border-radius:6px;padding:12px;font-size:13px;font-weight:700;cursor:pointer}.lerr{color:var(--red);font-size:11px;margin-top:8px;text-align:center;min-height:18px}.fl{font-size:9px;color:var(--t3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px;display:block}#app{display:none;height:100vh;flex-direction:column}#app.on{display:flex}.topbar{background:var(--d2);border-bottom:1px solid var(--bd);padding:0 14px;display:flex;align-items:center;height:46px;flex-shrink:0;gap:10px}.tlogo{font-size:12px;font-weight:700;color:var(--gold);letter-spacing:1px;white-space:nowrap}.tsep{width:1px;height:18px;background:var(--bd);flex-shrink:0}.tnav{display:flex;gap:2px;flex:1;overflow-x:auto}.tnav::-webkit-scrollbar{display:none}.tb{padding:5px 11px;border-radius:5px;font-size:11px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--t2);white-space:nowrap}.tb:hover{background:rgba(201,169,110,.06);color:var(--t1)}.tb.act{background:rgba(201,169,110,.12);color:var(--gold)}.tright{display:flex;align-items:center;gap:8px;margin-left:auto;flex-shrink:0}.ubadge{background:var(--d4);border:1px solid var(--bd);border-radius:20px;padding:3px 10px 3px 6px;font-size:10px;color:var(--t2);display:flex;align-items:center;gap:5px}.udot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:p 2s infinite}@keyframes p{0%,100%{opacity:1}50%{opacity:.3}}.lout{padding:4px 8px;border-radius:4px;font-size:10px;cursor:pointer;border:1px solid var(--bd);background:transparent;color:var(--t3)}.lout:hover{color:var(--red)}.ticker{background:var(--d1);border-bottom:1px solid var(--bd);padding:4px 0;overflow:hidden;white-space:nowrap;flex-shrink:0}.tick{display:inline-block;animation:tick 30s linear infinite;font-size:11px;color:var(--t2)}@keyframes tick{0%{transform:translateX(100vw)}100%{transform:translateX(-100%)}}.up{color:var(--green)}.dn{color:var(--red)}.main{flex:1;overflow-y:auto;padding:14px}.page{display:none}.page.act{display:block}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}.metric{background:var(--d3);border:1px solid var(--bd);border-radius:8px;padding:14px}.ml{font-size:9px;color:var(--t3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px}.mv{font-size:26px;font-weight:700}.panel{background:var(--d3);border:1px solid var(--bd);border-radius:8px;padding:12px;margin-bottom:10px}.ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.pt{font-size:10px;color:var(--gold);letter-spacing:1px;text-transform:uppercase;font-weight:600}.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:12px}th{text-align:left;padding:7px 10px;color:var(--t3);font-size:9px;letter-spacing:.5px;text-transform:uppercase;border-bottom:1px solid var(--bd);font-weight:500}td{padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.03);color:var(--t2);vertical-align:middle}tr:hover td{background:rgba(201,169,110,.02)}.tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:9px;font-weight:600}.tc{background:rgba(90,86,106,.2);color:var(--t3);border:1px solid rgba(90,86,106,.2)}.tw2{background:rgba(201,169,110,.12);color:var(--gold);border:1px solid rgba(201,169,110,.2)}.th{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.2)}.ta{background:rgba(96,165,250,.12);color:var(--blue);border:1px solid rgba(96,165,250,.2)}.ts{background:rgba(167,139,250,.12);color:var(--purple);border:1px solid rgba(167,139,250,.2)}.tl{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.2)}.tadm{background:rgba(249,115,22,.12);color:var(--orange);border:1px solid rgba(249,115,22,.2)}.btn{padding:6px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:none;transition:all .15s}.bg{background:var(--gold);color:#000}.bg:hover{opacity:.9}.bo{background:transparent;color:var(--gold);border:1px solid var(--bd2)}.bo:hover{background:rgba(201,169,110,.08)}.br{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2)}.bv{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2)}.bb{background:rgba(96,165,250,.1);color:var(--blue);border:1px solid rgba(96,165,250,.2)}.sm{padding:3px 9px;font-size:10px}.fr{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}.fg{margin-bottom:8px}.inp{background:var(--d4);border:1px solid var(--bd);border-radius:6px;padding:7px 10px;font-size:12px;color:var(--t1);outline:none;width:100%}.inp:focus{border-color:rgba(201,169,110,.4)}.inp::placeholder{color:var(--t3)}.mov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;align-items:center;justify-content:center}.mov.on{display:flex}.modal{background:var(--d3);border:1px solid var(--bd);border-radius:10px;padding:20px;width:480px;max-width:95vw;max-height:90vh;overflow-y:auto}.mtitle{font-size:14px;font-weight:600;color:var(--gold);margin-bottom:14px}.mbtns{display:flex;gap:8px;margin-top:14px;justify-content:flex-end}.notif{position:fixed;bottom:18px;right:18px;background:var(--d3);border:1px solid var(--bd);border-radius:8px;padding:10px 14px;font-size:12px;z-index:2000;display:none;animation:su .25s ease}@keyframes su{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}.av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;background:rgba(201,169,110,.15);color:var(--gold)}.fx{display:flex;align-items:center}.sb{display:flex;align-items:center;justify-content:space-between}.g6{gap:6px}.g8{gap:8px}.empty{text-align:center;padding:30px;color:var(--t3);font-size:11px}.sbar{width:44px;height:4px;background:var(--d5);border-radius:2px;overflow:hidden;display:inline-block;vertical-align:middle;margin-right:4px}.sfill{height:100%;border-radius:2px}</style></head><body><div id="login"><div class="lbox"><div class="llogo"><div class="lname">GLOBAL EKSBiNA</div><div class="lsub">AI CALL CENTER CRM</div></div><label class="fl">Kullanici Adi</label><input class="li" id="lu" placeholder="kullanici adi" autocomplete="off" onkeydown="if(event.key==='Enter')document.getElementById('lp').focus()"><label class="fl">Sifre</label><input class="li" id="lp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')login()"><button class="lbtn" onclick="login()">Giris Yap</button><div class="lerr" id="lerr"></div></div></div><div id="app"><div class="topbar"><div class="tlogo">GLOBAL EKSBiNA</div><div class="tsep"></div><div class="tnav" id="nav"></div><div class="tright"><span style="font-size:10px;color:var(--t3)" id="clk"></span><div class="ubadge"><div class="udot"></div><span id="uname">-</span></div><button class="lout" onclick="logout()">Cikis</button></div></div><div class="ticker"><span class="tick">&nbsp;&nbsp;Bitcoin <span class="up">72.340$ +1.8%</span> | Altin <span class="up">4.761$ +0.3%</span> | EUR/USD <span class="up">1.1706 +0.5%</span> | NASDAQ <span class="up">23.184 +1.2%</span>&nbsp;&nbsp;</span></div><div class="main"><div id="pg-dash" class="page act"><div class="metrics"><div class="metric"><div class="ml">Toplam Lead</div><div class="mv" id="m1" style="color:var(--blue)">-</div></div><div class="metric"><div class="ml">Sicak Lead</div><div class="mv" id="m2" style="color:var(--green)">-</div></div><div class="metric"><div class="ml">Randevu</div><div class="mv" id="m3" style="color:var(--gold)">-</div></div><div class="metric"><div class="ml">Satis</div><div class="mv" id="m4" style="color:var(--purple)">-</div></div></div><div class="g2"><div class="panel"><div class="ph"><div class="pt">Son Aramalar</div></div><div id="d-calls"><div class="empty">Yukleniyor...</div></div></div><div class="panel"><div class="ph"><div class="pt">Bugünün Randevulari</div></div><div id="d-appts"><div class="empty">Yukleniyor...</div></div></div></div></div><div id="pg-leads" class="page"><div class="sb" style="margin-bottom:10px"><div class="fx g8"><input class="inp" style="width:200px" placeholder="Ara..." id="lsq" oninput="filterL()"><select class="inp" style="width:120px" id="lss" onchange="filterL()"><option value="">Tum Durumlar</option><option value="cold">Soguk</option><option value="warm">Ilik</option><option value="hot">Sicak</option><option value="appointment">Randevu</option><option value="sold">Satis</option><option value="lost">Kayip</option></select><select class="inp" style="width:130px" id="lsa" onchange="filterL()"><option value="">Tum Personeller</option></select></div><div class="fx g8"><button class="btn bo sm" onclick="openImport()">CSV Yukle</button><button class="btn bg sm" onclick="openLead()">+ Yeni Lead</button></div></div><div class="panel" style="padding:0"><div class="tw"><table><thead><tr><th>Isim</th><th>Telefon</th><th>Sehir</th><th>Ilgi</th><th>Durum</th><th>Skor</th><th>Personel</th><th>Tarih</th><th>Islem</th></tr></thead><tbody id="ltb"><tr><td colspan="9" class="empty">Yukleniyor...</td></tr></tbody></table></div></div></div><div id="pg-calls" class="page"><div class="sb" style="margin-bottom:10px"><div class="pt">Arama Gecmisi</div><button class="btn bg sm" onclick="openCallLog()">+ Arama Kaydet</button></div><div class="panel" style="padding:0"><div class="tw"><table><thead><tr><th>Musteri</th><th>Personel</th><th>Tip</th><th>Sure</th><th>Sonuc</th><th>Not</th><th>Tarih</th></tr></thead><tbody id="ctb"><tr><td colspan="7" class="empty">Yukleniyor...</td></tr></tbody></table></div></div></div><div id="pg-appts" class="page"><div class="sb" style="margin-bottom:10px"><div class="pt">Randevular</div><button class="btn bg sm" onclick="openAppt()">+ Randevu Ekle</button></div><div class="panel" style="padding:0"><div class="tw"><table><thead><tr><th>Musteri</th><th>Personel</th><th>Tarih/Saat</th><th>Tip</th><th>Durum</th><th>Not</th><th>Islem</th></tr></thead><tbody id="atb"><tr><td colspan="7" class="empty">Yukleniyor...</td></tr></tbody></table></div></div></div><div id="pg-sales" class="page"><div class="sb" style="margin-bottom:10px"><div class="pt">Satislar</div><button class="btn bg sm" onclick="openSale()">+ Satis Kaydet</button></div><div class="metrics"><div class="metric"><div class="ml">Toplam</div><div class="mv" id="sm1" style="color:var(--purple)">-</div></div><div class="metric"><div class="ml">Depozit</div><div class="mv" id="sm2" style="color:var(--green)">-</div></div><div class="metric"><div class="ml">Komisyon</div><div class="mv" id="sm3" style="color:var(--gold)">-</div></div><div class="metric"><div class="ml">Bu Ay</div><div class="mv" id="sm4" style="color:var(--blue)">-</div></div></div><div class="panel" style="padding:0"><div class="tw"><table><thead><tr><th>Musteri</th><th>Personel</th><th>Urun</th><th>Depozit</th><th>Komisyon</th><th>Durum</th><th>Tarih</th></tr></thead><tbody id="stb"><tr><td colspan="7" class="empty">Yukleniyor...</td></tr></tbody></table></div></div></div><div id="pg-agents" class="page"><div class="sb" style="margin-bottom:10px"><div class="pt">Personel Yonetimi</div><button class="btn bg sm" onclick="openAgent()">+ Personel Ekle</button></div><div class="panel" style="padding:0"><div class="tw"><table><thead><tr><th>Isim</th><th>Kull. Adi</th><th>Rol</th><th>Durum</th><th>Lead</th><th>Satis</th><th>Islem</th></tr></thead><tbody id="agtb"><tr><td colspan="7" class="empty">Yukleniyor...</td></tr></tbody></table></div></div></div><div id="pg-camp" class="page"><div class="sb" style="margin-bottom:10px"><div class="pt">AI Kampanyalari</div><button class="btn bg sm" onclick="openCamp()">+ Yeni Kampanya</button></div><div class="panel" style="padding:0"><div class="tw"><table><thead><tr><th>Kampanya</th><th>Durum</th><th>Gunluk</th><th>Aranan</th><th>Sicak</th><th>Tarih</th><th>Islem</th></tr></thead><tbody id="camptb"><tr><td colspan="7" class="empty">Yukleniyor...</td></tr></tbody></table></div></div></div></div></div><div class="mov" id="m-lead"><div class="modal"><div class="mtitle" id="mlt">Yeni Lead</div><input type="hidden" id="lid"><div class="fr"><div><label class="fl">Ad Soyad *</label><input class="inp" id="l-n" placeholder="Ahmet Yilmaz"></div><div><label class="fl">Telefon *</label><input class="inp" id="l-p" placeholder="+905XXXXXXXXX"></div></div><div class="fr"><div><label class="fl">E-posta</label><input class="inp" id="l-e"></div><div><label class="fl">Sehir</label><input class="inp" id="l-c"></div></div><div class="fr"><div><label class="fl">Ilgi Alani</label><select class="inp" id="l-i"><option value="">Secin</option><option>Bitcoin/Kripto</option><option>Altin/Emtia</option><option>Forex</option><option>CFD</option><option>Hisse</option><option>Petrol</option><option>Endeks</option></select></div><div><label class="fl">Kaynak</label><select class="inp" id="l-src"><option value="manual">Manuel</option><option value="csv">CSV</option><option value="ai_call">AI Arama</option></select></div></div><div class="fr"><div><label class="fl">Durum</label><select class="inp" id="l-st"><option value="cold">Soguk</option><option value="warm">Ilik</option><option value="hot">Sicak</option><option value="appointment">Randevu</option><option value="sold">Satis</option><option value="lost">Kayip</option></select></div><div><label class="fl">Personel</label><select class="inp" id="l-ag"><option value="">Atanmamis</option></select></div></div><div class="fg"><label class="fl">Notlar</label><textarea class="inp" id="l-nt" rows="2"></textarea></div><div class="mbtns"><button class="btn bo" onclick="cm('m-lead')">Iptal</button><button class="btn bg" onclick="saveLead()">Kaydet</button></div></div></div><div class="mov" id="m-agent"><div class="modal"><div class="mtitle" id="mat">Personel Ekle</div><input type="hidden" id="aid"><div class="fr"><div><label class="fl">Ad Soyad *</label><input class="inp" id="a-n"></div><div><label class="fl">Kullanici Adi *</label><input class="inp" id="a-u"></div></div><div class="fr"><div><label class="fl">Sifre *</label><input class="inp" id="a-pw" type="password"></div><div><label class="fl">Rol</label><select class="inp" id="a-r"><option value="agent">Personel</option><option value="admin">Admin</option></select></div></div><div class="fg"><label class="fl">Durum</label><select class="inp" id="a-ac"><option value="true">Aktif</option><option value="false">Pasif</option></select></div><div class="mbtns"><button class="btn bo" onclick="cm('m-agent')">Iptal</button><button class="btn bg" onclick="saveAgent()">Kaydet</button></div></div></div><div class="mov" id="m-call"><div class="modal"><div class="mtitle">Arama Kaydet</div><div class="fr"><div><label class="fl">Musteri</label><select class="inp" id="c-cu"><option value="">Secin</option></select></div><div><label class="fl">Tip</label><select class="inp" id="c-ty"><option value="outbound">Giden</option><option value="inbound">Gelen</option><option value="ai">AI</option></select></div></div><div class="fr"><div><label class="fl">Sure (sn)</label><input class="inp" id="c-d" type="number"></div><div><label class="fl">Durum</label><select class="inp" id="c-st"><option value="completed">Tamamlandi</option><option value="no_answer">Cevap Yok</option><option value="busy">Mesgul</option></select></div></div><div class="fg"><label class="fl">Sonuc</label><select class="inp" id="c-ou"><option value="">Secin</option><option value="interested">Ilgilendi</option><option value="not_interested">Ilgilenmedi</option><option value="callback">Geri Arama</option><option value="appointment">Randevu</option><option value="sold">Satis</option></select></div><div class="fg"><label class="fl">Notlar</label><textarea class="inp" id="c-nt" rows="2"></textarea></div><div class="mbtns"><button class="btn bo" onclick="cm('m-call')">Iptal</button><button class="btn bg" onclick="saveCall()">Kaydet</button></div></div></div><div class="mov" id="m-appt"><div class="modal"><div class="mtitle">Randevu Ekle</div><div class="fr"><div><label class="fl">Musteri</label><select class="inp" id="ap-cu"><option value="">Secin</option></select></div><div><label class="fl">Personel</label><select class="inp" id="ap-ag"><option value="">Secin</option></select></div></div><div class="fr"><div><label class="fl">Tarih/Saat *</label><input class="inp" id="ap-dt" type="datetime-local"></div><div><label class="fl">Tip</label><select class="inp" id="ap-ty"><option value="call">Telefon</option><option value="meeting">Yuz Yuze</option><option value="online">Online</option></select></div></div><div class="fg"><label class="fl">Notlar</label><textarea class="inp" id="ap-nt" rows="2"></textarea></div><div class="mbtns"><button class="btn bo" onclick="cm('m-appt')">Iptal</button><button class="btn bg" onclick="saveAppt()">Kaydet</button></div></div></div><div class="mov" id="m-sale"><div class="modal"><div class="mtitle">Satis Kaydet</div><div class="fr"><div><label class="fl">Musteri *</label><select class="inp" id="s-cu"><option value="">Secin</option></select></div><div><label class="fl">Personel</label><select class="inp" id="s-ag"><option value="">Secin</option></select></div></div><div class="fr"><div><label class="fl">Urun *</label><select class="inp" id="s-pr"><option>Bitcoin/Kripto</option><option>Altin</option><option>Forex</option><option>CFD</option><option>Hisse</option><option>Petrol</option><option>Endeks</option></select></div><div><label class="fl">Tarih</label><input class="inp" id="s-dt" type="date"></div></div><div class="fr"><div><label class="fl">Depozit</label><input class="inp" id="s-dep" type="number" placeholder="1000"></div><div><label class="fl">Para Birimi</label><select class="inp" id="s-cur"><option value="USD">USD</option><option value="EUR">EUR</option><option value="TRY">TRY</option><option value="GBP">GBP</option></select></div></div><div class="fr"><div><label class="fl">Komisyon</label><input class="inp" id="s-com" type="number"></div><div><label class="fl">Durum</label><select class="inp" id="s-st"><option value="pending">Bekliyor</option><option value="confirmed">Onaylandi</option><option value="cancelled">Iptal</option></select></div></div><div class="fg"><label class="fl">Notlar</label><textarea class="inp" id="s-nt" rows="2"></textarea></div><div class="mbtns"><button class="btn bo" onclick="cm('m-sale')">Iptal</button><button class="btn bg" onclick="saveSale()">Kaydet</button></div></div></div><div class="mov" id="m-camp"><div class="modal"><div class="mtitle">Yeni Kampanya</div><div class="fg"><label class="fl">Kampanya Adi *</label><input class="inp" id="cp-n" placeholder="Bitcoin Kampanyasi Nisan 2026"></div><div class="fr"><div><label class="fl">Gunluk Limit</label><input class="inp" id="cp-l" type="number" value="500"></div><div><label class="fl">Durum</label><select class="inp" id="cp-s"><option value="draft">Taslak</option><option value="running">Aktif</option></select></div></div><div class="mbtns"><button class="btn bo" onclick="cm('m-camp')">Iptal</button><button class="btn bg" onclick="saveCamp()">Kaydet</button></div></div></div><div class="mov" id="m-import"><div class="modal"><div class="mtitle">CSV Toplu Lead Yukleme</div><div style="background:var(--d4);border-radius:6px;padding:10px;font-size:11px;color:var(--t2);margin-bottom:10px;line-height:1.8">Format: <b style="color:var(--gold)">ad_soyad, telefon, email, sehir, ilgi</b></div><div class="fg"><label class="fl">CSV Icerigi</label><textarea class="inp" id="csv" rows="7" placeholder="Ahmet Yilmaz,+905551234567,ahmet@mail.com,Istanbul,Bitcoin"></textarea></div><div class="fg"><label class="fl">Personele Ata</label><select class="inp" id="csv-ag"><option value="">Atanmamis</option></select></div><div class="mbtns"><button class="btn bo" onclick="cm('m-import')">Iptal</button><button class="btn bg" onclick="importCSV()">Yukle</button></div></div></div><div class="notif" id="notif"></div><script>
-const SB='https://muwynsxukmxjquoqcbac.supabase.co';
-const SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3luc3h1a214anF1b3FjYmFjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjExMzQwMCwiZXhwIjoyMDkxNjg5NDAwfQ.33AsVo1mIeNHznTKnr6IUjVTLP_puNeNFJMS8-GsO30';
-let U=null,allU=[],allL=[];
-async function api(path,method,body){
-  const o={method:method||'GET',headers:{'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':'application/json','Prefer':'return=representation'}};
-  if(body)o.body=JSON.stringify(body);
-  const r=await fetch(SB+'/rest/v1/'+path,o);
-  if(!r.ok){const e=await r.json();throw new Error(e.message||r.status);}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Global Eksbina CRM</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C9A96E;--dark1:#0d0d11;--dark2:#13131a;--dark3:#1a1a24;--dark4:#21212e;--dark5:#2a2a3a;
+  --text1:#f0ede8;--text2:#a8a4b0;--text3:#5a566a;
+  --green:#22c55e;--red:#ef4444;--blue:#60a5fa;--purple:#a78bfa;--orange:#f97316;
+  --border:rgba(201,169,110,.12);--border2:rgba(201,169,110,.2);
+}
+body{background:var(--dark1);color:var(--text1);font-family:'Segoe UI',system-ui,sans-serif;font-size:13px;min-height:100vh}
+
+/* LOGIN */
+#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--dark1)}
+.login-box{background:var(--dark2);border:1px solid var(--border);border-radius:12px;padding:36px;width:360px}
+.login-logo{text-align:center;margin-bottom:28px}
+.login-logo-name{font-size:18px;font-weight:700;color:var(--gold);letter-spacing:2px}
+.login-logo-sub{font-size:10px;color:var(--text3);letter-spacing:3px;margin-top:4px}
+.login-form-label{font-size:10px;color:var(--text3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px}
+.login-input{width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:10px 12px;font-size:13px;color:var(--text1);outline:none;margin-bottom:14px}
+.login-input:focus{border-color:rgba(201,169,110,.4)}
+.login-btn{width:100%;background:var(--gold);color:#000;border:none;border-radius:6px;padding:12px;font-size:13px;font-weight:700;cursor:pointer;margin-top:4px}
+.login-btn:hover{opacity:.9}
+.login-error{color:var(--red);font-size:11px;margin-top:8px;text-align:center}
+
+/* APP */
+#app{display:none;height:100vh;overflow:hidden;flex-direction:column}
+#app.visible{display:flex}
+
+/* TOPBAR */
+.topbar{background:var(--dark2);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;height:48px;flex-shrink:0;gap:12px}
+.topbar-logo{font-size:13px;font-weight:700;color:var(--gold);letter-spacing:1px;flex-shrink:0}
+.topbar-sep{width:1px;height:20px;background:var(--border);flex-shrink:0}
+.topbar-nav{display:flex;gap:2px;flex:1}
+.tnav-btn{padding:6px 12px;border-radius:6px;font-size:11px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--text2);transition:all .15s}
+.tnav-btn:hover{background:rgba(201,169,110,.06);color:var(--text1)}
+.tnav-btn.active{background:rgba(201,169,110,.12);color:var(--gold)}
+.topbar-right{display:flex;align-items:center;gap:10px;margin-left:auto}
+.user-badge{background:var(--dark4);border:1px solid var(--border);border-radius:20px;padding:4px 10px 4px 6px;font-size:11px;color:var(--text2);display:flex;align-items:center;gap:6px}
+.user-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.logout-btn{padding:5px 10px;border-radius:5px;font-size:10px;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text3)}
+.logout-btn:hover{color:var(--red);border-color:rgba(239,68,68,.3)}
+
+/* MAIN CONTENT */
+.main{flex:1;overflow:hidden;display:flex}
+
+/* TICKER */
+.ticker-bar{background:var(--dark1);border-bottom:1px solid var(--border);padding:5px 0;overflow:hidden;white-space:nowrap;flex-shrink:0}
+.ticker-inner{display:inline-block;animation:ticker 35s linear infinite;font-size:11px;color:var(--text2)}
+@keyframes ticker{0%{transform:translateX(100vw)}100%{transform:translateX(-100%)}}
+.t-up{color:var(--green)}.t-dn{color:var(--red)}
+
+/* PAGES */
+.page{display:none;flex:1;overflow-y:auto;padding:16px}
+.page.active{display:block}
+
+/* CARDS & PANELS */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.metric{background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:14px}
+.metric-label{font-size:9px;color:var(--text3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px}
+.metric-value{font-size:26px;font-weight:700}
+.metric-sub{font-size:10px;margin-top:3px}
+.panel{background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:12px}
+.panel-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.panel-title{font-size:10px;color:var(--gold);letter-spacing:1px;text-transform:uppercase;font-weight:600}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;padding:8px 10px;color:var(--text3);font-size:9px;letter-spacing:.5px;text-transform:uppercase;border-bottom:1px solid var(--border);font-weight:500}
+td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.03);color:var(--text2)}
+tr:hover td{background:rgba(201,169,110,.02);cursor:pointer}
+
+/* TAGS */
+.tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:9px;font-weight:600}
+.tag-cold{background:rgba(90,86,106,.2);color:var(--text3);border:1px solid rgba(90,86,106,.2)}
+.tag-warm{background:rgba(201,169,110,.12);color:var(--gold);border:1px solid rgba(201,169,110,.2)}
+.tag-hot{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.2)}
+.tag-appt{background:rgba(96,165,250,.12);color:var(--blue);border:1px solid rgba(96,165,250,.2)}
+.tag-sold{background:rgba(167,139,250,.12);color:var(--purple);border:1px solid rgba(167,139,250,.2)}
+.tag-lost{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+.tag-admin{background:rgba(249,115,22,.12);color:var(--orange);border:1px solid rgba(249,115,22,.2)}
+.tag-agent{background:rgba(96,165,250,.12);color:var(--blue);border:1px solid rgba(96,165,250,.2)}
+
+/* BUTTONS */
+.btn{padding:7px 14px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.btn-gold{background:var(--gold);color:#000}.btn-gold:hover{opacity:.9}
+.btn-outline{background:transparent;color:var(--gold);border:1px solid var(--border2)}.btn-outline:hover{background:rgba(201,169,110,.08)}
+.btn-danger{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+.btn-green{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.2)}
+.btn-sm{padding:4px 10px;font-size:10px}
+.btn-blue{background:rgba(96,165,250,.12);color:var(--blue);border:1px solid rgba(96,165,250,.2)}
+
+/* FORMS */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.form-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px}
+.form-group{margin-bottom:10px}
+.form-label{font-size:9px;color:var(--text3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.input{background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:12px;color:var(--text1);outline:none;width:100%}
+.input:focus{border-color:rgba(201,169,110,.4)}
+.input::placeholder{color:var(--text3)}
+select.input{cursor:pointer}
+textarea.input{resize:vertical}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:22px;width:500px;max-width:95vw;max-height:90vh;overflow-y:auto}
+.modal-title{font-size:14px;font-weight:600;color:var(--gold);margin-bottom:16px}
+.modal-btns{display:flex;gap:8px;margin-top:16px;justify-content:flex-end}
+
+/* NOTIF */
+.notif{position:fixed;bottom:20px;right:20px;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:12px;z-index:2000;display:none;animation:slideup .3s ease}
+@keyframes slideup{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+/* SCORE BAR */
+.score-bar-wrap{display:flex;align-items:center;gap:6px}
+.score-bar{width:48px;height:4px;background:var(--dark5);border-radius:2px;overflow:hidden}
+.score-fill{height:100%;border-radius:2px}
+
+/* MISC */
+.flex{display:flex;align-items:center}
+.flex-b{display:flex;align-items:center;justify-content:space-between}
+.gap6{gap:6px}.gap8{gap:8px}.gap10{gap:10px}
+.avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.loading{text-align:center;padding:30px;color:var(--text3);font-size:12px}
+.empty{text-align:center;padding:40px;color:var(--text3)}
+.badge{display:inline-block;padding:1px 6px;border-radius:10px;font-size:9px;font-weight:700;background:var(--red);color:#fff;margin-left:4px}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo-name">GLOBAL EKSBİNA</div>
+      <div class="login-logo-sub">AI CALL CENTER CRM</div>
+    </div>
+    <div class="form-label">Kullanıcı Adı</div>
+    <input class="login-input" id="l-user" placeholder="kullanıcı adı" autocomplete="off">
+    <div class="form-label">Şifre</div>
+    <input class="login-input" id="l-pass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">Giriş Yap</button>
+    <div class="login-error" id="l-err"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-logo">GLOBAL EKSBİNA</div>
+    <div class="topbar-sep"></div>
+    <div class="topbar-nav" id="nav-btns"></div>
+    <div class="topbar-right">
+      <span style="font-size:10px;color:var(--text3)" id="clock"></span>
+      <div class="user-badge"><div class="user-dot"></div><span id="user-name-badge">—</span></div>
+      <button class="logout-btn" onclick="doLogout()">Çıkış</button>
+    </div>
+  </div>
+
+  <!-- TICKER -->
+  <div class="ticker-bar">
+    <span class="ticker-inner">
+      &nbsp;&nbsp;Bitcoin <span class="t-up">72.340$ ▲+1.8%</span> &nbsp;|&nbsp;
+      Altın <span class="t-up">4.761$ ▲+0.3%</span> &nbsp;|&nbsp;
+      EUR/USD <span class="t-up">1.1706 ▲+0.5%</span> &nbsp;|&nbsp;
+      GBP/USD <span class="t-up">1.3516 ▲+0.1%</span> &nbsp;|&nbsp;
+      US Oil <span class="t-up">102.00$ ▲+8.5%</span> &nbsp;|&nbsp;
+      UK Oil <span class="t-up">102.51$ ▲+7.3%</span> &nbsp;|&nbsp;
+      NASDAQ <span class="t-up">23.184 ▲+1.2%</span> &nbsp;|&nbsp;
+      DAX <span class="t-dn">22.450 ▼-0.4%</span>&nbsp;&nbsp;
+    </span>
+  </div>
+
+  <!-- PAGES -->
+  <div class="main">
+    <div id="pages" style="flex:1;overflow:hidden;display:flex;flex-direction:column">
+
+      <!-- DASHBOARD -->
+      <div id="page-dashboard" class="page">
+        <div class="metrics" id="dash-metrics">
+          <div class="metric"><div class="metric-label">Toplam Lead</div><div class="metric-value" id="m-total" style="color:var(--blue)">—</div></div>
+          <div class="metric"><div class="metric-label">Sıcak Lead</div><div class="metric-value" id="m-hot" style="color:var(--green)">—</div></div>
+          <div class="metric"><div class="metric-label">Randevu</div><div class="metric-value" id="m-appt" style="color:var(--gold)">—</div></div>
+          <div class="metric"><div class="metric-label">Satış</div><div class="metric-value" id="m-sold" style="color:var(--purple)">—</div></div>
+        </div>
+        <div class="grid2">
+          <div class="panel">
+            <div class="panel-hdr"><div class="panel-title">Son Aktiviteler</div></div>
+            <div id="dash-activity"><div class="loading">Yükleniyor...</div></div>
+          </div>
+          <div class="panel">
+            <div class="panel-hdr"><div class="panel-title">Bugünün Randevuları</div></div>
+            <div id="dash-appts"><div class="loading">Yükleniyor...</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEADS -->
+      <div id="page-leads" class="page">
+        <div class="panel-hdr" style="margin-bottom:12px">
+          <div class="flex gap8">
+            <input class="input" style="width:220px" placeholder="🔍 İsim, telefon, şehir..." id="lead-search" oninput="filterLeads()">
+            <select class="input" style="width:130px" id="lead-filter-status" onchange="filterLeads()">
+              <option value="">Tüm Durumlar</option>
+              <option value="cold">Soğuk</option>
+              <option value="warm">Ilık</option>
+              <option value="hot">Sıcak</option>
+              <option value="appointment">Randevu</option>
+              <option value="sold">Satış</option>
+              <option value="lost">Kayıp</option>
+            </select>
+            <select class="input" style="width:150px" id="lead-filter-agent" onchange="filterLeads()">
+              <option value="">Tüm Personeller</option>
+            </select>
+          </div>
+          <div class="flex gap8">
+            <button class="btn btn-outline btn-sm" onclick="showImportModal()">CSV İçe Aktar</button>
+            <button class="btn btn-gold btn-sm" onclick="showLeadModal()">+ Yeni Lead</button>
+          </div>
+        </div>
+        <div class="panel" style="padding:0">
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr>
+                <th>İsim</th><th>Telefon</th><th>Şehir</th><th>İlgi</th><th>Durum</th><th>Skor</th><th>Personel</th><th>Tarih</th><th>İşlem</th>
+              </tr></thead>
+              <tbody id="leads-table"><tr><td colspan="9" class="loading">Yükleniyor...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ÇAĞRILAR -->
+      <div id="page-calls" class="page">
+        <div class="panel-hdr" style="margin-bottom:12px">
+          <div class="panel-title">Arama Geçmişi</div>
+          <button class="btn btn-gold btn-sm" onclick="showCallLogModal()">+ Arama Kaydet</button>
+        </div>
+        <div class="panel" style="padding:0">
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Müşteri</th><th>Personel</th><th>Tip</th><th>Süre</th><th>Sonuç</th><th>Not</th><th>Tarih</th></tr></thead>
+              <tbody id="calls-table"><tr><td colspan="7" class="loading">Yükleniyor...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- RANDEVULAR -->
+      <div id="page-appointments" class="page">
+        <div class="panel-hdr" style="margin-bottom:12px">
+          <div class="panel-title">Randevular</div>
+          <button class="btn btn-gold btn-sm" onclick="showApptModal()">+ Randevu Ekle</button>
+        </div>
+        <div class="panel" style="padding:0">
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Müşteri</th><th>Personel</th><th>Tarih/Saat</th><th>Tip</th><th>Durum</th><th>Not</th><th>İşlem</th></tr></thead>
+              <tbody id="appts-table"><tr><td colspan="7" class="loading">Yükleniyor...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- SATIŞLAR -->
+      <div id="page-sales" class="page">
+        <div class="panel-hdr" style="margin-bottom:12px">
+          <div class="panel-title">Satışlar</div>
+          <button class="btn btn-gold btn-sm" onclick="showSaleModal()">+ Satış Kaydet</button>
+        </div>
+        <div class="metrics" style="margin-bottom:14px">
+          <div class="metric"><div class="metric-label">Toplam Satış</div><div class="metric-value" id="s-total" style="color:var(--purple)">—</div></div>
+          <div class="metric"><div class="metric-label">Toplam Depozit</div><div class="metric-value" id="s-dep" style="color:var(--green)">—</div></div>
+          <div class="metric"><div class="metric-label">Toplam Komisyon</div><div class="metric-value" id="s-com" style="color:var(--gold)">—</div></div>
+          <div class="metric"><div class="metric-label">Bu Ay</div><div class="metric-value" id="s-month" style="color:var(--blue)">—</div></div>
+        </div>
+        <div class="panel" style="padding:0">
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Müşteri</th><th>Personel</th><th>Ürün</th><th>Depozit</th><th>Komisyon</th><th>Durum</th><th>Tarih</th></tr></thead>
+              <tbody id="sales-table"><tr><td colspan="7" class="loading">Yükleniyor...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- PERSONELLER (sadece admin) -->
+      <div id="page-agents" class="page">
+        <div class="panel-hdr" style="margin-bottom:12px">
+          <div class="panel-title">Personel Yönetimi</div>
+          <button class="btn btn-gold btn-sm" onclick="showAgentModal()">+ Personel Ekle</button>
+        </div>
+        <div class="panel" style="padding:0">
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>İsim</th><th>Kullanıcı Adı</th><th>Rol</th><th>Durum</th><th>Lead Sayısı</th><th>Satış</th><th>İşlem</th></tr></thead>
+              <tbody id="agents-table"><tr><td colspan="7" class="loading">Yükleniyor...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- KAMPANYALAR (admin) -->
+      <div id="page-campaigns" class="page">
+        <div class="panel-hdr" style="margin-bottom:12px">
+          <div class="panel-title">AI Kampanyaları</div>
+          <button class="btn btn-gold btn-sm" onclick="showCampaignModal()">+ Yeni Kampanya</button>
+        </div>
+        <div class="panel" style="padding:0">
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Kampanya</th><th>Durum</th><th>Günlük Limit</th><th>Aranan</th><th>Sıcak Lead</th><th>Oluşturma</th><th>İşlem</th></tr></thead>
+              <tbody id="campaigns-table"><tr><td colspan="7" class="loading">Yükleniyor...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+
+<!-- LEAD MODAL -->
+<div class="modal-overlay" id="lead-modal">
+  <div class="modal">
+    <div class="modal-title" id="lead-modal-title">Yeni Lead</div>
+    <input type="hidden" id="lead-id">
+    <div class="form-row">
+      <div><div class="form-label">Ad Soyad *</div><input class="input" id="l-name" placeholder="Ahmet Yılmaz"></div>
+      <div><div class="form-label">Telefon *</div><input class="input" id="l-phone" placeholder="+905XXXXXXXXX"></div>
+    </div>
+    <div class="form-row">
+      <div><div class="form-label">E-posta</div><input class="input" id="l-email" placeholder="ahmet@mail.com"></div>
+      <div><div class="form-label">Şehir</div><input class="input" id="l-city" placeholder="İstanbul"></div>
+    </div>
+    <div class="form-row">
+      <div><div class="form-label">İlgi Alanı</div>
+        <select class="input" id="l-interest">
+          <option value="">Seçin</option>
+          <option>Bitcoin/Kripto</option><option>Altın/Emtia</option><option>Forex</option>
+          <option>CFD</option><option>Hisse</option><option>Petrol</option><option>Endeks</option><option>Genel</option>
+        </select>
+      </div>
+      <div><div class="form-label">Kaynak</div>
+        <select class="input" id="l-source">
+          <option value="manual">Manuel</option><option value="csv">CSV</option>
+          <option value="ai_call">AI Arama</option><option value="referral">Referans</option><option value="web">Web</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div><div class="form-label">Durum</div>
+        <select class="input" id="l-status">
+          <option value="cold">Soğuk</option><option value="warm">Ilık</option>
+          <option value="hot">Sıcak</option><option value="appointment">Randevu</option>
+          <option value="sold">Satış</option><option value="lost">Kayıp</option>
+        </select>
+      </div>
+      <div><div class="form-label">Personel</div>
+        <select class="input" id="l-agent"><option value="">Atanmamış</option></select>
+      </div>
+    </div>
+    <div class="form-group"><div class="form-label">Notlar</div><textarea class="input" id="l-notes" rows="2" placeholder="Müşteri hakkında notlar..."></textarea></div>
+    <div class="modal-btns">
+      <button class="btn btn-outline" onclick="closeModal('lead-modal')">İptal</button>
+      <button class="btn btn-gold" onclick="saveLead()">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- PERSONEL MODAL -->
+<div class="modal-overlay" id="agent-modal">
+  <div class="modal">
+    <div class="modal-title" id="agent-modal-title">Personel Ekle</div>
+    <input type="hidden" id="a-id">
+    <div class="form-row">
+      <div><div class="form-label">Ad Soyad *</div><input class="input" id="a-name" placeholder="Ahmet Yılmaz"></div>
+      <div><div class="form-label">Kullanıcı Adı *</div><input class="input" id="a-user" placeholder="ahmet_y"></div>
+    </div>
+    <div class="form-row">
+      <div><div class="form-label">Şifre *</div><input class="input" id="a-pass" type="password" placeholder="••••••••"></div>
+      <div><div class="form-label">Rol</div>
+        <select class="input" id="a-role">
+          <option value="agent">Personel</option><option value="admin">Admin</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><div class="form-label">Aktif</div>
+      <select class="input" id="a-active"><option value="true">Aktif</option><option value="false">Pasif</option></select>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-outline" onclick="closeModal('agent-modal')">İptal</button>
+      <button class="btn btn-gold" onclick="saveAgent()">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- ÇAĞRI KAYIT MODAL -->
+<div class="modal-overlay" id="call-modal">
+  <div class="modal">
+    <div class="modal-title">Arama Kaydet</div>
+    <div class="form-row">
+      <div><div class="form-label">Müşteri</div>
+        <select class="input" id="c-customer"><option value="">Müşteri seçin</option></select>
+      </div>
+      <div><div class="form-label">Tip</div>
+        <select class="input" id="c-type">
+          <option value="outbound">Giden</option><option value="inbound">Gelen</option><option value="ai">AI</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div><div class="form-label">Süre (saniye)</div><input class="input" id="c-dur" type="number" placeholder="120"></div>
+      <div><div class="form-label">Durum</div>
+        <select class="input" id="c-status">
+          <option value="completed">Tamamlandı</option><option value="no_answer">Cevap Yok</option>
+          <option value="busy">Meşgul</option><option value="failed">Başarısız</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div><div class="form-label">Sonuç</div>
+        <select class="input" id="c-outcome">
+          <option value="">Seçin</option><option value="interested">İlgilendi</option>
+          <option value="not_interested">İlgilenmedi</option><option value="callback">Geri Arama</option>
+          <option value="appointment">Randevu</option><option value="sold">Satış</option><option value="ai_warm">AI Sıcak</option>
+        </select>
+      </div>
+      <div></div>
+    </div>
+    <div class="form-group"><div class="form-label">Notlar</div><textarea class="input" id="c-notes" rows="2"></textarea></div>
+    <div class="modal-btns">
+      <button class="btn btn-outline" onclick="closeModal('call-modal')">İptal</button>
+      <button class="btn btn-gold" onclick="saveCall()">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- RANDEVU MODAL -->
+<div class="modal-overlay" id="appt-modal">
+  <div class="modal">
+    <div class="modal-title">Randevu Ekle</div>
+    <div class="form-row">
+      <div><div class="form-label">Müşteri</div>
+        <select class="input" id="ap-customer"><option value="">Müşteri seçin</option></select>
+      </div>
+      <div><div class="form-label">Personel</div>
+        <select class="input" id="ap-agent"><option value="">Seçin</option></select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div><div class="form-label">Tarih/Saat *</div><input class="input" id="ap-date" type="datetime-local"></div>
+      <div><div class="form-label">Tip</div>
+        <select class="input" id="ap-type">
+          <option value="call">Telefon</option><option value="meeting">Yüz Yüze</option><option value="online">Online</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><div class="form-label">Notlar</div><textarea class="input" id="ap-notes" rows="2"></textarea></div>
+    <div class="modal-btns">
+      <button class="btn btn-outline" onclick="closeModal('appt-modal')">İptal</button>
+      <button class="btn btn-gold" onclick="saveAppt()">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- SATIŞ MODAL -->
+<div class="modal-overlay" id="sale-modal">
+  <div class="modal">
+    <div class="modal-title">Satış Kaydet</div>
+    <div class="form-row">
+      <div><div class="form-label">Müşteri *</div>
+        <select class="input" id="sa-customer"><option value="">Müşteri seçin</option></select>
+      </div>
+      <div><div class="form-label">Personel</div>
+        <select class="input" id="sa-agent"><option value="">Seçin</option></select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div><div class="form-label">Ürün *</div>
+        <select class="input" id="sa-product">
+          <option>Bitcoin/Kripto</option><option>Altın</option><option>Forex</option>
+          <option>CFD</option><option>Hisse</option><option>Petrol</option><option>Endeks</option>
+        </select>
+      </div>
+      <div><div class="form-label">Satış Tarihi</div><input class="input" id="sa-date" type="date"></div>
+    </div>
+    <div class="form-row">
+      <div><div class="form-label">Depozit Miktarı</div><input class="input" id="sa-dep" type="number" placeholder="1000"></div>
+      <div><div class="form-label">Para Birimi</div>
+        <select class="input" id="sa-cur">
+          <option value="USD">USD</option><option value="EUR">EUR</option><option value="TRY">TRY</option><option value="GBP">GBP</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div><div class="form-label">Komisyon</div><input class="input" id="sa-com" type="number" placeholder="100"></div>
+      <div><div class="form-label">Durum</div>
+        <select class="input" id="sa-status">
+          <option value="pending">Bekliyor</option><option value="confirmed">Onaylandı</option><option value="cancelled">İptal</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><div class="form-label">Notlar</div><textarea class="input" id="sa-notes" rows="2"></textarea></div>
+    <div class="modal-btns">
+      <button class="btn btn-outline" onclick="closeModal('sale-modal')">İptal</button>
+      <button class="btn btn-gold" onclick="saveSale()">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- KAMPANYA MODAL -->
+<div class="modal-overlay" id="campaign-modal">
+  <div class="modal">
+    <div class="modal-title">Yeni Kampanya</div>
+    <div class="form-group"><div class="form-label">Kampanya Adı *</div><input class="input" id="camp-name" placeholder="Bitcoin Kampanyası Nisan 2026"></div>
+    <div class="form-row">
+      <div><div class="form-label">Günlük Limit</div><input class="input" id="camp-limit" type="number" value="500"></div>
+      <div><div class="form-label">Durum</div>
+        <select class="input" id="camp-status">
+          <option value="draft">Taslak</option><option value="running">Aktif</option><option value="paused">Durduruldu</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-outline" onclick="closeModal('campaign-modal')">İptal</button>
+      <button class="btn btn-gold" onclick="saveCampaign()">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- CSV IMPORT MODAL -->
+<div class="modal-overlay" id="import-modal">
+  <div class="modal">
+    <div class="modal-title">CSV Toplu Lead Yükleme</div>
+    <div style="background:var(--dark4);border-radius:6px;padding:12px;font-size:11px;color:var(--text2);margin-bottom:12px;line-height:1.8">
+      CSV formatı: <strong style="color:var(--gold)">full_name, phone, email, city, interest</strong><br>
+      Her satır bir müşteri. İlk satır başlık olabilir.
+    </div>
+    <div class="form-group"><div class="form-label">CSV İçeriği</div>
+      <textarea class="input" id="csv-data" rows="8" placeholder="Ahmet Yılmaz,+905551234567,ahmet@mail.com,İstanbul,Bitcoin&#10;Fatma Demir,+905559876543,,Ankara,Altın"></textarea>
+    </div>
+    <div class="form-row">
+      <div><div class="form-label">Personele Ata</div>
+        <select class="input" id="csv-agent"><option value="">Atanmamış</option></select>
+      </div>
+      <div></div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-outline" onclick="closeModal('import-modal')">İptal</button>
+      <button class="btn btn-gold" onclick="importCSV()">Yükle</button>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIF -->
+<div class="notif" id="notif"></div>
+
+<script>
+const SB_URL = 'https://muwynsxukmxjquoqcbac.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3luc3h1a214anF1b3FjYmFjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjExMzQwMCwiZXhwIjoyMDkxNjg5NDAwfQ.33AsVo1mIeNHznTKnr6IUjVTLP_puNeNFJMS8-GsO30';
+
+let currentUser = null;
+let allUsers = [];
+let allLeads = [];
+
+// --- API ---
+async function sb(path, method='GET', body=null) {
+  const opts = {
+    method,
+    headers: {
+      'apikey': SB_KEY,
+      'Authorization': 'Bearer ' + SB_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': method === 'POST' ? 'return=representation' : 'return=representation'
+    }
+  };
+  if (body) opts.body = JSON.stringify(body);
+  const r = await fetch(SB_URL + '/rest/v1/' + path, opts);
+  if (!r.ok) { const e = await r.json(); throw new Error(e.message || r.status); }
   return r.json();
 }
-async function login(){
-  const u=document.getElementById('lu').value.trim(),p=document.getElementById('lp').value;
-  if(!u||!p){document.getElementById('lerr').textContent='Bilgileri girin';return;}
-  try{
-    const r=await api('users?username=eq.'+encodeURIComponent(u)+'&is_active=eq.true&select=*');
-    if(!r.length||r[0].password_hash!==p){document.getElementById('lerr').textContent='Hatali kullanici adi veya sifre';return;}
-    U=r[0];document.getElementById('login').style.display='none';document.getElementById('app').classList.add('on');
-    document.getElementById('uname').textContent=U.full_name;buildNav();loadPage('dash');
-  }catch(e){document.getElementById('lerr').textContent='Baglanti hatasi: '+e.message;}
+
+// --- AUTH ---
+async function doLogin() {
+  const user = document.getElementById('l-user').value.trim();
+  const pass = document.getElementById('l-pass').value;
+  if (!user || !pass) { document.getElementById('l-err').textContent = 'Kullanıcı adı ve şifre girin'; return; }
+  try {
+    const res = await sb(`users?username=eq.${encodeURIComponent(user)}&is_active=eq.true&select=*`);
+    if (!res.length || res[0].password_hash !== pass) {
+      document.getElementById('l-err').textContent = 'Kullanıcı adı veya şifre hatalı'; return;
+    }
+    currentUser = res[0];
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').classList.add('visible');
+    document.getElementById('user-name-badge').textContent = currentUser.full_name;
+    setupNav();
+    loadPage('dashboard');
+  } catch(e) {
+    document.getElementById('l-err').textContent = 'Bağlantı hatası: ' + e.message;
+  }
 }
-function logout(){U=null;document.getElementById('app').classList.remove('on');document.getElementById('login').style.display='flex';document.getElementById('lp').value='';}
-const adminNav=[{id:'dash',l:'Dashboard'},{id:'leads',l:'Leadler'},{id:'calls',l:'Aramalar'},{id:'appts',l:'Randevular'},{id:'sales',l:'Satislar'},{id:'agents',l:'Personeller'},{id:'camp',l:'Kampanyalar'}];
-const agentNav=[{id:'dash',l:'Dashboard'},{id:'leads',l:'Leadlerim'},{id:'calls',l:'Aramalarim'},{id:'appts',l:'Randevularim'},{id:'sales',l:'Satislarim'}];
-function buildNav(){const pages=U.role==='admin'?adminNav:agentNav;document.getElementById('nav').innerHTML=pages.map(p=>'<button class="tb" id="nb-'+p.id+'" onclick="loadPage(''+p.id+'')">'+p.l+'</button>').join('');}
-function loadPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('act'));document.querySelectorAll('.tb').forEach(b=>b.classList.remove('act'));const pg=document.getElementById('pg-'+id);if(pg)pg.classList.add('act');const nb=document.getElementById('nb-'+id);if(nb)nb.classList.add('act');const map={dash:loadDash,leads:loadLeads,calls:loadCalls,appts:loadAppts,sales:loadSales,agents:loadAgents,camp:loadCamp};if(map[id])map[id]();}
-const stag={cold:'<span class="tag tc">Soguk</span>',warm:'<span class="tag tw2">Ilik</span>',hot:'<span class="tag th">Sicak</span>',appointment:'<span class="tag ta">Randevu</span>',sold:'<span class="tag ts">Satis</span>',lost:'<span class="tag tl">Kayip</span>'};
-const fd=d=>d?new Date(d).toLocaleDateString('tr-TR',{day:'2-digit',month:'2-digit',year:'numeric'}):'---';
-const fdt=d=>d?new Date(d).toLocaleDateString('tr-TR')+' '+new Date(d).toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'}):'---';
-function notify(msg,t){const n=document.getElementById('notif');n.textContent=(t==='err'?'X ':'OK ')+msg;n.style.display='block';n.style.borderColor=t==='err'?'rgba(239,68,68,.3)':'var(--bd)';setTimeout(()=>n.style.display='none',3500);}
-function cm(id){document.getElementById(id).classList.remove('on');}
-function om(id){document.getElementById(id).classList.add('on');}
-document.querySelectorAll('.mov').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('on');}));
-async function loadDash(){try{const f=U.role==='agent'?'&assigned_to=eq.'+U.id:'';const leads=await api('customers?select=status'+f);const calls=await api('calls?select=*,customers(full_name),users(full_name)&order=called_at.desc&limit=6'+(U.role==='agent'?'&agent_id=eq.'+U.id:''));const appts=await api('appointments?select=*,customers(full_name),users(full_name)&status=eq.pending&order=appointment_date.asc&limit=6'+(U.role==='agent'?'&agent_id=eq.'+U.id:''));document.getElementById('m1').textContent=leads.length;document.getElementById('m2').textContent=leads.filter(l=>l.status==='hot').length;document.getElementById('m3').textContent=leads.filter(l=>l.status==='appointment').length;document.getElementById('m4').textContent=leads.filter(l=>l.status==='sold').length;const ocl={interested:'Ilgilendi',not_interested:'Ilgilenmedi',callback:'Geri Arama',appointment:'Randevu',sold:'Satis'};document.getElementById('d-calls').innerHTML=calls.length?calls.map(c=>'<div class="sb" style="padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)"><div><div style="font-size:11px;color:var(--t1)">'+(c.customers&&c.customers.full_name||'---')+'</div><div style="font-size:10px;color:var(--t3)">'+(c.users&&c.users.full_name||'---')+' - '+fdt(c.called_at)+'</div></div><span class="tag '+(c.outcome==='sold'?'ts':c.outcome==='appointment'?'ta':c.outcome==='interested'?'tw2':'tc')+'">'+(ocl[c.outcome]||c.status)+'</span></div>').join(''):'<div class="empty">Arama yok</div>';const today=new Date().toDateString();const ta=appts.filter(a=>new Date(a.appointment_date).toDateString()===today);document.getElementById('d-appts').innerHTML=ta.length?ta.map(a=>'<div class="sb" style="padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)"><div><div style="font-size:11px;color:var(--t1)">'+(a.customers&&a.customers.full_name||'---')+'</div><div style="font-size:10px;color:var(--t3)">'+(a.users&&a.users.full_name||'---')+' - '+new Date(a.appointment_date).toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})+'</div></div><span class="tag ta">'+a.type+'</span></div>').join(''):'<div class="empty">Bugun randevu yok</div>';}catch(e){notify(e.message,'err');}}
-async function loadLeads(){try{allU=await api('users?select=id,full_name&is_active=eq.true&order=full_name');document.getElementById('lsa').innerHTML='<option value="">Tum Personeller</option>'+allU.map(u=>'<option value="'+u.id+'">'+u.full_name+'</option>').join('');const f=U.role==='agent'?'&assigned_to=eq.'+U.id:'';allL=await api('customers?select=*,users(full_name)&order=created_at.desc'+f);renderL(allL);fillAgSels();fillCuSels();}catch(e){notify(e.message,'err');}}
-function renderL(leads){const tb=document.getElementById('ltb');if(!leads.length){tb.innerHTML='<tr><td colspan="9" class="empty">Lead bulunamadi</td></tr>';return;}tb.innerHTML=leads.map(l=>'<tr onclick="editLead(''+l.id+'')"><td><div class="fx g8"><div class="av">'+(l.full_name||'?')[0]+'</div>'+l.full_name+'</div></td><td>'+l.phone+'</td><td>'+(l.city||'---')+'</td><td>'+(l.interest||'---')+'</td><td>'+(stag[l.status]||l.status)+'</td><td><span class="sbar"><span class="sfill" style="width:'+l.score+'%;background:'+(l.score>70?'var(--green)':l.score>40?'var(--gold)':'var(--t3)')+'"></span></span>'+l.score+'</td><td>'+(l.users&&l.users.full_name||'<span style="color:var(--t3)">---</span>')+'</td><td>'+fd(l.created_at)+'</td><td onclick="event.stopPropagation()"><div class="fx g6"><button class="btn bo sm" onclick="editLead(''+l.id+'')">Duzenle</button><button class="btn br sm" onclick="delLead(''+l.id+'')">Sil</button></div></td></tr>').join('');}
-function filterL(){const q=document.getElementById('lsq').value.toLowerCase(),st=document.getElementById('lss').value,ag=document.getElementById('lsa').value;renderL(allL.filter(l=>(!q||l.full_name.toLowerCase().includes(q)||l.phone.includes(q)||(l.city||'').toLowerCase().includes(q))&&(!st||l.status===st)&&(!ag||l.assigned_to===ag)));}
-function openLead(lead){document.getElementById('mlt').textContent=lead?'Lead Duzenle':'Yeni Lead';document.getElementById('lid').value=lead&&lead.id||'';document.getElementById('l-n').value=lead&&lead.full_name||'';document.getElementById('l-p').value=lead&&lead.phone||'';document.getElementById('l-e').value=lead&&lead.email||'';document.getElementById('l-c').value=lead&&lead.city||'';document.getElementById('l-i').value=lead&&lead.interest||'';document.getElementById('l-src').value=lead&&lead.source||'manual';document.getElementById('l-st').value=lead&&lead.status||'cold';document.getElementById('l-ag').value=lead&&lead.assigned_to||'';document.getElementById('l-nt').value=lead&&lead.notes||'';om('m-lead');}
-async function editLead(id){const l=allL.find(x=>x.id===id);if(l)openLead(l);}
-async function saveLead(){const id=document.getElementById('lid').value;const data={full_name:document.getElementById('l-n').value.trim(),phone:document.getElementById('l-p').value.trim(),email:document.getElementById('l-e').value.trim()||null,city:document.getElementById('l-c').value.trim()||null,interest:document.getElementById('l-i').value||null,source:document.getElementById('l-src').value,status:document.getElementById('l-st').value,assigned_to:document.getElementById('l-ag').value||null,notes:document.getElementById('l-nt').value.trim()||null,updated_at:new Date().toISOString()};if(!data.full_name||!data.phone){notify('Ad ve telefon zorunlu','err');return;}try{if(id)await api('customers?id=eq.'+id,'PATCH',data);else await api('customers','POST',data);notify(id?'Lead guncellendi':'Lead eklendi');cm('m-lead');loadLeads();}catch(e){notify(e.message,'err');}}
-async function delLead(id){if(!confirm('Silinsin mi?'))return;try{await api('customers?id=eq.'+id,'DELETE');notify('Silindi');loadLeads();}catch(e){notify(e.message,'err');}}
-async function loadAgents(){if(U.role!=='admin')return;try{const users=await api('users?select=*&order=created_at.desc');document.getElementById('agtb').innerHTML=users.length?users.map(u=>'<tr><td><div class="fx g8"><div class="av">'+u.full_name[0]+'</div>'+u.full_name+'</div></td><td style="color:var(--t3)">'+u.username+'</td><td><span class="tag '+(u.role==='admin'?'tadm':'ta')+'">'+u.role+'</span></td><td><span class="tag '+(u.is_active?'th':'tl')+'">'+(u.is_active?'Aktif':'Pasif')+'</span></td><td id="al-'+u.id+'">...</td><td id="as-'+u.id+'">...</td><td><button class="btn bo sm" onclick="editAgent(''+u.id+'')">Duzenle</button></td></tr>').join(''):'<tr><td colspan="7" class="empty">Personel yok</td></tr>';users.forEach(u=>{api('customers?assigned_to=eq.'+u.id+'&select=id').then(r=>{const e=document.getElementById('al-'+u.id);if(e)e.textContent=r.length+' lead';});api('sales?agent_id=eq.'+u.id+'&status=eq.confirmed&select=id').then(r=>{const e=document.getElementById('as-'+u.id);if(e)e.textContent=r.length+' satis';});});}catch(e){notify(e.message,'err');}}
-function openAgent(u){document.getElementById('mat').textContent=u?'Personel Duzenle':'Personel Ekle';document.getElementById('aid').value=u&&u.id||'';document.getElementById('a-n').value=u&&u.full_name||'';document.getElementById('a-u').value=u&&u.username||'';document.getElementById('a-pw').value='';document.getElementById('a-r').value=u&&u.role||'agent';document.getElementById('a-ac').value=u?String(u.is_active):'true';om('m-agent');}
-async function editAgent(id){const r=await api('users?id=eq.'+id+'&select=*');if(r[0])openAgent(r[0]);}
-async function saveAgent(){const id=document.getElementById('aid').value;const data={full_name:document.getElementById('a-n').value.trim(),username:document.getElementById('a-u').value.trim(),role:document.getElementById('a-r').value,is_active:document.getElementById('a-ac').value==='true'};const pw=document.getElementById('a-pw').value;if(pw)data.password_hash=pw;if(!data.full_name||!data.username){notify('Ad ve kullanici adi zorunlu','err');return;}if(!id&&!pw){notify('Sifre zorunlu','err');return;}try{if(id)await api('users?id=eq.'+id,'PATCH',data);else await api('users','POST',data);notify(id?'Guncellendi':'Personel eklendi');cm('m-agent');loadAgents();fillAgSels();}catch(e){notify(e.message,'err');}}
-async function loadCalls(){try{const f=U.role==='agent'?'&agent_id=eq.'+U.id:'';const calls=await api('calls?select=*,customers(full_name),users(full_name)&order=called_at.desc'+f);const ocl={interested:'Ilgilendi',not_interested:'Ilgilenmedi',callback:'Geri Arama',appointment:'Randevu',sold:'Satis'};document.getElementById('ctb').innerHTML=calls.length?calls.map(c=>'<tr><td>'+(c.customers&&c.customers.full_name||'---')+'</td><td>'+(c.users&&c.users.full_name||'---')+'</td><td><span class="tag ta">'+c.call_type+'</span></td><td>'+(c.duration_seconds?Math.floor(c.duration_seconds/60)+':'+(c.duration_seconds%60+'').padStart(2,'0'):'---')+'</td><td>'+(c.outcome?'<span class="tag '+(c.outcome==='sold'?'ts':c.outcome==='appointment'?'ta':c.outcome==='interested'?'tw2':'tc')+'">'+(ocl[c.outcome]||c.outcome)+'</span>':'---')+'</td><td style="color:var(--t3);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(c.notes||'---')+'</td><td>'+fdt(c.called_at)+'</td></tr>').join(''):'<tr><td colspan="7" class="empty">Arama yok</td></tr>';}catch(e){notify(e.message,'err');}}
-function openCallLog(){fillCuSels();om('m-call');}
-async function saveCall(){const data={customer_id:document.getElementById('c-cu').value||null,agent_id:U.id,call_type:document.getElementById('c-ty').value,duration_seconds:parseInt(document.getElementById('c-d').value)||0,status:document.getElementById('c-st').value,outcome:document.getElementById('c-ou').value||null,notes:document.getElementById('c-nt').value.trim()||null};try{await api('calls','POST',data);notify('Arama kaydedildi');cm('m-call');loadCalls();}catch(e){notify(e.message,'err');}}
-async function loadAppts(){try{const f=U.role==='agent'?'&agent_id=eq.'+U.id:'';const appts=await api('appointments?select=*,customers(full_name),users(full_name)&order=appointment_date.asc'+f);const tl={call:'Telefon',meeting:'Yuz Yuze',online:'Online'};document.getElementById('atb').innerHTML=appts.length?appts.map(a=>'<tr><td>'+(a.customers&&a.customers.full_name||'---')+'</td><td>'+(a.users&&a.users.full_name||'---')+'</td><td>'+fdt(a.appointment_date)+'</td><td>'+(tl[a.type]||a.type)+'</td><td><span class="tag '+(a.status==='completed'?'ts':a.status==='cancelled'?'tl':'ta')+'">'+a.status+'</span></td><td style="color:var(--t3)">'+(a.notes||'---')+'</td><td><div class="fx g6"><button class="btn bv sm" onclick="updAppt(''+a.id+'','completed')">Tamam</button><button class="btn br sm" onclick="updAppt(''+a.id+'','cancelled')">Iptal</button></div></td></tr>').join(''):'<tr><td colspan="7" class="empty">Randevu yok</td></tr>';}catch(e){notify(e.message,'err');}}
-function openAppt(){fillCuSels();fillAgSels();om('m-appt');}
-async function saveAppt(){const dt=document.getElementById('ap-dt').value;if(!dt){notify('Tarih zorunlu','err');return;}const data={customer_id:document.getElementById('ap-cu').value||null,agent_id:document.getElementById('ap-ag').value||U.id,appointment_date:new Date(dt).toISOString(),type:document.getElementById('ap-ty').value,notes:document.getElementById('ap-nt').value.trim()||null};try{await api('appointments','POST',data);if(data.customer_id)await api('customers?id=eq.'+data.customer_id,'PATCH',{status:'appointment',updated_at:new Date().toISOString()});notify('Randevu eklendi');cm('m-appt');loadAppts();}catch(e){notify(e.message,'err');}}
-async function updAppt(id,status){try{await api('appointments?id=eq.'+id,'PATCH',{status});notify('Guncellendi');loadAppts();}catch(e){notify(e.message,'err');}}
-async function loadSales(){try{const f=U.role==='agent'?'&agent_id=eq.'+U.id:'';const sales=await api('sales?select=*,customers(full_name),users(full_name)&order=created_at.desc'+f);document.getElementById('sm1').textContent=sales.length;document.getElementById('sm2').textContent=sales.filter(s=>s.status==='confirmed').reduce((a,s)=>a+Number(s.deposit_amount),0).toLocaleString('tr-TR')+'$';document.getElementById('sm3').textContent=sales.filter(s=>s.status==='confirmed').reduce((a,s)=>a+Number(s.commission),0).toLocaleString('tr-TR')+'$';document.getElementById('sm4').textContent=sales.filter(s=>new Date(s.sale_date).getMonth()===new Date().getMonth()).length;document.getElementById('stb').innerHTML=sales.length?sales.map(s=>'<tr><td>'+(s.customers&&s.customers.full_name||'---')+'</td><td>'+(s.users&&s.users.full_name||'---')+'</td><td>'+s.product+'</td><td style="color:var(--green)">'+Number(s.deposit_amount).toLocaleString()+' '+s.currency+'</td><td style="color:var(--gold)">'+Number(s.commission).toLocaleString()+' '+s.currency+'</td><td><span class="tag '+(s.status==='confirmed'?'ts':s.status==='cancelled'?'tl':'tw2')+'">'+s.status+'</span></td><td>'+fd(s.sale_date)+'</td></tr>').join(''):'<tr><td colspan="7" class="empty">Satis yok</td></tr>';}catch(e){notify(e.message,'err');}}
-function openSale(){fillCuSels();fillAgSels();document.getElementById('s-dt').value=new Date().toISOString().split('T')[0];om('m-sale');}
-async function saveSale(){const data={customer_id:document.getElementById('s-cu').value||null,agent_id:document.getElementById('s-ag').value||U.id,product:document.getElementById('s-pr').value,sale_date:document.getElementById('s-dt').value,deposit_amount:parseFloat(document.getElementById('s-dep').value)||0,currency:document.getElementById('s-cur').value,commission:parseFloat(document.getElementById('s-com').value)||0,status:document.getElementById('s-st').value,notes:document.getElementById('s-nt').value.trim()||null};try{await api('sales','POST',data);if(data.customer_id)await api('customers?id=eq.'+data.customer_id,'PATCH',{status:'sold',updated_at:new Date().toISOString()});notify('Satis kaydedildi');cm('m-sale');loadSales();}catch(e){notify(e.message,'err');}}
-async function loadCamp(){if(U.role!=='admin')return;try{const camps=await api('campaigns?select=*&order=created_at.desc');const sc={draft:'tc',running:'th',paused:'tw2',completed:'ts'};document.getElementById('camptb').innerHTML=camps.length?camps.map(c=>'<tr><td><b>'+c.name+'</b></td><td><span class="tag '+(sc[c.status]||'tc')+'">'+c.status+'</span></td><td>'+c.daily_limit+'</td><td>'+c.calls_made+'</td><td style="color:var(--green)">'+c.hot_leads_generated+'</td><td>'+fd(c.created_at)+'</td><td><div class="fx g6"><button class="btn bv sm" onclick="updCamp(''+c.id+'','running')">Baslat</button><button class="btn bo sm" onclick="updCamp(''+c.id+'','paused')">Durdur</button></div></td></tr>').join(''):'<tr><td colspan="7" class="empty">Kampanya yok</td></tr>';}catch(e){notify(e.message,'err');}}
-function openCamp(){om('m-camp');}
-async function saveCamp(){const data={name:document.getElementById('cp-n').value.trim(),daily_limit:parseInt(document.getElementById('cp-l').value)||500,status:document.getElementById('cp-s').value,created_by:U.id};if(!data.name){notify('Kampanya adi zorunlu','err');return;}try{await api('campaigns','POST',data);notify('Kampanya olusturuldu');cm('m-camp');loadCamp();}catch(e){notify(e.message,'err');}}
-async function updCamp(id,status){try{await api('campaigns?id=eq.'+id,'PATCH',{status});notify('Guncellendi');loadCamp();}catch(e){notify(e.message,'err');}}
-function openImport(){fillAgSels('csv-ag');om('m-import');}
-async function importCSV(){const raw=document.getElementById('csv').value.trim(),agId=document.getElementById('csv-ag').value||null;if(!raw){notify('CSV girin','err');return;}const lines=raw.split('\n').filter(l=>l.trim());let ok=0,err=0;for(const line of lines){const p=line.split(',').map(x=>x.trim().replace(/^"|"$/g,''));if(p.length<2){err++;continue;}const[full_name,phone,email,city,interest]=p;if(!full_name||!phone){err++;continue;}try{await api('customers','POST',{full_name,phone,email:email||null,city:city||null,interest:interest||null,assigned_to:agId,source:'csv'});ok++;}catch(e){err++;}}notify(ok+' lead yuklendi'+(err?' ('+err+' hata)':''));cm('m-import');loadLeads();}
-async function fillAgSels(targetId){if(!allU.length)allU=await api('users?select=id,full_name&is_active=eq.true&order=full_name');const ids=targetId?[targetId]:['l-ag','ap-ag','s-ag','csv-ag'];ids.forEach(id=>{const el=document.getElementById(id);if(!el)return;const v=el.value;el.innerHTML='<option value="">Secin</option>'+allU.map(u=>'<option value="'+u.id+'">'+u.full_name+'</option>').join('');if(v)el.value=v;});}
-async function fillCuSels(){const f=U.role==='agent'?'&assigned_to=eq.'+U.id:'';const custs=await api('customers?select=id,full_name&order=full_name'+f+'&limit=500');['c-cu','ap-cu','s-cu'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.innerHTML='<option value="">Musteri secin</option>'+custs.map(c=>'<option value="'+c.id+'">'+c.full_name+'</option>').join('');});}
-setInterval(()=>{const n=new Date(),el=document.getElementById('clk');if(el)el.textContent=n.toLocaleTimeString('tr-TR')+' - '+n.toLocaleDateString('tr-TR');},1000);
-document.getElementById('lu').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('lp').focus();});
-</script></body></html>
+
+function doLogout() {
+  currentUser = null;
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('l-pass').value = '';
+}
+
+// --- NAV ---
+const adminPages = [
+  {id:'dashboard', label:'Dashboard'},
+  {id:'leads', label:'Leadler'},
+  {id:'calls', label:'Aramalar'},
+  {id:'appointments', label:'Randevular'},
+  {id:'sales', label:'Satışlar'},
+  {id:'agents', label:'Personeller'},
+  {id:'campaigns', label:'Kampanyalar'},
+];
+const agentPages = [
+  {id:'dashboard', label:'Dashboard'},
+  {id:'leads', label:'Leadlerim'},
+  {id:'calls', label:'Aramalarım'},
+  {id:'appointments', label:'Randevularım'},
+  {id:'sales', label:'Satışlarım'},
+];
+
+function setupNav() {
+  const pages = currentUser.role === 'admin' ? adminPages : agentPages;
+  const nav = document.getElementById('nav-btns');
+  nav.innerHTML = pages.map(p =>
+    `<button class="tnav-btn" id="nav-${p.id}" onclick="loadPage('${p.id}')">${p.label}</button>`
+  ).join('');
+}
+
+function loadPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tnav-btn').forEach(b => b.classList.remove('active'));
+  const pg = document.getElementById('page-' + id);
+  if (pg) pg.classList.add('active');
+  const btn = document.getElementById('nav-' + id);
+  if (btn) btn.classList.add('active');
+
+  const loaders = {
+    dashboard: loadDashboard,
+    leads: loadLeads,
+    calls: loadCalls,
+    appointments: loadAppointments,
+    sales: loadSales,
+    agents: loadAgents,
+    campaigns: loadCampaigns,
+  };
+  if (loaders[id]) loaders[id]();
+}
+
+// --- HELPERS ---
+const statusTag = {
+  cold:'<span class="tag tag-cold">Soğuk</span>',
+  warm:'<span class="tag tag-warm">Ilık</span>',
+  hot:'<span class="tag tag-hot">Sıcak</span>',
+  appointment:'<span class="tag tag-appt">Randevu</span>',
+  sold:'<span class="tag tag-sold">Satış</span>',
+  lost:'<span class="tag tag-lost">Kayıp</span>',
+};
+
+function fmtDate(d) {
+  if (!d) return '—';
+  return new Date(d).toLocaleDateString('tr-TR', {day:'2-digit',month:'2-digit',year:'numeric'});
+}
+function fmtDateTime(d) {
+  if (!d) return '—';
+  return new Date(d).toLocaleDateString('tr-TR') + ' ' + new Date(d).toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+}
+
+function notify(msg, type='ok') {
+  const n = document.getElementById('notif');
+  n.textContent = (type==='err'?'❌ ':'✅ ') + msg;
+  n.style.display = 'block';
+  n.style.borderColor = type==='err' ? 'rgba(239,68,68,.3)' : 'var(--border)';
+  setTimeout(() => n.style.display = 'none', 3500);
+}
+
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+
+// Click outside to close
+document.querySelectorAll('.modal-overlay').forEach(m =>
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); })
+);
+
+// --- DASHBOARD ---
+async function loadDashboard() {
+  try {
+    const filter = currentUser.role === 'agent' ? `&assigned_to=eq.${currentUser.id}` : '';
+    const leads = await sb('customers?select=status,score' + filter);
+    const appts = await sb('appointments?select=*,customers(full_name),users(full_name)&status=eq.pending&order=appointment_date.asc&limit=10' +
+      (currentUser.role==='agent' ? `&agent_id=eq.${currentUser.id}` : ''));
+    const calls = await sb('calls?select=*,customers(full_name),users(full_name)&order=called_at.desc&limit=8' +
+      (currentUser.role==='agent' ? `&agent_id=eq.${currentUser.id}` : ''));
+
+    document.getElementById('m-total').textContent = leads.length;
+    document.getElementById('m-hot').textContent = leads.filter(l=>l.status==='hot').length;
+    document.getElementById('m-appt').textContent = leads.filter(l=>l.status==='appointment').length;
+    document.getElementById('m-sold').textContent = leads.filter(l=>l.status==='sold').length;
+
+    // Aktivite
+    document.getElementById('dash-activity').innerHTML = calls.length ? calls.map(c =>
+      `<div class="flex-b" style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)">
+        <div><div style="font-size:11px;color:var(--text1)">${c.customers?.full_name||'—'}</div>
+        <div style="font-size:10px;color:var(--text3)">${c.users?.full_name||'—'} · ${fmtDateTime(c.called_at)}</div></div>
+        <span class="tag ${c.outcome==='sold'?'tag-sold':c.outcome==='appointment'?'tag-appt':c.outcome==='interested'?'tag-warm':'tag-cold'}">${c.outcome||c.status}</span>
+      </div>`).join('') : '<div class="empty">Arama kaydı yok</div>';
+
+    // Randevular
+    const today = new Date().toDateString();
+    const todayAppts = appts.filter(a => new Date(a.appointment_date).toDateString() === today);
+    document.getElementById('dash-appts').innerHTML = todayAppts.length ? todayAppts.map(a =>
+      `<div class="flex-b" style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)">
+        <div><div style="font-size:11px;color:var(--text1)">${a.customers?.full_name||'—'}</div>
+        <div style="font-size:10px;color:var(--text3)">${a.users?.full_name||'—'} · ${new Date(a.appointment_date).toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})}</div></div>
+        <span class="tag tag-appt">${a.type}</span>
+      </div>`).join('') : '<div class="empty">Bugün randevu yok</div>';
+  } catch(e) { notify(e.message,'err'); }
+}
+
+// --- LEADS ---
+async function loadLeads() {
+  try {
+    allUsers = await sb('users?select=id,full_name,username&is_active=eq.true&order=full_name');
+    const agentSel = document.getElementById('lead-filter-agent');
+    agentSel.innerHTML = '<option value="">Tüm Personeller</option>' +
+      allUsers.map(u => `<option value="${u.id}">${u.full_name}</option>`).join('');
+
+    const filter = currentUser.role === 'agent' ? `&assigned_to=eq.${currentUser.id}` : '';
+    allLeads = await sb('customers?select=*,users(full_name)&order=created_at.desc' + filter);
+    renderLeads(allLeads);
+
+    // Diğer modal selectlerini doldur
+    fillAgentSelects();
+    fillCustomerSelects();
+  } catch(e) { notify(e.message,'err'); }
+}
+
+function renderLeads(leads) {
+  const tbody = document.getElementById('leads-table');
+  if (!leads.length) { tbody.innerHTML = '<tr><td colspan="9" class="empty">Lead bulunamadı</td></tr>'; return; }
+  tbody.innerHTML = leads.map(l => `
+    <tr onclick="editLead('${l.id}')">
+      <td><div class="flex gap8"><div class="avatar" style="background:rgba(201,169,110,.15);color:var(--gold)">${(l.full_name||'?')[0]}</div>${l.full_name}</div></td>
+      <td>${l.phone}</td>
+      <td>${l.city||'—'}</td>
+      <td>${l.interest||'—'}</td>
+      <td>${statusTag[l.status]||l.status}</td>
+      <td>
+        <div class="score-bar-wrap">
+          <div class="score-bar"><div class="score-fill" style="width:${l.score}%;background:${l.score>70?'var(--green)':l.score>40?'var(--gold)':'var(--text3)'}"></div></div>
+          <span style="font-size:10px;color:var(--text3)">${l.score}</span>
+        </div>
+      </td>
+      <td>${l.users?.full_name||'<span style="color:var(--text3)">Atanmamış</span>'}</td>
+      <td>${fmtDate(l.created_at)}</td>
+      <td onclick="event.stopPropagation()">
+        <div class="flex gap6">
+          <button class="btn btn-outline btn-sm" onclick="editLead('${l.id}')">Düzenle</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteLead('${l.id}')">Sil</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+function filterLeads() {
+  const q = document.getElementById('lead-search').value.toLowerCase();
+  const st = document.getElementById('lead-filter-status').value;
+  const ag = document.getElementById('lead-filter-agent').value;
+  const filtered = allLeads.filter(l =>
+    (!q || l.full_name.toLowerCase().includes(q) || l.phone.includes(q) || (l.city||'').toLowerCase().includes(q)) &&
+    (!st || l.status === st) &&
+    (!ag || l.assigned_to === ag)
+  );
+  renderLeads(filtered);
+}
+
+function showLeadModal(lead=null) {
+  document.getElementById('lead-modal-title').textContent = lead ? 'Lead Düzenle' : 'Yeni Lead';
+  document.getElementById('lead-id').value = lead?.id || '';
+  document.getElementById('l-name').value = lead?.full_name || '';
+  document.getElementById('l-phone').value = lead?.phone || '';
+  document.getElementById('l-email').value = lead?.email || '';
+  document.getElementById('l-city').value = lead?.city || '';
+  document.getElementById('l-interest').value = lead?.interest || '';
+  document.getElementById('l-source').value = lead?.source || 'manual';
+  document.getElementById('l-status').value = lead?.status || 'cold';
+  document.getElementById('l-agent').value = lead?.assigned_to || '';
+  document.getElementById('l-notes').value = lead?.notes || '';
+  openModal('lead-modal');
+}
+
+async function editLead(id) {
+  const lead = allLeads.find(l => l.id === id);
+  if (lead) showLeadModal(lead);
+}
+
+async function saveLead() {
+  const id = document.getElementById('lead-id').value;
+  const data = {
+    full_name: document.getElementById('l-name').value.trim(),
+    phone: document.getElementById('l-phone').value.trim(),
+    email: document.getElementById('l-email').value.trim() || null,
+    city: document.getElementById('l-city').value.trim() || null,
+    interest: document.getElementById('l-interest').value || null,
+    source: document.getElementById('l-source').value,
+    status: document.getElementById('l-status').value,
+    assigned_to: document.getElementById('l-agent').value || null,
+    notes: document.getElementById('l-notes').value.trim() || null,
+    updated_at: new Date().toISOString()
+  };
+  if (!data.full_name || !data.phone) { notify('Ad soyad ve telefon zorunlu','err'); return; }
+  try {
+    if (id) {
+      await sb(`customers?id=eq.${id}`, 'PATCH', data);
+      notify('Lead güncellendi');
+    } else {
+      await sb('customers', 'POST', data);
+      notify('Lead eklendi');
+    }
+    closeModal('lead-modal');
+    loadLeads();
+  } catch(e) { notify(e.message,'err'); }
+}
+
+async function deleteLead(id) {
+  if (!confirm('Bu lead silinsin mi?')) return;
+  try {
+    await sb(`customers?id=eq.${id}`, 'DELETE');
+    notify('Lead silindi');
+    loadLeads();
+  } catch(e) { notify(e.message,'err'); }
+}
+
+// --- PERSONELLER ---
+async function loadAgents() {
+  if (currentUser.role !== 'admin') return;
+  try {
+    const users = await sb('users?select=*&order=created_at.desc');
+    const tbody = document.getElementById('agents-table');
+    if (!users.length) { tbody.innerHTML = '<tr><td colspan="7" class="empty">Personel yok</td></tr>'; return; }
+    tbody.innerHTML = users.map(u => `
+      <tr>
+        <td><div class="flex gap8"><div class="avatar" style="background:rgba(201,169,110,.15);color:var(--gold)">${u.full_name[0]}</div>${u.full_name}</div></td>
+        <td style="color:var(--text3)">${u.username}</td>
+        <td><span class="tag ${u.role==='admin'?'tag-admin':'tag-agent'}">${u.role}</span></td>
+        <td><span class="tag ${u.is_active?'tag-hot':'tag-lost'}">${u.is_active?'Aktif':'Pasif'}</span></td>
+        <td id="agent-leads-${u.id}">—</td>
+        <td id="agent-sales-${u.id}">—</td>
+        <td>
+          <div class="flex gap6">
+            <button class="btn btn-outline btn-sm" onclick="editAgent('${u.id}')">Düzenle</button>
+          </div>
+        </td>
+      </tr>`).join('');
+
+    // Lead ve satış sayıları
+    for (const u of users) {
+      sb(`customers?assigned_to=eq.${u.id}&select=id&limit=1`).then(r => {
+        sb(`customers?assigned_to=eq.${u.id}&select=id`, 'GET').then(leads => {
+          const el = document.getElementById(`agent-leads-${u.id}`);
+          if (el) el.textContent = leads.length;
+        });
+      });
+      sb(`sales?agent_id=eq.${u.id}&status=eq.confirmed&select=deposit_amount`).then(sales => {
+        const el = document.getElementById(`agent-sales-${u.id}`);
+        if (el) el.textContent = sales.length + ' satış';
+      });
+    }
+  } catch(e) { notify(e.message,'err'); }
+}
+
+function showAgentModal(user=null) {
+  document.getElementById('agent-modal-title').textContent = user ? 'Personel Düzenle' : 'Personel Ekle';
+  document.getElementById('a-id').value = user?.id || '';
+  document.getElementById('a-name').value = user?.full_name || '';
+  document.getElementById('a-user').value = user?.username || '';
+  document.getElementById('a-pass').value = '';
+  document.getElementById('a-role').value = user?.role || 'agent';
+  document.getElementById('a-active').value = user ? String(user.is_active) : 'true';
+  openModal('agent-modal');
+}
+
+async function editAgent(id) {
+  const users = await sb(`users?id=eq.${id}&select=*`);
+  if (users[0]) showAgentModal(users[0]);
+}
+
+async function saveAgent() {
+  const id = document.getElementById('a-id').value;
+  const data = {
+    full_name: document.getElementById('a-name').value.trim(),
+    username: document.getElementById('a-user').value.trim(),
+    role: document.getElementById('a-role').value,
+    is_active: document.getElementById('a-active').value === 'true',
+  };
+  const pass = document.getElementById('a-pass').value;
+  if (pass) data.password_hash = pass;
+  if (!data.full_name || !data.username) { notify('Ad ve kullanıcı adı zorunlu','err'); return; }
+  try {
+    if (id) {
+      await sb(`users?id=eq.${id}`, 'PATCH', data);
+      notify('Personel güncellendi');
+    } else {
+      if (!pass) { notify('Şifre zorunlu','err'); return; }
+      await sb('users', 'POST', data);
+      notify('Personel eklendi');
+    }
+    closeModal('agent-modal');
+    loadAgents();
+    fillAgentSelects();
+  } catch(e) { notify(e.message,'err'); }
+}
+
+// --- ÇAĞRILAR ---
+async function loadCalls() {
+  try {
+    const filter = currentUser.role === 'agent' ? `&agent_id=eq.${currentUser.id}` : '';
+    const calls = await sb('calls?select=*,customers(full_name),users(full_name)&order=called_at.desc' + filter);
+    const tbody = document.getElementById('calls-table');
+    if (!calls.length) { tbody.innerHTML = '<tr><td colspan="7" class="empty">Arama kaydı yok</td></tr>'; return; }
+    const outcomeLabels = {interested:'İlgilendi',not_interested:'İlgilenmedi',callback:'Geri Arama',appointment:'Randevu',sold:'Satış',ai_warm:'AI Sıcak'};
+    tbody.innerHTML = calls.map(c => `
+      <tr>
+        <td>${c.customers?.full_name||'—'}</td>
+        <td>${c.users?.full_name||'—'}</td>
+        <td><span class="tag ${c.call_type==='ai'?'tag-admin':'tag-agent'}">${c.call_type}</span></td>
+        <td>${c.duration_seconds ? Math.floor(c.duration_seconds/60)+':'+(c.duration_seconds%60+'').padStart(2,'0') : '—'}</td>
+        <td>${c.outcome ? `<span class="tag ${c.outcome==='sold'?'tag-sold':c.outcome==='appointment'?'tag-appt':c.outcome==='interested'?'tag-warm':'tag-cold'}">${outcomeLabels[c.outcome]||c.outcome}</span>` : '—'}</td>
+        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text3)">${c.notes||'—'}</td>
+        <td>${fmtDateTime(c.called_at)}</td>
+      </tr>`).join('');
+  } catch(e) { notify(e.message,'err'); }
+}
+
+function showCallLogModal() { fillCustomerSelects(); openModal('call-modal'); }
+
+async function saveCall() {
+  const data = {
+    customer_id: document.getElementById('c-customer').value || null,
+    agent_id: currentUser.id,
+    call_type: document.getElementById('c-type').value,
+    duration_seconds: parseInt(document.getElementById('c-dur').value) || 0,
+    status: document.getElementById('c-status').value,
+    outcome: document.getElementById('c-outcome').value || null,
+    notes: document.getElementById('c-notes').value.trim() || null,
+  };
+  try {
+    await sb('calls', 'POST', data);
+    notify('Arama kaydedildi');
+    closeModal('call-modal');
+    loadCalls();
+  } catch(e) { notify(e.message,'err'); }
+}
+
+// --- RANDEVULAR ---
+async function loadAppointments() {
+  try {
+    const filter = currentUser.role === 'agent' ? `&agent_id=eq.${currentUser.id}` : '';
+    const appts = await sb('appointments?select=*,customers(full_name),users(full_name)&order=appointment_date.asc' + filter);
+    const tbody = document.getElementById('appts-table');
+    if (!appts.length) { tbody.innerHTML = '<tr><td colspan="7" class="empty">Randevu yok</td></tr>'; return; }
+    const typeLabel = {call:'Telefon',meeting:'Yüz Yüze',online:'Online'};
+    tbody.innerHTML = appts.map(a => `
+      <tr>
+        <td>${a.customers?.full_name||'—'}</td>
+        <td>${a.users?.full_name||'—'}</td>
+        <td>${fmtDateTime(a.appointment_date)}</td>
+        <td>${typeLabel[a.type]||a.type}</td>
+        <td><span class="tag ${a.status==='completed'?'tag-sold':a.status==='cancelled'?'tag-lost':'tag-appt'}">${a.status}</span></td>
+        <td style="color:var(--text3)">${a.notes||'—'}</td>
+        <td>
+          <div class="flex gap6">
+            <button class="btn btn-green btn-sm" onclick="updateApptStatus('${a.id}','completed')">Tamam</button>
+            <button class="btn btn-danger btn-sm" onclick="updateApptStatus('${a.id}','cancelled')">İptal</button>
+          </div>
+        </td>
+      </tr>`).join('');
+  } catch(e) { notify(e.message,'err'); }
+}
+
+function showApptModal() { fillCustomerSelects(); fillAgentSelects(); openModal('appt-modal'); }
+
+async function saveAppt() {
+  const dt = document.getElementById('ap-date').value;
+  if (!dt) { notify('Tarih zorunlu','err'); return; }
+  const data = {
+    customer_id: document.getElementById('ap-customer').value || null,
+    agent_id: document.getElementById('ap-agent').value || currentUser.id,
+    appointment_date: new Date(dt).toISOString(),
+    type: document.getElementById('ap-type').value,
+    notes: document.getElementById('ap-notes').value.trim() || null,
+  };
+  try {
+    await sb('appointments', 'POST', data);
+    notify('Randevu eklendi');
+    closeModal('appt-modal');
+    if (data.customer_id) await sb(`customers?id=eq.${data.customer_id}`, 'PATCH', {status:'appointment',updated_at:new Date().toISOString()});
+    loadAppointments();
+  } catch(e) { notify(e.message,'err'); }
+}
+
+async function updateApptStatus(id, status) {
+  try {
+    await sb(`appointments?id=eq.${id}`, 'PATCH', {status});
+    notify('Güncellendi');
+    loadAppointments();
+  } catch(e) { notify(e.message,'err'); }
+}
+
+// --- SATIŞLAR ---
+async function loadSales() {
+  try {
+    const filter = currentUser.role === 'agent' ? `&agent_id=eq.${currentUser.id}` : '';
+    const sales = await sb('sales?select=*,customers(full_name),users(full_name)&order=created_at.desc' + filter);
+    const tbody = document.getElementById('sales-table');
+
+    const total = sales.length;
+    const dep = sales.filter(s=>s.status==='confirmed').reduce((a,s)=>a+Number(s.deposit_amount),0);
+    const com = sales.filter(s=>s.status==='confirmed').reduce((a,s)=>a+Number(s.commission),0);
+    const thisMonth = sales.filter(s=>new Date(s.sale_date).getMonth()===new Date().getMonth()).length;
+    document.getElementById('s-total').textContent = total;
+    document.getElementById('s-dep').textContent = dep.toLocaleString('tr-TR') + '$';
+    document.getElementById('s-com').textContent = com.toLocaleString('tr-TR') + '$';
+    document.getElementById('s-month').textContent = thisMonth;
+
+    if (!sales.length) { tbody.innerHTML = '<tr><td colspan="7" class="empty">Satış yok</td></tr>'; return; }
+    tbody.innerHTML = sales.map(s => `
+      <tr>
+        <td>${s.customers?.full_name||'—'}</td>
+        <td>${s.users?.full_name||'—'}</td>
+        <td>${s.product}</td>
+        <td style="color:var(--green)">${Number(s.deposit_amount).toLocaleString()} ${s.currency}</td>
+        <td style="color:var(--gold)">${Number(s.commission).toLocaleString()} ${s.currency}</td>
+        <td><span class="tag ${s.status==='confirmed'?'tag-sold':s.status==='cancelled'?'tag-lost':'tag-warm'}">${s.status}</span></td>
+        <td>${fmtDate(s.sale_date)}</td>
+      </tr>`).join('');
+  } catch(e) { notify(e.message,'err'); }
+}
+
+function showSaleModal() { fillCustomerSelects(); fillAgentSelects(); document.getElementById('sa-date').value = new Date().toISOString().split('T')[0]; openModal('sale-modal'); }
+
+async function saveSale() {
+  const data = {
+    customer_id: document.getElementById('sa-customer').value || null,
+    agent_id: document.getElementById('sa-agent').value || currentUser.id,
+    product: document.getElementById('sa-product').value,
+    sale_date: document.getElementById('sa-date').value,
+    deposit_amount: parseFloat(document.getElementById('sa-dep').value) || 0,
+    currency: document.getElementById('sa-cur').value,
+    commission: parseFloat(document.getElementById('sa-com').value) || 0,
+    status: document.getElementById('sa-status').value,
+    notes: document.getElementById('sa-notes').value.trim() || null,
+  };
+  try {
+    await sb('sales', 'POST', data);
+    if (data.customer_id) await sb(`customers?id=eq.${data.customer_id}`, 'PATCH', {status:'sold',updated_at:new Date().toISOString()});
+    notify('Satış kaydedildi');
+    closeModal('sale-modal');
+    loadSales();
+  } catch(e) { notify(e.message,'err'); }
+}
+
+// --- KAMPANYALAR ---
+async function loadCampaigns() {
+  if (currentUser.role !== 'admin') return;
+  try {
+    const camps = await sb('campaigns?select=*,users(full_name)&order=created_at.desc');
+    const tbody = document.getElementById('campaigns-table');
+    if (!camps.length) { tbody.innerHTML = '<tr><td colspan="7" class="empty">Kampanya yok</td></tr>'; return; }
+    const statusColors = {draft:'tag-cold',running:'tag-hot',paused:'tag-warn',completed:'tag-sold'};
+    tbody.innerHTML = camps.map(c => `
+      <tr>
+        <td><strong>${c.name}</strong></td>
+        <td><span class="tag ${statusColors[c.status]||'tag-cold'}">${c.status}</span></td>
+        <td>${c.daily_limit}</td>
+        <td>${c.calls_made}</td>
+        <td style="color:var(--green)">${c.hot_leads_generated}</td>
+        <td>${fmtDate(c.created_at)}</td>
+        <td>
+          <div class="flex gap6">
+            <button class="btn btn-green btn-sm" onclick="updateCampaignStatus('${c.id}','running')">Başlat</button>
+            <button class="btn btn-outline btn-sm" onclick="updateCampaignStatus('${c.id}','paused')">Durdur</button>
+          </div>
+        </td>
+      </tr>`).join('');
+  } catch(e) { notify(e.message,'err'); }
+}
+
+function showCampaignModal() { openModal('campaign-modal'); }
+
+async function saveCampaign() {
+  const data = {
+    name: document.getElementById('camp-name').value.trim(),
+    daily_limit: parseInt(document.getElementById('camp-limit').value) || 500,
+    status: document.getElementById('camp-status').value,
+    created_by: currentUser.id,
+  };
+  if (!data.name) { notify('Kampanya adı zorunlu','err'); return; }
+  try {
+    await sb('campaigns', 'POST', data);
+    notify('Kampanya oluşturuldu');
+    closeModal('campaign-modal');
+    loadCampaigns();
+  } catch(e) { notify(e.message,'err'); }
+}
+
+async function updateCampaignStatus(id, status) {
+  try {
+    await sb(`campaigns?id=eq.${id}`, 'PATCH', {status});
+    notify('Güncellendi');
+    loadCampaigns();
+  } catch(e) { notify(e.message,'err'); }
+}
+
+// --- CSV IMPORT ---
+function showImportModal() { fillAgentSelects('csv-agent'); openModal('import-modal'); }
+
+async function importCSV() {
+  const raw = document.getElementById('csv-data').value.trim();
+  const agentId = document.getElementById('csv-agent').value || null;
+  if (!raw) { notify('CSV verisi girin','err'); return; }
+  const lines = raw.split('\n').filter(l => l.trim());
+  let imported = 0, errors = 0;
+  for (const line of lines) {
+    const parts = line.split(',').map(p => p.trim().replace(/^"|"$/g,''));
+    if (parts.length < 2) continue;
+    const [full_name, phone, email, city, interest] = parts;
+    if (!full_name || !phone) { errors++; continue; }
+    try {
+      await sb('customers', 'POST', {full_name, phone, email:email||null, city:city||null, interest:interest||null, assigned_to:agentId, source:'csv'});
+      imported++;
+    } catch(e) { errors++; }
+  }
+  notify(`${imported} lead yüklendi${errors?' ('+errors+' hata)':''}`);
+  closeModal('import-modal');
+  loadLeads();
+}
+
+// --- FILL SELECTS ---
+async function fillAgentSelects(targetId=null) {
+  if (!allUsers.length) allUsers = await sb('users?select=id,full_name&is_active=eq.true&order=full_name');
+  const ids = targetId ? [targetId] : ['l-agent','ap-agent','sa-agent','csv-agent'];
+  for (const id of ids) {
+    const el = document.getElementById(id);
+    if (!el) continue;
+    const cur = el.value;
+    el.innerHTML = '<option value="">Seçin</option>' + allUsers.map(u => `<option value="${u.id}">${u.full_name}</option>`).join('');
+    if (cur) el.value = cur;
+  }
+}
+
+async function fillCustomerSelects() {
+  const filter = currentUser.role === 'agent' ? `&assigned_to=eq.${currentUser.id}` : '';
+  const customers = await sb('customers?select=id,full_name&order=full_name' + filter + '&limit=500');
+  for (const id of ['c-customer','ap-customer','sa-customer']) {
+    const el = document.getElementById(id);
+    if (!el) continue;
+    el.innerHTML = '<option value="">Müşteri seçin</option>' + customers.map(c => `<option value="${c.id}">${c.full_name}</option>`).join('');
+  }
+}
+
+// --- CLOCK ---
+setInterval(() => {
+  const n = new Date();
+  const el = document.getElementById('clock');
+  if (el) el.textContent = n.toLocaleTimeString('tr-TR') + ' · ' + n.toLocaleDateString('tr-TR');
+}, 1000);
+
+// Enter key for login
+document.getElementById('l-user').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('l-pass').focus(); });
+</script>
+</body>
+</html>
