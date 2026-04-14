@@ -2,23 +2,349 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Global Eksbina — CRM</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Global Eksbina CRM</title>
 <style>
-body{margin:0;background:#0d0d11;color:#f0ede8;font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;gap:20px;}
-.logo{font-size:24px;font-weight:700;color:#C9A96E;letter-spacing:2px;}
-.sub{font-size:12px;color:#5a566a;letter-spacing:3px;}
-.card{background:#1a1a24;border:1px solid rgba(201,169,110,.15);border-radius:12px;padding:30px 40px;text-align:center;max-width:400px;}
-.btn{display:inline-block;padding:12px 28px;background:#C9A96E;color:#000;border-radius:8px;font-weight:700;text-decoration:none;font-size:14px;margin-top:16px;}
-p{color:#a8a4b0;font-size:14px;line-height:1.6;}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--gold:#C9A96E;--dark1:#0d0d11;--dark2:#13131a;--dark3:#1a1a24;--dark4:#21212e;--text1:#f0ede8;--text2:#a8a4b0;--text3:#5a566a;--green:#22c55e;--red:#ef4444;--blue:#60a5fa;--border:rgba(201,169,110,.12)}
+body{background:var(--dark1);color:var(--text1);font-family:system-ui,sans-serif;font-size:13px}
+.app{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:200px;background:var(--dark2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+.logo{padding:16px;border-bottom:1px solid var(--border)}
+.logo-name{font-size:13px;font-weight:700;color:var(--gold);letter-spacing:1px}
+.logo-sub{font-size:9px;color:var(--text3);letter-spacing:2px;margin-top:2px}
+.nav{padding:8px 0;flex:1}
+.nav-item{display:flex;align-items:center;gap:8px;padding:8px 14px;cursor:pointer;color:var(--text2);font-size:12px;transition:all .15s}
+.nav-item:hover{background:rgba(201,169,110,.06);color:var(--text1)}
+.nav-item.active{background:rgba(201,169,110,.1);color:var(--gold);border-right:2px solid var(--gold)}
+.sfooter{padding:10px 14px;border-top:1px solid var(--border);font-size:10px;color:var(--text3)}
+.sdot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);margin-right:4px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{background:var(--dark2);border-bottom:1px solid var(--border);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.topbar-title{font-size:14px;font-weight:600}
+.ticker-wrap{background:var(--dark1);border-bottom:1px solid var(--border);padding:4px 0;overflow:hidden;white-space:nowrap;flex-shrink:0}
+.ticker{display:inline-block;animation:tick 30s linear infinite;font-size:11px;color:var(--text2)}
+@keyframes tick{0%{transform:translateX(100vw)}100%{transform:translateX(-100%)}}
+.up{color:var(--green)}.dn{color:var(--red)}
+.content{flex:1;overflow-y:auto;padding:14px}
+.page{display:none}.page.active{display:block}
+.panel{background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.panel-title{font-size:10px;color:var(--gold);letter-spacing:1px;text-transform:uppercase;font-weight:600}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.metric{background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:12px}
+.metric-label{font-size:9px;color:var(--text3);letter-spacing:.8px;margin-bottom:4px;text-transform:uppercase}
+.metric-value{font-size:22px;font-weight:700}
+.metric-sub{font-size:10px;margin-top:2px;color:var(--green)}
+.btn{padding:6px 12px;border-radius:6px;font-size:10px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.btn-gold{background:var(--gold);color:#000}.btn-gold:hover{opacity:.9}
+.btn-outline{background:transparent;color:var(--gold);border:1px solid rgba(201,169,110,.3)}.btn-outline:hover{background:rgba(201,169,110,.08)}
+.input{background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:11px;color:var(--text1);outline:none;width:100%}
+.input:focus{border-color:rgba(201,169,110,.4)}
+.textarea{background:var(--dark4);border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:11px;color:var(--text1);outline:none;width:100%;resize:vertical}
+.form-label{font-size:9px;color:var(--text3);margin-bottom:3px;letter-spacing:.5px;text-transform:uppercase}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.form-group{margin-bottom:8px}
+.tag{display:inline-block;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:500}
+.tag-hot{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.2)}
+.tag-warn{background:rgba(201,169,110,.12);color:var(--gold);border:1px solid rgba(201,169,110,.2)}
+.tag-red{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+.mkt-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.mkt-row:last-child{border:none}
+.mkt-sym{font-size:11px;font-weight:600}
+.mkt-name{font-size:9px;color:var(--text3)}
+.mkt-price{font-size:12px;font-weight:600;text-align:right}
+.mkt-chg{font-size:10px;text-align:right}
+.analysis{background:var(--dark4);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;padding:8px 10px;margin-bottom:6px;font-size:11px;color:var(--text2);line-height:1.6}
+.analysis strong{color:var(--gold)}
+.notif{position:fixed;bottom:16px;right:16px;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:11px;color:var(--text1);z-index:200;display:none}
+.flex{display:flex;align-items:center}.flex-b{display:flex;align-items:center;justify-content:space-between}
+.gap6{gap:6px}.gap8{gap:8px}
+select.input{cursor:pointer}
 </style>
 </head>
 <body>
-<div class="card">
-  <div class="logo">GLOBAL EKSBİNA</div>
-  <div class="sub">AI CALL CENTER CRM</div>
-  <p style="margin-top:16px">CRM sistemi güncelleniyor.<br>Lütfen indirilen <strong>crm.html</strong> dosyasını kullanın.</p>
-  <p style="font-size:12px;color:#5a566a;margin-top:8px">Sistem aktif · Ayşe çalışıyor · GitHub Actions her sabah 08:00'de çalışır</p>
+<div class="app">
+<div class="sidebar">
+  <div class="logo">
+    <div class="logo-name">GLOBAL EKSBİNA</div>
+    <div class="logo-sub">AI CALL CENTER CRM</div>
+  </div>
+  <nav class="nav">
+    <div class="nav-item active" onclick="go('dashboard',this)">📊 Dashboard</div>
+    <div class="nav-item" onclick="go('leads',this)">👥 Lead Listesi</div>
+    <div class="nav-item" onclick="go('market',this)">📈 Piyasa</div>
+    <div class="nav-item" onclick="go('analysis',this)">✍️ Günlük Analiz</div>
+    <div class="nav-item" onclick="go('agent',this)">🤖 AI Ajan</div>
+  </nav>
+  <div class="sfooter"><span class="sdot"></span>Ayşe — Aktif</div>
 </div>
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title" id="page-title">Dashboard</div>
+    <div class="flex gap8">
+      <span style="font-size:10px;color:var(--text3)" id="clock"></span>
+      <button class="btn btn-gold" onclick="showCallModal()">📞 Ara</button>
+    </div>
+  </div>
+  <div class="ticker-wrap">
+    <span class="ticker">
+      &nbsp;&nbsp;Bitcoin <span class="up">72.340$ ▲+1.8%</span> &nbsp;|&nbsp;
+      Altın <span class="up">4.761$ ▲+0.3%</span> &nbsp;|&nbsp;
+      EUR/USD <span class="up">1.1706 ▲+0.5%</span> &nbsp;|&nbsp;
+      GBP/USD <span class="up">1.3516 ▲+0.1%</span> &nbsp;|&nbsp;
+      US Oil <span class="up">102.00$ ▲+8.5%</span> &nbsp;|&nbsp;
+      UK Oil <span class="up">102.51$ ▲+7.3%</span> &nbsp;|&nbsp;
+      NASDAQ <span class="up">23.184 ▲+1.2%</span> &nbsp;|&nbsp;
+      DAX <span class="dn">22.450 ▼-0.4%</span> &nbsp;|&nbsp;
+      S&amp;P500 <span class="up">6.886 ▲+1.0%</span>&nbsp;&nbsp;
+    </span>
+  </div>
+  <div class="content">
+    <!-- DASHBOARD -->
+    <div id="page-dashboard" class="page active">
+      <div class="metrics">
+        <div class="metric"><div class="metric-label">Bugün Aranan</div><div class="metric-value" style="color:var(--blue)">247</div><div class="metric-sub">+34 dünden fazla</div></div>
+        <div class="metric"><div class="metric-label">Sıcak Lead</div><div class="metric-value" style="color:var(--green)">38</div><div class="metric-sub">%15.4 dönüşüm</div></div>
+        <div class="metric"><div class="metric-label">Hesap Açan</div><div class="metric-value" style="color:var(--gold)">7</div><div class="metric-sub">+$2.450 komisyon</div></div>
+        <div class="metric"><div class="metric-label">Başarısız</div><div class="metric-value" style="color:var(--red)">182</div><div class="metric-sub">%73.7 ulaşılamadı</div></div>
+      </div>
+      <div class="grid2">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">🔴 Canlı Görüşme</div><span class="tag tag-hot">AKTİF</span></div>
+          <div style="font-size:11px;color:var(--text2);line-height:1.7;font-style:italic">"Bitcoin bu hafta 72 bine çıktı, bu toparlanmayı değerlendirmek ister misiniz?..."</div>
+          <div style="margin-top:8px;display:flex;gap:6px">
+            <button class="btn btn-gold" style="font-size:9px">Canlıya Aktar</button>
+            <button class="btn btn-outline" style="font-size:9px">Bitir</button>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">Sıcak Leadler</div><span style="font-size:10px;color:var(--text3)">38 aktif</span></div>
+          <div style="font-size:11px">
+            <div class="flex-b" style="padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)"><span>Ahmet Kaya</span><span class="tag tag-hot">92 · Sıcak</span></div>
+            <div class="flex-b" style="padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)"><span>Fatma Demir</span><span class="tag tag-hot">88 · Hesap Açtı</span></div>
+            <div class="flex-b" style="padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)"><span>Mehmet Balcı</span><span class="tag tag-warn">72 · Ilık</span></div>
+            <div class="flex-b" style="padding:5px 0"><span>Zeynep Arslan</span><span class="tag tag-warn">58 · Callback</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- LEADS -->
+    <div id="page-leads" class="page">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Lead Veritabanı</div>
+          <div class="flex gap6">
+            <input class="input" style="width:160px" placeholder="🔍 Ara...">
+            <button class="btn btn-gold">+ Yeni Lead</button>
+          </div>
+        </div>
+        <table style="width:100%;border-collapse:collapse;font-size:11px">
+          <thead><tr style="color:var(--text3);font-size:9px;text-transform:uppercase">
+            <th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">İsim</th>
+            <th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">Telefon</th>
+            <th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">İlgi</th>
+            <th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">Durum</th>
+            <th style="padding:6px 8px;border-bottom:1px solid var(--border)"></th>
+          </tr></thead>
+          <tbody>
+            <tr><td style="padding:6px 8px;color:var(--text2)">Ahmet Kaya</td><td style="padding:6px 8px;color:var(--text2)">+90 532 XXX</td><td style="padding:6px 8px;color:var(--text2)">Altın, Forex</td><td style="padding:6px 8px"><span class="tag tag-hot">Sıcak</span></td><td style="padding:6px 8px"><button class="btn btn-outline">Ara</button></td></tr>
+            <tr><td style="padding:6px 8px;color:var(--text2)">Fatma Demir</td><td style="padding:6px 8px;color:var(--text2)">+90 555 XXX</td><td style="padding:6px 8px;color:var(--text2)">Bitcoin</td><td style="padding:6px 8px"><span class="tag tag-hot">Hesap Açtı</span></td><td style="padding:6px 8px"><button class="btn btn-outline">Detay</button></td></tr>
+            <tr><td style="padding:6px 8px;color:var(--text2)">Mehmet Balcı</td><td style="padding:6px 8px;color:var(--text2)">+90 506 XXX</td><td style="padding:6px 8px;color:var(--text2)">CFD</td><td style="padding:6px 8px"><span class="tag tag-warn">Ilık</span></td><td style="padding:6px 8px"><button class="btn btn-outline">Ara</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- MARKET -->
+    <div id="page-market" class="page">
+      <div class="grid2">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">Canlı Fiyatlar</div></div>
+          <div class="mkt-row"><div><div class="mkt-sym">BTC/USD</div><div class="mkt-name">Bitcoin</div></div><div><div class="mkt-price up">72.340</div><div class="mkt-chg up">+1.80% ▲</div></div></div>
+          <div class="mkt-row"><div><div class="mkt-sym">XAU/USD</div><div class="mkt-name">Altın</div></div><div><div class="mkt-price up">4.761</div><div class="mkt-chg up">+0.33% ▲</div></div></div>
+          <div class="mkt-row"><div><div class="mkt-sym">EUR/USD</div><div class="mkt-name">Euro/Dolar</div></div><div><div class="mkt-price up">1.1706</div><div class="mkt-chg up">+0.50% ▲</div></div></div>
+          <div class="mkt-row"><div><div class="mkt-sym">GBP/USD</div><div class="mkt-name">Sterlin</div></div><div><div class="mkt-price up">1.3516</div><div class="mkt-chg up">+0.09% ▲</div></div></div>
+          <div class="mkt-row"><div><div class="mkt-sym">US OIL</div><div class="mkt-name">WTI</div></div><div><div class="mkt-price up">102.00</div><div class="mkt-chg up">+8.54% ▲</div></div></div>
+          <div class="mkt-row"><div><div class="mkt-sym">UK OIL</div><div class="mkt-name">Brent</div></div><div><div class="mkt-price up">102.51</div><div class="mkt-chg up">+7.27% ▲</div></div></div>
+          <div class="mkt-row"><div><div class="mkt-sym">NASDAQ</div><div class="mkt-name">Nasdaq</div></div><div><div class="mkt-price up">23.184</div><div class="mkt-chg up">+1.23% ▲</div></div></div>
+          <div class="mkt-row"><div><div class="mkt-sym">DAX</div><div class="mkt-name">DAX 40</div></div><div><div class="mkt-price dn">22.450</div><div class="mkt-chg dn">-0.40% ▼</div></div></div>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">AI Günlük Analiz</div></div>
+          <div class="analysis"><strong>BİTCOİN:</strong> 72 bin dolar seviyesinde. Hürmüz krizi ile yükselen risk iştahı desteği sürüyor.</div>
+          <div class="analysis" style="border-left-color:var(--gold)"><strong>ALTIN:</strong> 4.761$ — İran gerilimi ile rekor yakın. Muhafazakâr yatırımcılar için ideal.</div>
+          <div class="analysis" style="border-left-color:var(--blue)"><strong>PETROL:</strong> 102$+ seviyesi. Hürmüz ablukası enerji fiyatlarını yukarı taşıyor.</div>
+        </div>
+      </div>
+    </div>
+    <!-- ANALYSIS -->
+    <div id="page-analysis" class="page">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <div style="font-size:11px;color:var(--text3)" id="analysis-date"></div>
+        <button class="btn btn-gold" onclick="saveAnalysis()">💾 Kaydet &amp; Ajana Gönder</button>
+      </div>
+      <div class="grid2">
+        <div>
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title">₿ Bitcoin</div>
+              <select class="input" style="width:90px;font-size:9px;padding:2px 4px" id="btc-sig"><option value="buy">🟢 AL</option><option value="sell">🔴 SAT</option><option value="neutral">🟡 NÖTR</option></select>
+            </div>
+            <div class="form-row"><div><div class="form-label">Fiyat ($)</div><input class="input" id="btc-p" value="72.340"></div><div><div class="form-label">Değişim</div><input class="input" id="btc-c" value="+1.80%"></div></div>
+            <div class="form-group"><div class="form-label">Analiz</div><textarea class="textarea" id="btc-t" rows="2">Bitcoin 72 bin dolar seviyesinde, momentum güçlü.</textarea></div>
+            <div class="form-group"><div class="form-label">Açılış Cümlesi</div><input class="input" id="btc-o" value="Bitcoin bu hafta 72 bine çıktı, değerlendirmek ister misiniz?"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title">🥇 Altın</div>
+              <select class="input" style="width:90px;font-size:9px;padding:2px 4px" id="gold-sig"><option value="buy">🟢 AL</option><option value="neutral" selected>🟡 NÖTR</option><option value="sell">🔴 SAT</option></select>
+            </div>
+            <div class="form-row"><div><div class="form-label">Fiyat ($)</div><input class="input" id="gold-p" value="4.761"></div><div><div class="form-label">Değişim</div><input class="input" id="gold-c" value="+0.33%"></div></div>
+            <div class="form-group"><div class="form-label">Analiz</div><textarea class="textarea" id="gold-t" rows="2">Altın 4.761$ — jeopolitik risk primiyle güçlü.</textarea></div>
+            <div class="form-group"><div class="form-label">Açılış Cümlesi</div><input class="input" id="gold-o" value="Altın bugün 4.761 dolarda, rekor yakın. İlginiz var mı?"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title">🛢️ US Oil (WTI)</div>
+              <select class="input" style="width:90px;font-size:9px;padding:2px 4px" id="oil-sig"><option value="buy" selected>🟢 AL</option><option value="neutral">🟡 NÖTR</option><option value="sell">🔴 SAT</option></select>
+            </div>
+            <div class="form-row"><div><div class="form-label">Fiyat ($)</div><input class="input" id="oil-p" value="102.00"></div><div><div class="form-label">Değişim</div><input class="input" id="oil-c" value="+8.54%"></div></div>
+            <div class="form-group"><div class="form-label">Analiz</div><textarea class="textarea" id="oil-t" rows="2">Hürmüz ablukası WTI'yi 102$'a taşıdı.</textarea></div>
+          </div>
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title">⚠️ Aciliyet Mesajı</div></div>
+            <textarea class="textarea" id="urgency-t" rows="3">Bugün ABD enflasyon verisi açıklanacak — yüksek volatilite bekleniyor!</textarea>
+          </div>
+        </div>
+        <div>
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title">💱 Forex EUR/USD</div></div>
+            <div class="form-row"><div><div class="form-label">Fiyat</div><input class="input" id="fx-p" value="1.1706"></div><div><div class="form-label">Değişim</div><input class="input" id="fx-c" value="+0.50%"></div></div>
+            <div class="form-group"><div class="form-label">Analiz</div><textarea class="textarea" id="fx-t" rows="2">EUR/USD'de kısa vadeli yukarı momentum devam ediyor.</textarea></div>
+          </div>
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title">📊 NASDAQ</div></div>
+            <div class="form-row"><div><div class="form-label">Fiyat</div><input class="input" id="ndq-p" value="23.184"></div><div><div class="form-label">Değişim</div><input class="input" id="ndq-c" value="+1.23%"></div></div>
+            <div class="form-group"><div class="form-label">Analiz</div><textarea class="textarea" id="ndq-t" rows="2">NASDAQ teknoloji hisseleriyle güçlü seyrediyor.</textarea></div>
+          </div>
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title">🇩🇪 DAX</div></div>
+            <div class="form-row"><div><div class="form-label">Fiyat</div><input class="input" id="dax-p" value="22.450"></div><div><div class="form-label">Değişim</div><input class="input" id="dax-c" value="-0.40%"></div></div>
+            <div class="form-group"><div class="form-label">Analiz</div><textarea class="textarea" id="dax-t" rows="2">DAX enerji maliyeti baskısıyla sınırlı hareket.</textarea></div>
+          </div>
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title">🤖 Vapi Prompt Önizleme</div><button class="btn btn-outline" onclick="preview()" style="font-size:9px">Yenile</button></div>
+            <div id="preview-box" style="background:var(--dark4);border-radius:6px;padding:10px;font-size:10px;color:var(--text2);line-height:1.7;white-space:pre-wrap;max-height:200px;overflow-y:auto">Kaydet butonuna bas, önizleme burada çıkar.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- AGENT -->
+    <div id="page-agent" class="page">
+      <div class="grid2">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">Ajan Ayarları</div></div>
+          <div style="font-size:11px;color:var(--text2);line-height:2">
+            <div>🤖 <strong style="color:var(--gold)">Ajan:</strong> TradeBotAyse</div>
+            <div>🧠 <strong style="color:var(--gold)">Model:</strong> Claude Sonnet 4</div>
+            <div>🎙️ <strong style="color:var(--gold)">Ses:</strong> ElevenLabs Amelia (Türkçe)</div>
+            <div>🌡️ <strong style="color:var(--gold)">Sıcaklık:</strong> 0.7</div>
+            <div>📞 <strong style="color:var(--gold)">Platform:</strong> Vapi.ai</div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">İtiraz Karşılıkları</div></div>
+          <div class="analysis"><strong>"İlgilenmiyorum"</strong><br>→ "60 saniye yeter mi? Bitcoin 72 bine çıktı."</div>
+          <div class="analysis" style="border-left-color:var(--blue)"><strong>"Güvenmiyorum"</strong><br>→ "Demo hesap açın, tek kuruş göndermeden görün."</div>
+          <div class="analysis" style="border-left-color:var(--green)"><strong>"Param yok"</strong><br>→ "Demo tamamen ücretsiz. Sistemi öğrenin."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- CALL MODAL -->
+<div id="call-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;align-items:center;justify-content:center">
+  <div style="background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:20px;width:380px">
+    <div style="font-size:13px;font-weight:600;color:var(--gold);margin-bottom:14px">📞 Manuel Arama</div>
+    <div class="form-group"><div class="form-label">Telefon Numarası</div><input class="input" id="call-num" placeholder="+905XXXXXXXXX"></div>
+    <div class="form-group"><div class="form-label">Müşteri Adı</div><input class="input" id="call-name" placeholder="Ahmet Bey"></div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button class="btn btn-gold" style="flex:1" onclick="startCall()">🚀 Aramayı Başlat</button>
+      <button class="btn btn-outline" onclick="document.getElementById('call-modal').style.display='none'">İptal</button>
+    </div>
+  </div>
+</div>
+
+<div class="notif" id="notif"></div>
+
+<script>
+const VAPI_KEY='74b7b21d-f286-4a56-b1ac-2bf37a91d088';
+const AID='133aa70c-db4b-4155-be6b-220450c0b21a';
+
+document.getElementById('analysis-date').textContent='Bugün: '+new Date().toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric'});
+
+function go(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  if(el)el.classList.add('active');
+  const t={dashboard:'Dashboard',leads:'Lead Listesi',market:'Piyasa Analizi',analysis:'Günlük Analiz',agent:'AI Ajan'};
+  document.getElementById('page-title').textContent=t[id]||id;
+}
+
+function showCallModal(){document.getElementById('call-modal').style.display='flex';}
+
+function notify(msg){
+  const n=document.getElementById('notif');
+  n.textContent=msg;n.style.display='block';
+  setTimeout(()=>n.style.display='none',3000);
+}
+
+function buildPrompt(){
+  const sl={buy:'AL 🟢',sell:'SAT 🔴',neutral:'NÖTR 🟡'};
+  return '=== GUNLUK ANALIZ ('+new Date().toLocaleDateString('tr-TR')+') ===\n'+
+    'Bitcoin: '+document.getElementById('btc-p').value+'$ ('+document.getElementById('btc-c').value+') '+sl[document.getElementById('btc-sig').value]+'\n'+
+    document.getElementById('btc-t').value+'\nAcilis: "'+document.getElementById('btc-o').value+'"\n\n'+
+    'Altin: '+document.getElementById('gold-p').value+'$ ('+document.getElementById('gold-c').value+') '+sl[document.getElementById('gold-sig').value]+'\n'+
+    document.getElementById('gold-t').value+'\nAcilis: "'+document.getElementById('gold-o').value+'"\n\n'+
+    'EURUSD: '+document.getElementById('fx-p').value+' ('+document.getElementById('fx-c').value+')\n'+document.getElementById('fx-t').value+'\n\n'+
+    'NASDAQ: '+document.getElementById('ndq-p').value+' ('+document.getElementById('ndq-c').value+')\n'+document.getElementById('ndq-t').value+'\n\n'+
+    'DAX: '+document.getElementById('dax-p').value+' ('+document.getElementById('dax-c').value+')\n'+document.getElementById('dax-t').value+'\n\n'+
+    'WTI Petrol: '+document.getElementById('oil-p').value+'$ ('+document.getElementById('oil-c').value+') '+sl[document.getElementById('oil-sig').value]+'\n'+document.getElementById('oil-t').value+'\n\n'+
+    'ACiLiYET: '+document.getElementById('urgency-t').value+'\n\n'+
+    'KURAL: Musterinin ilgisine gore uygun urunu sun. Demo hesabi oner.\n=== ===';
+}
+
+function preview(){document.getElementById('preview-box').textContent=buildPrompt();}
+
+async function saveAnalysis(){
+  const prompt=buildPrompt();
+  document.getElementById('preview-box').textContent=prompt;
+  const sys='Sen Global Eksbina finansal danismani Aysesin. Turkce konuş. Kisaltma yok. Kisa cumle.\n\n'+prompt;
+  try{
+    const r=await fetch('https://api.vapi.ai/assistant/'+AID,{
+      method:'PATCH',
+      headers:{'Authorization':'Bearer '+VAPI_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({model:{provider:'anthropic',model:'claude-sonnet-4-20250514',messages:[{role:'system',content:sys}],temperature:0.7,maxTokens:150}})
+    });
+    if(r.ok){notify('✅ Analiz kaydedildi ve Ayşe\'ye gönderildi!');}
+    else{notify('⚠️ Vapi bağlantısı kontrol et');}
+  }catch(e){notify('💾 Kayıt başarısız: '+e.message);}
+}
+
+async function startCall(){
+  const num=document.getElementById('call-num').value;
+  if(!num){notify('Telefon numarası girin!');return;}
+  document.getElementById('call-modal').style.display='none';
+  notify('📞 Arama başlatılıyor: '+num);
+}
+
+function tick(){
+  const n=new Date();
+  document.getElementById('clock').textContent=n.toLocaleTimeString('tr-TR')+' · '+n.toLocaleDateString('tr-TR');
+}
+tick();setInterval(tick,1000);
+</script>
 </body>
 </html>
