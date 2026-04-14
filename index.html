@@ -707,9 +707,9 @@ async function loadDashboard() {
   try {
     const filter = currentUser.role === 'agent' ? `&assigned_to=eq.${currentUser.id}` : '';
     const leads = await sb('customers?select=status,score' + filter);
-    const appts = await sb('appointments?select=*,customers(full_name),users(full_name)&status=eq.pending&order=appointment_date.asc&limit=10' +
+    const appts = await sb('appointments?select=*,customers!customer_id(full_name),users!agent_id(full_name)&status=eq.pending&order=appointment_date.asc&limit=10' +
       (currentUser.role==='agent' ? `&agent_id=eq.${currentUser.id}` : ''));
-    const calls = await sb('calls?select=*,customers(full_name),users(full_name)&order=called_at.desc&limit=8' +
+    const calls = await sb('calls?select=*,customers!customer_id(full_name),users!agent_id(full_name)&order=called_at.desc&limit=8' +
       (currentUser.role==='agent' ? `&agent_id=eq.${currentUser.id}` : ''));
 
     document.getElementById('m-total').textContent = leads.length;
@@ -935,7 +935,7 @@ async function saveAgent() {
 async function loadCalls() {
   try {
     const filter = currentUser.role === 'agent' ? `&agent_id=eq.${currentUser.id}` : '';
-    const calls = await sb('calls?select=*,customers(full_name),users(full_name)&order=called_at.desc' + filter);
+    const calls = await sb('calls?select=*,customers!customer_id(full_name),users!agent_id(full_name)&order=called_at.desc' + filter);
     const tbody = document.getElementById('calls-table');
     if (!calls.length) { tbody.innerHTML = '<tr><td colspan="7" class="empty">Arama kaydı yok</td></tr>'; return; }
     const outcomeLabels = {interested:'İlgilendi',not_interested:'İlgilenmedi',callback:'Geri Arama',appointment:'Randevu',sold:'Satış',ai_warm:'AI Sıcak'};
@@ -976,7 +976,7 @@ async function saveCall() {
 async function loadAppointments() {
   try {
     const filter = currentUser.role === 'agent' ? `&agent_id=eq.${currentUser.id}` : '';
-    const appts = await sb('appointments?select=*,customers(full_name),users(full_name)&order=appointment_date.asc' + filter);
+    const appts = await sb('appointments?select=*,customers!customer_id(full_name),users!agent_id(full_name)&order=appointment_date.asc' + filter);
     const tbody = document.getElementById('appts-table');
     if (!appts.length) { tbody.innerHTML = '<tr><td colspan="7" class="empty">Randevu yok</td></tr>'; return; }
     const typeLabel = {call:'Telefon',meeting:'Yüz Yüze',online:'Online'};
@@ -1031,7 +1031,7 @@ async function updateApptStatus(id, status) {
 async function loadSales() {
   try {
     const filter = currentUser.role === 'agent' ? `&agent_id=eq.${currentUser.id}` : '';
-    const sales = await sb('sales?select=*,customers(full_name),users(full_name)&order=created_at.desc' + filter);
+    const sales = await sb('sales?select=*,customers!customer_id(full_name),users!agent_id(full_name)&order=created_at.desc' + filter);
     const tbody = document.getElementById('sales-table');
 
     const total = sales.length;
@@ -1084,7 +1084,7 @@ async function saveSale() {
 async function loadCampaigns() {
   if (currentUser.role !== 'admin') return;
   try {
-    const camps = await sb('campaigns?select=*,users(full_name)&order=created_at.desc');
+    const camps = await sb('campaigns?select=*,users!created_by(full_name)&order=created_at.desc');
     const tbody = document.getElementById('campaigns-table');
     if (!camps.length) { tbody.innerHTML = '<tr><td colspan="7" class="empty">Kampanya yok</td></tr>'; return; }
     const statusColors = {draft:'tag-cold',running:'tag-hot',paused:'tag-warn',completed:'tag-sold'};
