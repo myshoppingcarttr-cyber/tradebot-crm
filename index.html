@@ -2,7 +2,7 @@
 .bulk-bar{background:var(--d4);border:1px solid var(--bd2);border-radius:6px;padding:6px 12px;display:none;align-items:center;gap:8px;margin-bottom:8px;font-size:11px;color:var(--gold)}
 .bulk-bar.on{display:flex}
 input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--gold)}
-.row-sel{background:rgba(201,169,110,.05) !important}</style></head><body><div id="login"><div class="lbox"><div class="llogo"><div class="lname">GLOBAL EKSBiNA</div><div class="lsub">AI CALL CENTER CRM</div></div><label class="fl">Kullanici Adi</label><input class="li" id="lu" placeholder="kullanici adi" autocomplete="off"><label class="fl">Sifre</label><input class="li" id="lp" type="password" placeholder="••••••••"><button class="lbtn" onclick="login()">Giris Yap</button><div class="lerr" id="lerr"></div></div></div><div id="app"><div class="topbar"><div class="tlogo">GLOBAL EKSBiNA</div><div class="tsep"></div><div class="tnav" id="nav"></div><div class="tright"><span style="font-size:10px;color:var(--t3)" id="clk"></span><div class="ubadge"><div class="udot"></div><span id="uname">-</span></div><button class="lout" onclick="logout()">Cikis</button></div></div><div class="ticker"><span class="tick">&nbsp;&nbsp;Bitcoin <span class="up">72.340$ +1.8%</span> | Altin <span class="up">4.761$ +0.3%</span> | EUR/USD <span class="up">1.1706 +0.5%</span> | NASDAQ <span class="up">23.184 +1.2%</span>&nbsp;&nbsp;</span></div><div class="main"><div id="pg-dash" class="page act">
+.row-sel{background:rgba(201,169,110,.05) !important}</style></head><body><div id="login"><div class="lbox"><div class="llogo"><div class="lname">GLOBAL EKSBiNA</div><div class="lsub">AI CALL CENTER CRM</div></div><label class="fl">Kullanici Adi</label><input class="li" id="lu" placeholder="kullanici adi" autocomplete="off"><label class="fl">Sifre</label><input class="li" id="lp" type="password" placeholder="â¢â¢â¢â¢â¢â¢â¢â¢"><button class="lbtn" onclick="doLogin()">Giris Yap</button><div class="lerr" id="lerr"></div></div></div><div id="app"><div class="topbar"><div class="tlogo">GLOBAL EKSBiNA</div><div class="tsep"></div><div class="tnav" id="nav"></div><div class="tright"><span style="font-size:10px;color:var(--t3)" id="clk"></span><div class="ubadge"><div class="udot"></div><span id="uname">-</span></div><button class="lout" onclick="doLogout()">Cikis</button></div></div><div class="ticker"><span class="tick">&nbsp;&nbsp;Bitcoin <span class="up">72.340$ +1.8%</span> | Altin <span class="up">4.761$ +0.3%</span> | EUR/USD <span class="up">1.1706 +0.5%</span> | NASDAQ <span class="up">23.184 +1.2%</span>&nbsp;&nbsp;</span></div><div class="main"><div id="pg-dash" class="page act">
 <div class="metrics">
   <div class="metric"><div class="ml">Toplam Lead</div><div class="mv" id="m1" style="color:var(--blue)">-</div></div>
   <div class="metric"><div class="ml">Sicak Lead</div><div class="mv" id="m2" style="color:var(--green)">-</div></div>
@@ -154,7 +154,7 @@ async function api(path,method,body){
   return r.json();
 }
 
-async function login(){
+async function doLogin(){
   const u=document.getElementById('lu').value.trim(),p=document.getElementById('lp').value;
   if(!u||!p){document.getElementById('lerr').textContent='Bilgileri girin';return;}
   try{
@@ -167,7 +167,7 @@ async function login(){
     buildNav();loadPage('dash');
   }catch(e){document.getElementById('lerr').textContent='Hata: '+e.message;}
 }
-function logout(){U=null;document.getElementById('app').classList.remove('on');document.getElementById('login').style.display='flex';document.getElementById('lp').value='';}
+function doLogout(){U=null;document.getElementById('app').classList.remove('on');document.getElementById('login').style.display='flex';document.getElementById('lp').value='';}
 
 const adminNav=[{id:'dash',l:'Dashboard'},{id:'leads',l:'Leadler'},{id:'calls',l:'Aramalar'},{id:'appts',l:'Randevular'},{id:'sales',l:'Satislar'},{id:'agents',l:'Personeller'},{id:'camp',l:'Kampanyalar'}];
 const agentNav=[{id:'dash',l:'Dashboard'},{id:'leads',l:'Leadlerim'},{id:'calls',l:'Aramalarim'},{id:'appts',l:'Randevularim'},{id:'sales',l:'Satislarim'}];
