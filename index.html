@@ -207,10 +207,10 @@ textarea.input{resize:vertical}
 
       <!-- LEADS -->
       <div id="page-leads" class="page">
-        <div class="panel-hdr" style="margin-bottom:12px">
-          <div class="flex gap8">
-            <input class="input" style="width:220px" placeholder="🔍 İsim, telefon, şehir..." id="lead-search" oninput="filterLeads()">
-            <select class="input" style="width:130px" id="lead-filter-status" onchange="filterLeads()">
+        <div class="panel-hdr" style="margin-bottom:8px">
+          <div class="flex gap8" style="flex-wrap:wrap">
+            <input class="input" style="width:200px" placeholder="🔍 İsim, telefon, şehir..." id="lead-search" oninput="filterLeads()">
+            <select class="input" style="width:120px" id="lead-filter-status" onchange="filterLeads()">
               <option value="">Tüm Durumlar</option>
               <option value="cold">Soğuk</option>
               <option value="warm">Ilık</option>
@@ -219,7 +219,7 @@ textarea.input{resize:vertical}
               <option value="sold">Satış</option>
               <option value="lost">Kayıp</option>
             </select>
-            <select class="input" style="width:150px" id="lead-filter-agent" onchange="filterLeads()">
+            <select class="input" style="width:140px" id="lead-filter-agent" onchange="filterLeads()">
               <option value="">Tüm Personeller</option>
             </select>
           </div>
@@ -228,16 +228,42 @@ textarea.input{resize:vertical}
             <button class="btn btn-gold btn-sm" onclick="showLeadModal()">+ Yeni Lead</button>
           </div>
         </div>
+        <!-- Toplu atama paneli -->
+        <div id="bulk-bar" style="display:none;background:rgba(201,169,110,.08);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;margin-bottom:8px;display:none;align-items:center;gap:12px">
+          <span id="bulk-count" style="font-size:12px;color:var(--gold);font-weight:600"></span>
+          <select class="input" style="width:180px" id="bulk-agent-sel">
+            <option value="">Personel seç...</option>
+          </select>
+          <button class="btn btn-gold btn-sm" onclick="bulkAssign()">Ata</button>
+          <button class="btn btn-outline btn-sm" onclick="clearSelection()">İptal</button>
+        </div>
+        <!-- Sayfa boyutu + bilgi -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div style="font-size:11px;color:var(--text3)" id="leads-info"></div>
+          <div class="flex gap8" style="align-items:center">
+            <span style="font-size:11px;color:var(--text3)">Sayfa başına:</span>
+            <select class="input" style="width:80px;padding:4px 8px" id="page-size-sel" onchange="changePageSize()">
+              <option value="100">100</option>
+              <option value="200">200</option>
+              <option value="300">300</option>
+              <option value="500">500</option>
+              <option value="1000">1000</option>
+            </select>
+          </div>
+        </div>
         <div class="panel" style="padding:0">
           <div class="tbl-wrap">
             <table>
               <thead><tr>
+                <th style="width:32px"><input type="checkbox" id="chk-all" onchange="toggleSelectAll(this)" style="cursor:pointer"></th>
                 <th>İsim</th><th>Telefon</th><th>Şehir</th><th>İlgi</th><th>Durum</th><th>Skor</th><th>Personel</th><th>Tarih</th><th>İşlem</th>
               </tr></thead>
-              <tbody id="leads-table"><tr><td colspan="9" class="loading">Yükleniyor...</td></tr></tbody>
+              <tbody id="leads-table"><tr><td colspan="10" class="loading">Yükleniyor...</td></tr></tbody>
             </table>
           </div>
         </div>
+        <!-- Sayfalama -->
+        <div id="pagination" style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px"></div>
       </div>
 
       <!-- ÇAĞRILAR -->
@@ -742,6 +768,10 @@ async function loadDashboard() {
 }
 
 // --- LEADS ---
+let currentPage = 1;
+let pageSize = 100;
+let filteredLeads = [];
+
 async function loadLeads() {
   try {
     allUsers = await sb('users?select=id,full_name,username&is_active=eq.true&order=full_name');
@@ -749,11 +779,15 @@ async function loadLeads() {
     agentSel.innerHTML = '<option value="">Tüm Personeller</option>' +
       allUsers.map(u => `<option value="${u.id}">${u.full_name}</option>`).join('');
 
-    const filter = currentUser.role === 'agent' ? `&assigned_to=eq.${currentUser.id}` : '';
-    allLeads = await sb('customers?select=*,users(full_name)&order=created_at.desc' + filter);
-    renderLeads(allLeads);
+    // Toplu atama selectini doldur
+    const bulkSel = document.getElementById('bulk-agent-sel');
+    bulkSel.innerHTML = '<option value="">Personel seç...</option>' +
+      allUsers.map(u => `<option value="${u.id}">${u.full_name}</option>`).join('');
 
-    // Diğer modal selectlerini doldur
+    const filter = currentUser.role === 'agent' ? `&assigned_to=eq.${currentUser.id}` : '';
+    allLeads = await sb('customers?select=*,users!assigned_to(full_name)&order=created_at.desc' + filter);
+    currentPage = 1;
+    filterLeads();
     fillAgentSelects();
     fillCustomerSelects();
   } catch(e) { notify(e.message,'err'); }
@@ -761,10 +795,29 @@ async function loadLeads() {
 
 function renderLeads(leads) {
   const tbody = document.getElementById('leads-table');
-  if (!leads.length) { tbody.innerHTML = '<tr><td colspan="9" class="empty">Lead bulunamadı</td></tr>'; return; }
-  tbody.innerHTML = leads.map(l => `
-    <tr onclick="editLead('${l.id}')">
-      <td><div class="flex gap8"><div class="avatar" style="background:rgba(201,169,110,.15);color:var(--gold)">${(l.full_name||'?')[0]}</div>${l.full_name}</div></td>
+  const total = leads.length;
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  if (currentPage > totalPages) currentPage = totalPages;
+  const start = (currentPage - 1) * pageSize;
+  const paginated = leads.slice(start, start + pageSize);
+
+  document.getElementById('leads-info').textContent =
+    `Toplam ${total} lead — ${start+1}-${Math.min(start+pageSize, total)} gösteriliyor`;
+
+  if (!paginated.length) {
+    tbody.innerHTML = `<tr><td colspan="10" class="empty">Lead bulunamadı</td></tr>`;
+    renderPagination(0, 1);
+    return;
+  }
+
+  tbody.innerHTML = paginated.map(l => `
+    <tr>
+      <td onclick="event.stopPropagation()">
+        <input type="checkbox" class="lead-chk" value="${l.id}" onchange="onCheckboxChange()">
+      </td>
+      <td onclick="editLead('${l.id}')" style="cursor:pointer">
+        <div class="flex gap8"><div class="avatar" style="background:rgba(201,169,110,.15);color:var(--gold)">${(l.full_name||'?')[0]}</div>${l.full_name}</div>
+      </td>
       <td>${l.phone}</td>
       <td>${l.city||'—'}</td>
       <td>${l.interest||'—'}</td>
@@ -784,18 +837,102 @@ function renderLeads(leads) {
         </div>
       </td>
     </tr>`).join('');
+
+  document.getElementById('chk-all').checked = false;
+  renderPagination(total, totalPages);
+}
+
+function renderPagination(total, totalPages) {
+  const pg = document.getElementById('pagination');
+  if (totalPages <= 1) { pg.innerHTML = ''; return; }
+  let html = '';
+  html += `<button class="btn btn-outline btn-sm" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;
+  const start = Math.max(1, currentPage - 2);
+  const end   = Math.min(totalPages, currentPage + 2);
+  if (start > 1) html += `<button class="btn btn-outline btn-sm" onclick="goPage(1)">1</button>${start>2?'<span style="color:var(--text3);padding:0 4px">…</span>':''}`;
+  for (let i = start; i <= end; i++) {
+    html += `<button class="btn btn-sm ${i===currentPage?'btn-gold':'btn-outline'}" onclick="goPage(${i})">${i}</button>`;
+  }
+  if (end < totalPages) html += `${end<totalPages-1?'<span style="color:var(--text3);padding:0 4px">…</span>':''}<button class="btn btn-outline btn-sm" onclick="goPage(${totalPages})">${totalPages}</button>`;
+  html += `<button class="btn btn-outline btn-sm" onclick="goPage(${currentPage+1})" ${currentPage===totalPages?'disabled':''}>›</button>`;
+  pg.innerHTML = html;
+}
+
+function goPage(p) {
+  const totalPages = Math.ceil(filteredLeads.length / pageSize);
+  if (p < 1 || p > totalPages) return;
+  currentPage = p;
+  renderLeads(filteredLeads);
+}
+
+function changePageSize() {
+  pageSize = parseInt(document.getElementById('page-size-sel').value);
+  currentPage = 1;
+  renderLeads(filteredLeads);
 }
 
 function filterLeads() {
   const q = document.getElementById('lead-search').value.toLowerCase();
   const st = document.getElementById('lead-filter-status').value;
   const ag = document.getElementById('lead-filter-agent').value;
-  const filtered = allLeads.filter(l =>
+  filteredLeads = allLeads.filter(l =>
     (!q || l.full_name.toLowerCase().includes(q) || l.phone.includes(q) || (l.city||'').toLowerCase().includes(q)) &&
     (!st || l.status === st) &&
     (!ag || l.assigned_to === ag)
   );
-  renderLeads(filtered);
+  currentPage = 1;
+  renderLeads(filteredLeads);
+}
+
+// --- CHECKBOX / TOPLU ATAMA ---
+function toggleSelectAll(chk) {
+  document.querySelectorAll('.lead-chk').forEach(c => c.checked = chk.checked);
+  onCheckboxChange();
+}
+
+function onCheckboxChange() {
+  const selected = document.querySelectorAll('.lead-chk:checked');
+  const bar = document.getElementById('bulk-bar');
+  if (selected.length > 0) {
+    bar.style.display = 'flex';
+    document.getElementById('bulk-count').textContent = `${selected.length} lead seçildi`;
+  } else {
+    bar.style.display = 'none';
+  }
+}
+
+function clearSelection() {
+  document.querySelectorAll('.lead-chk').forEach(c => c.checked = false);
+  document.getElementById('chk-all').checked = false;
+  document.getElementById('bulk-bar').style.display = 'none';
+}
+
+async function bulkAssign() {
+  const agentId = document.getElementById('bulk-agent-sel').value;
+  if (!agentId) { notify('Personel seçin','err'); return; }
+  const selected = [...document.querySelectorAll('.lead-chk:checked')].map(c => c.value);
+  if (!selected.length) return;
+
+  // Zaten başkasına atanmış olanları kontrol et
+  const alreadyAssigned = selected.filter(id => {
+    const lead = allLeads.find(l => l.id === id);
+    return lead && lead.assigned_to && lead.assigned_to !== agentId;
+  });
+
+  if (alreadyAssigned.length > 0) {
+    if (!confirm(`${alreadyAssigned.length} lead zaten başka personele atanmış. Üzerine yazmak istiyor musun?`)) return;
+  }
+
+  let done = 0;
+  for (const id of selected) {
+    try {
+      await sb(`customers?id=eq.${id}`, 'PATCH', { assigned_to: agentId, updated_at: new Date().toISOString() });
+      done++;
+    } catch(e) {}
+  }
+  notify(`${done} lead atandı`);
+  clearSelection();
+  loadLeads();
 }
 
 function showLeadModal(lead=null) {
@@ -833,6 +970,23 @@ async function saveLead() {
     updated_at: new Date().toISOString()
   };
   if (!data.full_name || !data.phone) { notify('Ad soyad ve telefon zorunlu','err'); return; }
+
+  // Yeni lead eklerken aynı telefon kontrolü
+  if (!id) {
+    const existing = await sb(`customers?phone=eq.${encodeURIComponent(data.phone)}&select=id,full_name`);
+    if (existing.length) {
+      notify(`Bu telefon zaten kayıtlı: ${existing[0].full_name}`, 'err'); return;
+    }
+  }
+
+  // Zaten başka personele atanmış mı?
+  if (data.assigned_to && id) {
+    const cur = allLeads.find(l => l.id === id);
+    if (cur && cur.assigned_to && cur.assigned_to !== data.assigned_to) {
+      if (!confirm(`Bu lead şu an ${cur.users?.full_name||'başka bir personel'}e atanmış. Değiştirmek istiyor musun?`)) return;
+    }
+  }
+
   try {
     if (id) {
       await sb(`customers?id=eq.${id}`, 'PATCH', data);
@@ -843,7 +997,13 @@ async function saveLead() {
     }
     closeModal('lead-modal');
     loadLeads();
-  } catch(e) { notify(e.message,'err'); }
+  } catch(e) {
+    if (e.message && e.message.includes('unique')) {
+      notify('Bu telefon numarası zaten kayıtlı!', 'err');
+    } else {
+      notify(e.message,'err');
+    }
+  }
 }
 
 async function deleteLead(id) {
@@ -1159,19 +1319,44 @@ async function importCSV() {
   const raw = document.getElementById('csv-data').value.trim();
   const agentId = document.getElementById('csv-agent').value || null;
   if (!raw) { notify('CSV verisi girin','err'); return; }
+
   const lines = raw.split('\n').filter(l => l.trim());
-  let imported = 0, errors = 0;
+  let imported = 0, duplicates = 0, errors = 0;
+
+  // Mevcut telefonları çek (duplicate kontrolü için)
+  const existing = await sb('customers?select=phone');
+  const existingPhones = new Set(existing.map(r => r.phone));
+
   for (const line of lines) {
     const parts = line.split(',').map(p => p.trim().replace(/^"|"$/g,''));
     if (parts.length < 2) continue;
     const [full_name, phone, email, city, interest] = parts;
-    if (!full_name || !phone) { errors++; continue; }
+    if (!full_name || !phone) continue;
+
+    // Başlık satırını atla
+    if (full_name.toLowerCase() === 'full_name' || full_name.toLowerCase() === 'ad soyad') continue;
+
+    // Duplicate kontrolü
+    if (existingPhones.has(phone)) { duplicates++; continue; }
+    existingPhones.add(phone); // Aynı CSV içinde de tekrar girmesin
+
     try {
-      await sb('customers', 'POST', {full_name, phone, email:email||null, city:city||null, interest:interest||null, assigned_to:agentId, source:'csv'});
+      await sb('customers', 'POST', {
+        full_name, phone,
+        email: email||null, city: city||null, interest: interest||null,
+        assigned_to: agentId, source: 'csv'
+      });
       imported++;
-    } catch(e) { errors++; }
+    } catch(e) {
+      if (e.message && e.message.includes('unique')) { duplicates++; }
+      else { errors++; }
+    }
   }
-  notify(`${imported} lead yüklendi${errors?' ('+errors+' hata)':''}`);
+
+  let msg = `${imported} lead yüklendi`;
+  if (duplicates) msg += ` · ${duplicates} tekrar (atlandı)`;
+  if (errors) msg += ` · ${errors} hata`;
+  notify(msg);
   closeModal('import-modal');
   loadLeads();
 }
