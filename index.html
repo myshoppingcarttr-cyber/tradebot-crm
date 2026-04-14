@@ -942,8 +942,11 @@ async function bulkDelete() {
   if (!selected.length) { notify('Hiç lead seçilmedi','err'); return; }
   if (!confirm(`${selected.length} lead silinsin mi? Bu işlem geri alınamaz.`)) return;
   try {
-    const ids = selected.join(',');
-    await sb(`customers?id=in.(${ids})`, 'DELETE');
+    const BATCH = 50;
+    for (let i = 0; i < selected.length; i += BATCH) {
+      const batch = selected.slice(i, i + BATCH);
+      await sb(`customers?id=in.(${batch.join(',')})`, 'DELETE');
+    }
     notify(`${selected.length} lead silindi`);
     clearSelection();
     loadLeads();
