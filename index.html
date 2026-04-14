@@ -235,6 +235,7 @@ textarea.input{resize:vertical}
             <option value="">Personel seç...</option>
           </select>
           <button class="btn btn-gold btn-sm" onclick="bulkAssign()">Ata</button>
+          <button class="btn btn-danger btn-sm" onclick="bulkDelete()">Sil</button>
           <button class="btn btn-outline btn-sm" onclick="clearSelection()">İptal</button>
         </div>
         <!-- Sayfa boyutu + bilgi -->
@@ -931,6 +932,19 @@ async function bulkAssign() {
     } catch(e) {}
   }
   notify(`${done} lead atandı`);
+  clearSelection();
+  loadLeads();
+}
+
+async function bulkDelete() {
+  const selected = [...document.querySelectorAll('.lead-chk:checked')].map(c => c.value);
+  if (!selected.length) return;
+  if (!confirm(`${selected.length} lead silinsin mi? Bu işlem geri alınamaz.`)) return;
+  let done = 0;
+  for (const id of selected) {
+    try { await sb(`customers?id=eq.${id}`, 'DELETE'); done++; } catch(e) {}
+  }
+  notify(`${done} lead silindi`);
   clearSelection();
   loadLeads();
 }
