@@ -6,12 +6,7 @@
 <title>Global Eksbina CRM</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --gold:#C9A96E;--d1:#0d0d11;--d2:#13131a;--d3:#1a1a24;--d4:#21212e;--d5:#2a2a3a;
-  --t1:#f0ede8;--t2:#a8a4b0;--t3:#5a566a;
-  --green:#22c55e;--red:#ef4444;--blue:#60a5fa;--purple:#a78bfa;--orange:#f97316;
-  --bd:rgba(201,169,110,.12);--bd2:rgba(201,169,110,.25)
-}
+:root{--gold:#C9A96E;--d1:#0d0d11;--d2:#13131a;--d3:#1a1a24;--d4:#21212e;--d5:#2a2a3a;--t1:#f0ede8;--t2:#a8a4b0;--t3:#5a566a;--green:#22c55e;--red:#ef4444;--blue:#60a5fa;--purple:#a78bfa;--orange:#f97316;--bd:rgba(201,169,110,.12);--bd2:rgba(201,169,110,.25)}
 body{background:var(--d1);color:var(--t1);font-family:system-ui,sans-serif;font-size:13px;min-height:100vh}
 #login{display:flex;align-items:center;justify-content:center;min-height:100vh}
 .lbox{background:var(--d2);border:1px solid var(--bd);border-radius:12px;padding:40px;width:340px}
@@ -40,7 +35,7 @@ body{background:var(--d1);color:var(--t1);font-family:system-ui,sans-serif;font-
 .lout{padding:4px 8px;border-radius:4px;font-size:10px;cursor:pointer;border:1px solid var(--bd);background:transparent;color:var(--t3)}
 .lout:hover{color:var(--red)}
 .ticker{background:var(--d1);border-bottom:1px solid var(--bd);padding:4px 0;overflow:hidden;white-space:nowrap;flex-shrink:0}
-.tick{display:inline-block;animation:tk 30s linear infinite;font-size:11px;color:var(--t2)}
+.tick{display:inline-block;animation:tk 35s linear infinite;font-size:11px;color:var(--t2)}
 @keyframes tk{0%{transform:translateX(100vw)}100%{transform:translateX(-100%)}}
 .up{color:var(--green)}.dn{color:var(--red)}
 .main{flex:1;overflow-y:auto;padding:14px}
@@ -66,6 +61,7 @@ tr:hover td{background:rgba(201,169,110,.02)}
 .ts{background:rgba(167,139,250,.12);color:var(--purple);border:1px solid rgba(167,139,250,.2)}
 .tl{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.2)}
 .tadm{background:rgba(249,115,22,.12);color:var(--orange);border:1px solid rgba(249,115,22,.2)}
+.tai{background:rgba(96,165,250,.15);color:#38bdf8;border:1px solid rgba(96,165,250,.3)}
 .btn{padding:6px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
 .bg{background:var(--gold);color:#000}.bg:hover{opacity:.9}
 .bo{background:transparent;color:var(--gold);border:1px solid var(--bd2)}.bo:hover{background:rgba(201,169,110,.08)}
@@ -80,10 +76,10 @@ tr:hover td{background:rgba(201,169,110,.02)}
 .inp::placeholder{color:var(--t3)}
 .mov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;align-items:center;justify-content:center}
 .mov.on{display:flex}
-.modal{background:var(--d3);border:1px solid var(--bd);border-radius:10px;padding:20px;width:480px;max-width:95vw;max-height:90vh;overflow-y:auto}
+.modal{background:var(--d3);border:1px solid var(--bd);border-radius:10px;padding:20px;width:500px;max-width:96vw;max-height:90vh;overflow-y:auto}
 .mtitle{font-size:14px;font-weight:600;color:var(--gold);margin-bottom:14px}
 .mbtns{display:flex;gap:8px;margin-top:14px;justify-content:flex-end}
-.notif{position:fixed;bottom:18px;right:18px;background:var(--d3);border:1px solid var(--bd);border-radius:8px;padding:10px 14px;font-size:12px;z-index:2000;display:none}
+.notif{position:fixed;bottom:18px;right:18px;background:var(--d3);border:1px solid var(--bd);border-radius:8px;padding:10px 14px;font-size:12px;z-index:2000;display:none;max-width:340px}
 .av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;background:rgba(201,169,110,.15);color:var(--gold)}
 .fx{display:flex;align-items:center}
 .sb{display:flex;align-items:center;justify-content:space-between}
@@ -91,10 +87,15 @@ tr:hover td{background:rgba(201,169,110,.02)}
 .empty{text-align:center;padding:30px;color:var(--t3);font-size:11px}
 .sbar{width:44px;height:4px;background:var(--d5);border-radius:2px;overflow:hidden;display:inline-block;vertical-align:middle;margin-right:4px}
 .sfill{height:100%;border-radius:2px}
-.bulk-bar{background:var(--d4);border:1px solid var(--bd2);border-radius:6px;padding:6px 12px;display:none;align-items:center;gap:8px;margin-bottom:8px;font-size:11px;color:var(--gold)}
+.bulk-bar{background:var(--d4);border:1px solid var(--bd2);border-radius:6px;padding:6px 12px;display:none;align-items:center;gap:8px;margin-bottom:8px;font-size:11px;color:var(--gold);flex-wrap:wrap}
 .bulk-bar.on{display:flex}
 input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--gold)}
-.rsel td{background:rgba(201,169,110,.05) !important}
+.rsel td{background:rgba(201,169,110,.06) !important}
+.ai-panel{background:linear-gradient(135deg,rgba(96,165,250,.08),rgba(167,139,250,.08));border:1px solid rgba(96,165,250,.2);border-radius:8px;padding:14px;margin-bottom:10px}
+.ai-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(96,165,250,.15);color:#38bdf8;border:1px solid rgba(96,165,250,.25);border-radius:20px;padding:3px 10px;font-size:10px;font-weight:600}
+.ai-dot{width:6px;height:6px;border-radius:50%;background:#38bdf8;animation:pu 1.5s infinite}
+.prog-wrap{background:var(--d5);border-radius:4px;height:6px;overflow:hidden;margin:6px 0}
+.prog-fill{height:100%;border-radius:4px;background:var(--gold);transition:width .5s}
 </style>
 </head>
 <body>
@@ -125,11 +126,10 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
       <button class="lout" id="logoutBtn">Çıkış</button>
     </div>
   </div>
-  <div class="ticker">
-    <span class="tick">&nbsp;&nbsp;Bitcoin <span class="up">72.340$ +1.8%</span> &nbsp;|&nbsp; Altın <span class="up">4.761$ +0.3%</span> &nbsp;|&nbsp; EUR/USD <span class="up">1.1706 +0.5%</span> &nbsp;|&nbsp; NASDAQ <span class="up">23.184 +1.2%</span>&nbsp;&nbsp;</span>
-  </div>
+  <div class="ticker"><span class="tick" id="ticker-text">&nbsp;&nbsp;Yükleniyor...&nbsp;&nbsp;</span></div>
   <div class="main">
 
+    <!-- DASHBOARD -->
     <div id="pg-dash" class="page act">
       <div class="metrics">
         <div class="metric"><div class="ml">Toplam Lead</div><div class="mv" id="m1" style="color:var(--blue)">-</div></div>
@@ -143,10 +143,11 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
       </div>
     </div>
 
+    <!-- LEADS -->
     <div id="pg-leads" class="page">
       <div class="sb" style="margin-bottom:8px">
         <div class="fx g8" style="flex-wrap:wrap;gap:6px">
-          <input class="inp" style="width:190px" placeholder="Ara..." id="lsq" oninput="filterL()">
+          <input class="inp" style="width:190px" placeholder="🔍 Ara..." id="lsq" oninput="filterL()">
           <select class="inp" style="width:115px" id="lss" onchange="filterL()">
             <option value="">Tüm Durumlar</option>
             <option value="cold">Soğuk</option><option value="warm">Ilık</option>
@@ -156,16 +157,16 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
           <select class="inp" style="width:130px" id="lsa" onchange="filterL()"><option value="">Tüm Personeller</option></select>
         </div>
         <div class="fx g8">
-          <button class="btn bo sm" onclick="openImport()">CSV Yükle</button>
+          <button class="btn bo sm" onclick="openImport()">📁 CSV Yükle</button>
           <button class="btn bg sm" onclick="openLead(null)">+ Yeni Lead</button>
         </div>
       </div>
       <div class="bulk-bar" id="bulk-bar">
         <span id="sel-count">0 seçili</span>
         <select class="inp" style="width:150px;padding:4px 8px;font-size:11px" id="bulk-ag"></select>
-        <button class="btn bb sm" onclick="bulkAssign()">Personele Ata</button>
-        <button class="btn br sm" onclick="bulkDelete()">Seçilileri Sil</button>
-        <button class="btn bo sm" onclick="clearSel()">İptal</button>
+        <button class="btn bb sm" onclick="bulkAssign()">👤 Personele Ata</button>
+        <button class="btn br sm" id="bulk-del-btn" onclick="bulkDelete()">🗑️ Seçilileri Sil</button>
+        <button class="btn bo sm" onclick="clearSel()">✕ İptal</button>
       </div>
       <div class="panel" style="padding:0"><div class="tw"><table>
         <thead><tr>
@@ -176,14 +177,16 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
       </table></div></div>
     </div>
 
+    <!-- ARAMALAR -->
     <div id="pg-calls" class="page">
       <div class="sb" style="margin-bottom:10px"><div class="pt">Arama Geçmişi</div><button class="btn bg sm" onclick="openCallLog()">+ Arama Kaydet</button></div>
       <div class="panel" style="padding:0"><div class="tw"><table>
-        <thead><tr><th>Müşteri</th><th>Personel</th><th>Tip</th><th>Süre</th><th>Sonuç</th><th>Not</th><th>Tarih</th></tr></thead>
+        <thead><tr><th>Müşteri</th><th>Personel/AI</th><th>Tip</th><th>Süre</th><th>Sonuç</th><th>Not</th><th>Tarih</th></tr></thead>
         <tbody id="ctb"><tr><td colspan="7" class="empty">Yükleniyor...</td></tr></tbody>
       </table></div></div>
     </div>
 
+    <!-- RANDEVULAR -->
     <div id="pg-appts" class="page">
       <div class="sb" style="margin-bottom:10px"><div class="pt">Randevular</div><button class="btn bg sm" onclick="openAppt()">+ Randevu Ekle</button></div>
       <div class="panel" style="padding:0"><div class="tw"><table>
@@ -192,6 +195,7 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
       </table></div></div>
     </div>
 
+    <!-- SATIŞLAR -->
     <div id="pg-sales" class="page">
       <div class="sb" style="margin-bottom:10px"><div class="pt">Satışlar</div><button class="btn bg sm" onclick="openSale()">+ Satış Kaydet</button></div>
       <div class="metrics">
@@ -206,16 +210,65 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
       </table></div></div>
     </div>
 
+    <!-- PERSONELLER -->
     <div id="pg-agents" class="page">
       <div class="sb" style="margin-bottom:10px"><div class="pt">Personel Yönetimi</div><button class="btn bg sm" onclick="openAgent(null)">+ Personel Ekle</button></div>
       <div class="panel" style="padding:0"><div class="tw"><table>
-        <thead><tr><th>İsim</th><th>Kull.Adı</th><th>Rol</th><th>Durum</th><th>Lead</th><th>Satış</th><th>İşlem</th></tr></thead>
+        <thead><tr><th>İsim</th><th>Kull.Adı</th><th>Tip</th><th>Durum</th><th>Lead</th><th>Satış</th><th>İşlem</th></tr></thead>
         <tbody id="agtb"><tr><td colspan="7" class="empty">Yükleniyor...</td></tr></tbody>
       </table></div></div>
     </div>
 
+    <!-- AI AJAN (Ayşe) -->
+    <div id="pg-ai" class="page">
+      <div class="ai-panel" style="margin-bottom:14px">
+        <div class="fx g8" style="margin-bottom:10px">
+          <div class="ai-badge"><div class="ai-dot"></div>Ayşe AI Ajan — Aktif</div>
+          <span style="font-size:10px;color:var(--t3);margin-left:8px">Global Eksbina · Finansal Danışman</span>
+        </div>
+        <div style="font-size:11px;color:var(--t2);line-height:1.7">
+          Ayşe, outbound aramalar yaparak soğuk ve ılık leadleri sıcağa dönüştürür. Altın, petrol ve forex ürünlerine odaklanır. Güncel piyasa verilerini ve jeopolitik gelişmeleri kullanarak aciliyet yaratır.
+        </div>
+      </div>
+      <div class="g2">
+        <div class="panel">
+          <div class="ph"><div class="pt">Kampanya Başlat</div></div>
+          <div class="fg"><label class="fl">Hedef Lead Durumu</label>
+            <select class="inp" id="ai-target">
+              <option value="cold,warm">Soğuk + Ilık</option>
+              <option value="cold">Sadece Soğuk</option>
+              <option value="warm">Sadece Ilık</option>
+            </select>
+          </div>
+          <div class="fg"><label class="fl">Günlük Arama Limiti</label>
+            <input class="inp" id="ai-limit" type="number" value="100">
+          </div>
+          <div class="fg"><label class="fl">Ürün Odağı</label>
+            <select class="inp" id="ai-product">
+              <option value="gold">Altın / Gümüş (Öncelikli)</option>
+              <option value="oil">Petrol / Brent WTI</option>
+              <option value="forex">Forex EUR/USD</option>
+              <option value="all">Tüm Ürünler</option>
+            </select>
+          </div>
+          <button class="btn bg" style="width:100%" onclick="startAiCampaign()">🚀 Ayşe Aramaya Başlasın</button>
+        </div>
+        <div class="panel">
+          <div class="ph"><div class="pt">Ayşe Prompt Önizleme</div>
+            <button class="btn bo sm" onclick="previewPrompt()">Yenile</button>
+          </div>
+          <div id="prompt-preview" style="background:var(--d4);border-radius:6px;padding:10px;font-size:10px;color:var(--t2);line-height:1.8;max-height:260px;overflow-y:auto;white-space:pre-wrap">Butona basın...</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph"><div class="pt">Aktif Kampanyalar</div></div>
+        <div id="camp-list"><div class="empty">Kampanya yok</div></div>
+      </div>
+    </div>
+
+    <!-- KAMPANYALAR -->
     <div id="pg-camp" class="page">
-      <div class="sb" style="margin-bottom:10px"><div class="pt">AI Kampanyaları</div><button class="btn bg sm" onclick="openCamp()">+ Yeni Kampanya</button></div>
+      <div class="sb" style="margin-bottom:10px"><div class="pt">Tüm Kampanyalar</div><button class="btn bg sm" onclick="openCamp()">+ Yeni Kampanya</button></div>
       <div class="panel" style="padding:0"><div class="tw"><table>
         <thead><tr><th>Kampanya</th><th>Durum</th><th>Günlük</th><th>Aranan</th><th>Sıcak</th><th>Tarih</th><th>İşlem</th></tr></thead>
         <tbody id="camptb"><tr><td colspan="7" class="empty">Yükleniyor...</td></tr></tbody>
@@ -230,8 +283,8 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
   <div class="mtitle" id="mlt">Yeni Lead</div>
   <input type="hidden" id="lid">
   <div class="fr">
-    <div><label class="fl">Ad Soyad *</label><input class="inp" id="l-n" placeholder="Ahmet Yılmaz"></div>
-    <div><label class="fl">Telefon *</label><input class="inp" id="l-p" placeholder="+905XXXXXXXXX"></div>
+    <div><label class="fl">Ad Soyad *</label><input class="inp" id="l-n" placeholder="Ahmet Yilmaz"></div>
+    <div><label class="fl">Telefon * (tekrar eklenemez)</label><input class="inp" id="l-p" placeholder="+905XXXXXXXXX"></div>
   </div>
   <div class="fr">
     <div><label class="fl">E-posta</label><input class="inp" id="l-e"></div>
@@ -240,8 +293,9 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
   <div class="fr">
     <div><label class="fl">İlgi Alanı</label>
       <select class="inp" id="l-i">
-        <option value="">Seçin</option><option>Bitcoin/Kripto</option><option>Altın/Emtia</option>
-        <option>Forex</option><option>CFD</option><option>Hisse</option><option>Petrol</option><option>Endeks</option><option>Genel</option>
+        <option value="">Seçin</option><option>Altin/Gumus</option><option>Petrol/Brent</option>
+        <option>Forex</option><option>Bitcoin/Kripto</option><option>CFD</option>
+        <option>Hisse</option><option>Endeks</option><option>Genel</option>
       </select>
     </div>
     <div><label class="fl">Kaynak</label>
@@ -254,11 +308,14 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
   <div class="fr">
     <div><label class="fl">Durum</label>
       <select class="inp" id="l-st">
-        <option value="cold">Soğuk</option><option value="warm">Ilık</option><option value="hot">Sıcak</option>
-        <option value="appointment">Randevu</option><option value="sold">Satış</option><option value="lost">Kayıp</option>
+        <option value="cold">Soğuk</option><option value="warm">Ilık</option>
+        <option value="hot">Sıcak</option><option value="appointment">Randevu</option>
+        <option value="sold">Satış</option><option value="lost">Kayıp</option>
       </select>
     </div>
-    <div><label class="fl">Personel</label><select class="inp" id="l-ag"><option value="">Atanmamış</option></select></div>
+    <div><label class="fl">Personel (tek atama)</label>
+      <select class="inp" id="l-ag"><option value="">Atanmamış</option></select>
+    </div>
   </div>
   <div class="fg"><label class="fl">Notlar</label><textarea class="inp" id="l-nt" rows="2"></textarea></div>
   <div class="mbtns">
@@ -276,8 +333,12 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
   </div>
   <div class="fr">
     <div><label class="fl">Şifre *</label><input class="inp" id="a-pw" type="password"></div>
-    <div><label class="fl">Rol</label>
-      <select class="inp" id="a-r"><option value="agent">Personel</option><option value="admin">Admin</option></select>
+    <div><label class="fl">Tip</label>
+      <select class="inp" id="a-r">
+        <option value="agent">Personel</option>
+        <option value="ai">AI Ajan (Ayşe)</option>
+        <option value="admin">Admin</option>
+      </select>
     </div>
   </div>
   <div class="fg"><label class="fl">Durum</label>
@@ -294,7 +355,9 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
   <div class="fr">
     <div><label class="fl">Müşteri</label><select class="inp" id="c-cu"><option value="">Seçin</option></select></div>
     <div><label class="fl">Tip</label>
-      <select class="inp" id="c-ty"><option value="outbound">Giden</option><option value="inbound">Gelen</option><option value="ai">AI</option></select>
+      <select class="inp" id="c-ty">
+        <option value="outbound">Giden</option><option value="inbound">Gelen</option><option value="ai">AI (Ayşe)</option>
+      </select>
     </div>
   </div>
   <div class="fr">
@@ -350,8 +413,8 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
   <div class="fr">
     <div><label class="fl">Ürün *</label>
       <select class="inp" id="s-pr">
-        <option>Bitcoin/Kripto</option><option>Altın</option><option>Forex</option>
-        <option>CFD</option><option>Hisse</option><option>Petrol</option><option>Endeks</option>
+        <option>Altin/Gumus</option><option>Petrol/Brent</option><option>Forex</option>
+        <option>Bitcoin/Kripto</option><option>CFD</option><option>Hisse</option><option>Endeks</option>
       </select>
     </div>
     <div><label class="fl">Tarih</label><input class="inp" id="s-dt" type="date"></div>
@@ -360,7 +423,8 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
     <div><label class="fl">Depozit Miktarı</label><input class="inp" id="s-dep" type="number" placeholder="1000"></div>
     <div><label class="fl">Para Birimi</label>
       <select class="inp" id="s-cur">
-        <option value="USD">USD</option><option value="EUR">EUR</option><option value="TRY">TRY</option><option value="GBP">GBP</option>
+        <option value="USD">USD</option><option value="EUR">EUR</option>
+        <option value="TRY">TRY</option><option value="GBP">GBP</option>
       </select>
     </div>
   </div>
@@ -381,7 +445,7 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
 
 <div class="mov" id="m-camp"><div class="modal">
   <div class="mtitle">Yeni Kampanya</div>
-  <div class="fg"><label class="fl">Kampanya Adı *</label><input class="inp" id="cp-n" placeholder="Bitcoin Kampanyası"></div>
+  <div class="fg"><label class="fl">Kampanya Adı *</label><input class="inp" id="cp-n" placeholder="Altin Kampanyasi Nisan 2026"></div>
   <div class="fr">
     <div><label class="fl">Günlük Limit</label><input class="inp" id="cp-l" type="number" value="500"></div>
     <div><label class="fl">Durum</label>
@@ -394,16 +458,28 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
   </div>
 </div></div>
 
+<!-- CSV IMPORT - Dosya Seç veya Yapıştır -->
 <div class="mov" id="m-import"><div class="modal">
   <div class="mtitle">CSV Toplu Lead Yükleme</div>
   <div style="background:var(--d4);border-radius:6px;padding:10px;font-size:11px;color:var(--t2);margin-bottom:10px;line-height:1.8">
     Format: <b style="color:var(--gold)">ad_soyad, telefon, email, sehir, ilgi_alani</b><br>
-    Her satır bir müşteri.
+    ⚠️ Aynı telefon numarası tekrar eklenemez.
   </div>
-  <div class="fg"><label class="fl">CSV İçeriği</label>
-    <textarea class="inp" id="csv-data" rows="7" placeholder="Ahmet Yilmaz,+905551234567,ahmet@mail.com,Istanbul,Bitcoin"></textarea>
+  <div class="fg">
+    <label class="fl">📁 CSV Dosyası Seç</label>
+    <input type="file" id="csv-file" accept=".csv,.txt" class="inp" style="padding:6px">
   </div>
-  <div class="fg"><label class="fl">Personele Ata</label><select class="inp" id="csv-ag"><option value="">Atanmamış</option></select></div>
+  <div class="fg">
+    <label class="fl">veya yapıştır</label>
+    <textarea class="inp" id="csv-data" rows="5" placeholder="Ahmet Yilmaz,+905551234567,ahmet@mail.com,Istanbul,Altin"></textarea>
+  </div>
+  <div class="fg"><label class="fl">Personele Ata (tek atama)</label>
+    <select class="inp" id="csv-ag"><option value="">Atanmamış</option></select>
+  </div>
+  <div id="csv-progress" style="display:none">
+    <div class="prog-wrap"><div class="prog-fill" id="csv-prog-fill" style="width:0%"></div></div>
+    <div style="font-size:10px;color:var(--t3);text-align:center" id="csv-prog-text">0 / 0</div>
+  </div>
   <div class="mbtns">
     <button class="btn bo" onclick="closeM('m-import')">İptal</button>
     <button class="btn bg" onclick="importCSV()">Yükle</button>
@@ -415,37 +491,51 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
 <script>
 var SB = 'https://muwynsxukmxjquoqcbac.supabase.co';
 var SK = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3luc3h1a214anF1b3FjYmFjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjExMzQwMCwiZXhwIjoyMDkxNjg5NDAwfQ.33AsVo1mIeNHznTKnr6IUjVTLP_puNeNFJMS8-GsO30';
-var CU = null;
-var allU = [];
-var allL = [];
-var selIds = {};
+var AK = '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';
+var VK = '74b7b21d-f286-4a56-b1ac-2bf37a91d088';
+var AID = '133aa70c-db4b-4155-be6b-220450c0b21a';
+var CU = null, allU = [], allL = [], selIds = {};
 
-function sbFetch(path, method, body) {
-  var opts = {
-    method: method || 'GET',
-    headers: {
-      'apikey': SK,
-      'Authorization': 'Bearer ' + SK,
-      'Content-Type': 'application/json',
-      'Prefer': 'return=representation'
-    }
-  };
-  if (body) opts.body = JSON.stringify(body);
-  return fetch(SB + '/rest/v1/' + path, opts).then(function(r) {
+function sbGet(path) {
+  return fetch(SB + '/rest/v1/' + path, {
+    headers: {'apikey': SK, 'Authorization': 'Bearer ' + SK, 'Content-Type': 'application/json', 'Prefer': 'return=representation'}
+  }).then(function(r) {
     if (!r.ok) return r.json().then(function(e) { throw new Error(e.message || r.status); });
     return r.json();
+  });
+}
+function sbSet(path, method, body) {
+  return fetch(SB + '/rest/v1/' + path, {
+    method: method, headers: {'apikey': SK, 'Authorization': 'Bearer ' + SK, 'Content-Type': 'application/json', 'Prefer': 'return=representation'},
+    body: JSON.stringify(body)
+  }).then(function(r) {
+    if (!r.ok) return r.json().then(function(e) { throw new Error(e.message || r.status); });
+    return r.json();
+  });
+}
+function sbDel(path) {
+  return fetch(SB + '/rest/v1/' + path, {
+    method: 'DELETE', headers: {'apikey': SK, 'Authorization': 'Bearer ' + SK}
+  }).then(function(r) {
+    if (!r.ok) {
+      return r.text().then(function(t) {
+        try { var e = JSON.parse(t); throw new Error(e.message || r.status); }
+        catch(pe) { throw new Error('Silme hatasi: ' + r.status); }
+      });
+    }
+    return [];
   });
 }
 
 function doLogin() {
   var u = document.getElementById('lu').value.trim();
   var p = document.getElementById('lp').value;
-  if (!u || !p) { document.getElementById('lerr').textContent = 'Giriş bilgilerini girin'; return; }
+  if (!u || !p) { document.getElementById('lerr').textContent = 'Giris bilgilerini girin'; return; }
   document.getElementById('lerr').textContent = '';
-  sbFetch('users?username=eq.' + encodeURIComponent(u) + '&is_active=eq.true&select=*')
+  sbGet('users?username=eq.' + encodeURIComponent(u) + '&is_active=eq.true&select=*')
     .then(function(rows) {
       if (!rows.length || rows[0].password_hash !== p) {
-        document.getElementById('lerr').textContent = 'Hatalı kullanıcı adı veya şifre';
+        document.getElementById('lerr').textContent = 'Hatali kullanici adi veya sifre';
         return;
       }
       CU = rows[0];
@@ -454,34 +544,55 @@ function doLogin() {
       document.getElementById('uname').textContent = CU.full_name;
       buildNav();
       loadPage('dash');
+      loadTicker();
     })
-    .catch(function(e) {
-      document.getElementById('lerr').textContent = 'Bağlantı hatası: ' + e.message;
-    });
+    .catch(function(e) { document.getElementById('lerr').textContent = 'Hata: ' + e.message; });
 }
-
 function doLogout() {
   CU = null;
   document.getElementById('app').classList.remove('on');
   document.getElementById('login').style.display = 'flex';
   document.getElementById('lp').value = '';
 }
-
 document.getElementById('loginBtn').addEventListener('click', doLogin);
 document.getElementById('logoutBtn').addEventListener('click', doLogout);
 document.getElementById('lp').addEventListener('keydown', function(e) { if (e.key === 'Enter') doLogin(); });
 document.getElementById('lu').addEventListener('keydown', function(e) { if (e.key === 'Enter') document.getElementById('lp').focus(); });
 
-var adminNav = [{id:'dash',l:'Dashboard'},{id:'leads',l:'Leadler'},{id:'calls',l:'Aramalar'},{id:'appts',l:'Randevular'},{id:'sales',l:'Satışlar'},{id:'agents',l:'Personeller'},{id:'camp',l:'Kampanyalar'}];
-var agentNav = [{id:'dash',l:'Dashboard'},{id:'leads',l:'Leadlerim'},{id:'calls',l:'Aramalarım'},{id:'appts',l:'Randevularım'},{id:'sales',l:'Satışlarım'}];
+// CSV dosya okuma
+document.getElementById('csv-file').addEventListener('change', function(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    document.getElementById('csv-data').value = ev.target.result;
+  };
+  reader.readAsText(file, 'UTF-8');
+});
+
+var adminNav = [
+  {id:'dash',l:'Dashboard'},{id:'leads',l:'Leadler'},{id:'calls',l:'Aramalar'},
+  {id:'appts',l:'Randevular'},{id:'sales',l:'Satislar'},{id:'agents',l:'Personeller'},
+  {id:'ai',l:'AI Ayse'},{id:'camp',l:'Kampanyalar'}
+];
+var agentNav = [
+  {id:'dash',l:'Dashboard'},{id:'leads',l:'Leadlerim'},{id:'calls',l:'Aramalarim'},
+  {id:'appts',l:'Randevularim'},{id:'sales',l:'Satislarim'}
+];
 
 function buildNav() {
   var pages = CU.role === 'admin' ? adminNav : agentNav;
-  var html = '';
+  var h = '';
   for (var i = 0; i < pages.length; i++) {
-    html += '<button class="tb" id="nb-' + pages[i].id + '" onclick="loadPage(\'' + pages[i].id + '\')">' + pages[i].l + '</button>';
+    h += '<button class="tb" id="nb-' + pages[i].id + '" data-page="' + pages[i].id + '">' + pages[i].l + '</button>';
   }
-  document.getElementById('nav').innerHTML = html;
+  document.getElementById('nav').innerHTML = h;
+  var btns = document.querySelectorAll('.tb[data-page]');
+  for (var j = 0; j < btns.length; j++) {
+    btns[j].addEventListener('click', (function(b) {
+      return function() { loadPage(b.getAttribute('data-page')); };
+    })(btns[j]));
+  }
 }
 
 function loadPage(id) {
@@ -499,157 +610,163 @@ function loadPage(id) {
   else if (id === 'appts') loadAppts();
   else if (id === 'sales') loadSales();
   else if (id === 'agents') loadAgents();
+  else if (id === 'ai') loadAI();
   else if (id === 'camp') loadCamp();
 }
 
-var statusTags = {
-  cold: '<span class="tag tc">Soğuk</span>',
-  warm: '<span class="tag tw2">Ilık</span>',
-  hot: '<span class="tag th">Sıcak</span>',
+var ST = {
+  cold: '<span class="tag tc">Soguk</span>',
+  warm: '<span class="tag tw2">Ilik</span>',
+  hot: '<span class="tag th">Sicak</span>',
   appointment: '<span class="tag ta">Randevu</span>',
-  sold: '<span class="tag ts">Satış</span>',
-  lost: '<span class="tag tl">Kayıp</span>'
+  sold: '<span class="tag ts">Satis</span>',
+  lost: '<span class="tag tl">Kayip</span>'
 };
-
-function fmtDate(d) {
-  if (!d) return '---';
-  return new Date(d).toLocaleDateString('tr-TR', {day:'2-digit', month:'2-digit', year:'numeric'});
-}
-function fmtDT(d) {
-  if (!d) return '---';
-  return new Date(d).toLocaleDateString('tr-TR') + ' ' + new Date(d).toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'});
-}
-
-function notify(msg, type) {
+function fd(d) { return d ? new Date(d).toLocaleDateString('tr-TR', {day:'2-digit',month:'2-digit',year:'numeric'}) : '---'; }
+function fdt(d) { return d ? new Date(d).toLocaleDateString('tr-TR') + ' ' + new Date(d).toLocaleTimeString('tr-TR', {hour:'2-digit',minute:'2-digit'}) : '---'; }
+function notify(msg, t) {
   var n = document.getElementById('notif');
-  n.textContent = (type === 'err' ? 'X ' : 'OK ') + msg;
+  n.textContent = (t === 'err' ? 'X ' : 'OK ') + msg;
   n.style.display = 'block';
-  n.style.borderColor = type === 'err' ? 'rgba(239,68,68,.3)' : 'var(--bd)';
-  setTimeout(function() { n.style.display = 'none'; }, 3500);
+  n.style.borderColor = t === 'err' ? 'rgba(239,68,68,.3)' : 'var(--bd)';
+  setTimeout(function() { n.style.display = 'none'; }, 4000);
 }
-
 function closeM(id) { document.getElementById(id).classList.remove('on'); }
 function openM(id) { document.getElementById(id).classList.add('on'); }
-
 var movs = document.querySelectorAll('.mov');
-for (var i = 0; i < movs.length; i++) {
-  movs[i].addEventListener('click', function(e) {
-    if (e.target === this) this.classList.remove('on');
-  });
+for (var mi = 0; mi < movs.length; mi++) {
+  movs[mi].addEventListener('click', (function(m) {
+    return function(e) { if (e.target === m) m.classList.remove('on'); };
+  })(movs[mi]));
 }
 
+// TICKER - Canlı piyasa verisi
+function loadTicker() {
+  fetch('https://api.twelvedata.com/price?symbol=XAU/USD,BTC/USD,EUR/USD,XTI/USD&apikey=85b17a5c18be4e10bc32efc247e8f02b')
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      var parts = [];
+      if (d['XAU/USD']) parts.push('Altin ' + parseFloat(d['XAU/USD'].price).toFixed(2) + '$');
+      if (d['BTC/USD']) parts.push('Bitcoin ' + parseFloat(d['BTC/USD'].price).toFixed(0) + '$');
+      if (d['EUR/USD']) parts.push('EUR/USD ' + parseFloat(d['EUR/USD'].price).toFixed(4));
+      if (d['XTI/USD']) parts.push('WTI Petrol ' + parseFloat(d['XTI/USD'].price).toFixed(2) + '$');
+      if (parts.length > 0) {
+        var txt = '&nbsp;&nbsp;' + parts.join(' &nbsp;|&nbsp; ') + ' &nbsp;|&nbsp; <span style="color:var(--red)">HURMUS BOGAZI GERGINLiGi DEVAM EDiYOR - Altin ve petrolde yukaris potansiyeli!</span>&nbsp;&nbsp;';
+        document.getElementById('ticker-text').innerHTML = txt;
+      }
+    })
+    .catch(function() {});
+}
+
+// DASHBOARD
 function loadDash() {
   var f = CU.role === 'agent' ? '&assigned_to=eq.' + CU.id : '';
-  sbFetch('customers?select=status' + f).then(function(leads) {
-    var hot = 0, appt = 0, sold = 0;
-    for (var i = 0; i < leads.length; i++) {
-      if (leads[i].status === 'hot') hot++;
-      else if (leads[i].status === 'appointment') appt++;
-      else if (leads[i].status === 'sold') sold++;
+  sbGet('customers?select=status' + f).then(function(ls) {
+    var h = 0, a = 0, s = 0;
+    for (var i = 0; i < ls.length; i++) {
+      if (ls[i].status === 'hot') h++;
+      else if (ls[i].status === 'appointment') a++;
+      else if (ls[i].status === 'sold') s++;
     }
-    document.getElementById('m1').textContent = leads.length;
-    document.getElementById('m2').textContent = hot;
-    document.getElementById('m3').textContent = appt;
-    document.getElementById('m4').textContent = sold;
+    document.getElementById('m1').textContent = ls.length;
+    document.getElementById('m2').textContent = h;
+    document.getElementById('m3').textContent = a;
+    document.getElementById('m4').textContent = s;
   }).catch(function(e) { notify(e.message, 'err'); });
-
   var cf = CU.role === 'agent' ? '&agent_id=eq.' + CU.id : '';
-  sbFetch('calls?select=*,customers(full_name),users(full_name)&order=called_at.desc&limit=6' + cf).then(function(calls) {
-    var oc = {interested:'İlgilendi', not_interested:'İlgilenmedi', callback:'Geri Arama', appointment:'Randevu', sold:'Satış'};
-    var html = '';
-    for (var i = 0; i < calls.length; i++) {
-      var c = calls[i];
+  sbGet('calls?select=*,customers(full_name),users(full_name)&order=called_at.desc&limit=6' + cf).then(function(cs) {
+    var oc = {interested:'Ilgilendi',not_interested:'Ilgilenmedi',callback:'Geri Arama',appointment:'Randevu',sold:'Satis',ai_warm:'AI Sicak'};
+    var h = '';
+    for (var i = 0; i < cs.length; i++) {
+      var c = cs[i];
       var cn = c.customers ? c.customers.full_name : '---';
       var un = c.users ? c.users.full_name : '---';
-      var ot = oc[c.outcome] || c.status;
-      var cls = c.outcome === 'sold' ? 'ts' : c.outcome === 'appointment' ? 'ta' : c.outcome === 'interested' ? 'tw2' : 'tc';
-      html += '<div class="sb" style="padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)">';
-      html += '<div><div style="font-size:11px;color:var(--t1)">' + cn + '</div>';
-      html += '<div style="font-size:10px;color:var(--t3)">' + un + ' - ' + fmtDT(c.called_at) + '</div></div>';
-      html += '<span class="tag ' + cls + '">' + ot + '</span></div>';
+      var isAI = c.call_type === 'ai';
+      var cl = c.outcome === 'sold' ? 'ts' : c.outcome === 'appointment' ? 'ta' : c.outcome === 'interested' ? 'tw2' : 'tc';
+      h += '<div class="sb" style="padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)">';
+      h += '<div><div style="font-size:11px;color:var(--t1)">' + cn + (isAI ? ' <span class="tag tai">AI</span>' : '') + '</div>';
+      h += '<div style="font-size:10px;color:var(--t3)">' + un + ' - ' + fdt(c.called_at) + '</div></div>';
+      h += '<span class="tag ' + cl + '">' + (oc[c.outcome] || c.status) + '</span></div>';
     }
-    document.getElementById('d-calls').innerHTML = html || '<div class="empty">Arama yok</div>';
+    document.getElementById('d-calls').innerHTML = h || '<div class="empty">Arama yok</div>';
   });
-
-  sbFetch('appointments?select=*,customers(full_name),users(full_name)&status=eq.pending&order=appointment_date.asc&limit=6' + cf).then(function(appts) {
+  sbGet('appointments?select=*,customers(full_name),users(full_name)&status=eq.pending&order=appointment_date.asc&limit=6' + cf).then(function(as) {
     var today = new Date().toDateString();
-    var html = '';
-    for (var i = 0; i < appts.length; i++) {
-      var a = appts[i];
+    var h = '';
+    for (var i = 0; i < as.length; i++) {
+      var a = as[i];
       if (new Date(a.appointment_date).toDateString() !== today) continue;
       var cn = a.customers ? a.customers.full_name : '---';
       var un = a.users ? a.users.full_name : '---';
-      var t = new Date(a.appointment_date).toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'});
-      html += '<div class="sb" style="padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)">';
-      html += '<div><div style="font-size:11px;color:var(--t1)">' + cn + '</div>';
-      html += '<div style="font-size:10px;color:var(--t3)">' + un + ' - ' + t + '</div></div>';
-      html += '<span class="tag ta">' + a.type + '</span></div>';
+      var t = new Date(a.appointment_date).toLocaleTimeString('tr-TR', {hour:'2-digit',minute:'2-digit'});
+      h += '<div class="sb" style="padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)">';
+      h += '<div><div style="font-size:11px;color:var(--t1)">' + cn + '</div>';
+      h += '<div style="font-size:10px;color:var(--t3)">' + un + ' - ' + t + '</div></div>';
+      h += '<span class="tag ta">' + a.type + '</span></div>';
     }
-    document.getElementById('d-appts').innerHTML = html || '<div class="empty">Bugün randevu yok</div>';
+    document.getElementById('d-appts').innerHTML = h || '<div class="empty">Bugun randevu yok</div>';
   });
 }
 
+// LEADS - Tekil telefon + tek personel ataması
 function loadLeads() {
-  sbFetch('users?select=id,full_name&is_active=eq.true&order=full_name').then(function(users) {
+  sbGet('users?select=id,full_name,role&is_active=eq.true&order=full_name').then(function(users) {
     allU = users;
-    var opts = '<option value="">Tüm Personeller</option>';
-    var bulkOpts = '<option value="">Personel seç...</option>';
+    var o = '<option value="">Tum Personeller</option>';
+    var bo = '<option value="">Personel sec...</option>';
     for (var i = 0; i < users.length; i++) {
-      opts += '<option value="' + users[i].id + '">' + users[i].full_name + '</option>';
-      bulkOpts += '<option value="' + users[i].id + '">' + users[i].full_name + '</option>';
+      var label = users[i].full_name + (users[i].role === 'ai' ? ' (AI)' : '');
+      o += '<option value="' + users[i].id + '">' + label + '</option>';
+      bo += '<option value="' + users[i].id + '">' + label + '</option>';
     }
-    document.getElementById('lsa').innerHTML = opts;
-    document.getElementById('bulk-ag').innerHTML = bulkOpts;
-    fillAgSelects();
-    fillCuSelects();
+    document.getElementById('lsa').innerHTML = o;
+    document.getElementById('bulk-ag').innerHTML = bo;
+    fillAgSels(); fillCuSels();
   });
-
+  // Admin tüm leadleri görür, personel sadece kendi atananları
   var f = CU.role === 'agent' ? '&assigned_to=eq.' + CU.id : '';
-  sbFetch('customers?select=*,users(full_name)&order=created_at.desc' + f).then(function(leads) {
-    allL = leads;
+  sbGet('customers?select=*,users(full_name,role)&order=created_at.desc' + f).then(function(ls) {
+    allL = ls;
     selIds = {};
-    updateBulkBar();
-    renderLeads(allL);
+    updateBB();
+    renderL(allL);
   }).catch(function(e) { notify(e.message, 'err'); });
 }
 
-function renderLeads(leads) {
+function renderL(ls) {
   var tb = document.getElementById('ltb');
-  if (!leads.length) { tb.innerHTML = '<tr><td colspan="10" class="empty">Lead bulunamadı</td></tr>'; return; }
-  var html = '';
-  for (var i = 0; i < leads.length; i++) {
-    var l = leads[i];
-    var isSel = selIds[l.id] ? true : false;
+  if (!ls.length) { tb.innerHTML = '<tr><td colspan="10" class="empty">Lead bulunamadi</td></tr>'; return; }
+  var h = '';
+  for (var i = 0; i < ls.length; i++) {
+    var l = ls[i];
+    var iS = selIds[l.id] ? true : false;
     var sc = l.score || 0;
-    var scColor = sc > 70 ? 'var(--green)' : sc > 40 ? 'var(--gold)' : 'var(--t3)';
-    var agName = l.users ? l.users.full_name : '<span style="color:var(--t3)">---</span>';
-    html += '<tr class="' + (isSel ? 'rsel' : '') + '" data-id="' + l.id + '">';
-    html += '<td><input type="checkbox" class="rcb" data-id="' + l.id + '" ' + (isSel ? 'checked' : '') + ' onchange="toggleRow(this)"></td>';
-    html += '<td><div class="fx g8"><div class="av">' + (l.full_name || '?')[0] + '</div>' + (l.full_name || '') + '</div></td>';
-    html += '<td>' + (l.phone || '') + '</td>';
-    html += '<td>' + (l.city || '---') + '</td>';
-    html += '<td>' + (l.interest || '---') + '</td>';
-    html += '<td>' + (statusTags[l.status] || l.status) + '</td>';
-    html += '<td><span class="sbar"><span class="sfill" style="width:' + sc + '%;background:' + scColor + '"></span></span>' + sc + '</td>';
-    html += '<td>' + agName + '</td>';
-    html += '<td>' + fmtDate(l.created_at) + '</td>';
-    html += '<td><div class="fx g6">';
-    html += '<button class="btn bo sm" onclick="editLead(\'' + l.id + '\')">Düzenle</button>';
-    html += '<button class="btn br sm" onclick="delLead(\'' + l.id + '\')">Sil</button>';
-    html += '</div></td>';
-    html += '</tr>';
+    var scC = sc > 70 ? 'var(--green)' : sc > 40 ? 'var(--gold)' : 'var(--t3)';
+    var isAIAgent = l.users && l.users.role === 'ai';
+    var ag = l.users ? l.users.full_name + (isAIAgent ? ' <span class="tag tai" style="font-size:8px">AI</span>' : '') : '<span style="color:var(--t3)">---</span>';
+    h += '<tr class="' + (iS ? 'rsel' : '') + '" data-id="' + l.id + '">';
+    h += '<td><input type="checkbox" class="rcb" data-id="' + l.id + '" ' + (iS ? 'checked' : '') + ' onchange="toggleRow(this)"></td>';
+    h += '<td><div class="fx g8"><div class="av">' + (l.full_name || '?')[0] + '</div>' + (l.full_name || '') + '</div></td>';
+    h += '<td>' + (l.phone || '') + '</td>';
+    h += '<td>' + (l.city || '---') + '</td>';
+    h += '<td>' + (l.interest || '---') + '</td>';
+    h += '<td>' + (ST[l.status] || l.status) + '</td>';
+    h += '<td><span class="sbar"><span class="sfill" style="width:' + sc + '%;background:' + scC + '"></span></span>' + sc + '</td>';
+    h += '<td>' + ag + '</td>';
+    h += '<td>' + fd(l.created_at) + '</td>';
+    h += '<td><div class="fx g6"><button class="btn bo sm" onclick="editLead(\'' + l.id + '\')">Duzenle</button><button class="btn br sm" onclick="delLead(\'' + l.id + '\')">Sil</button></div></td>';
+    h += '</tr>';
   }
-  tb.innerHTML = html;
-
+  tb.innerHTML = h;
   var rows = tb.querySelectorAll('tr[data-id]');
   for (var i = 0; i < rows.length; i++) {
-    rows[i].addEventListener('click', function(e) {
-      if (e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT') return;
-      var id = this.getAttribute('data-id');
-      var lead = null;
-      for (var j = 0; j < allL.length; j++) { if (allL[j].id === id) { lead = allL[j]; break; } }
-      if (lead) openLead(lead);
-    });
+    rows[i].addEventListener('click', (function(r) {
+      return function(e) {
+        if (e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT') return;
+        var id = r.getAttribute('data-id');
+        for (var j = 0; j < allL.length; j++) { if (allL[j].id === id) { openLead(allL[j]); return; } }
+      };
+    })(rows[i]));
   }
 }
 
@@ -657,15 +774,15 @@ function filterL() {
   var q = document.getElementById('lsq').value.toLowerCase();
   var st = document.getElementById('lss').value;
   var ag = document.getElementById('lsa').value;
-  var filtered = [];
+  var f = [];
   for (var i = 0; i < allL.length; i++) {
     var l = allL[i];
-    var nameMatch = !q || l.full_name.toLowerCase().indexOf(q) !== -1 || l.phone.indexOf(q) !== -1 || (l.city || '').toLowerCase().indexOf(q) !== -1;
-    var stMatch = !st || l.status === st;
-    var agMatch = !ag || l.assigned_to === ag;
-    if (nameMatch && stMatch && agMatch) filtered.push(l);
+    var nm = !q || l.full_name.toLowerCase().indexOf(q) !== -1 || l.phone.indexOf(q) !== -1 || (l.city || '').toLowerCase().indexOf(q) !== -1;
+    var sm = !st || l.status === st;
+    var am = !ag || l.assigned_to === ag;
+    if (nm && sm && am) f.push(l);
   }
-  renderLeads(filtered);
+  renderL(f);
 }
 
 function toggleRow(cb) {
@@ -673,32 +790,32 @@ function toggleRow(cb) {
   if (cb.checked) selIds[id] = true; else delete selIds[id];
   var row = cb.closest('tr');
   if (row) row.className = cb.checked ? 'rsel' : '';
-  updateBulkBar();
+  updateBB();
   var allCbs = document.querySelectorAll('.rcb');
-  var allChecked = true;
-  for (var i = 0; i < allCbs.length; i++) { if (!allCbs[i].checked) { allChecked = false; break; } }
+  var ac = true;
+  for (var i = 0; i < allCbs.length; i++) if (!allCbs[i].checked) { ac = false; break; }
   var sa = document.getElementById('sel-all');
-  if (sa) sa.checked = allChecked && allCbs.length > 0;
+  if (sa) sa.checked = ac && allCbs.length > 0;
 }
 
-function toggleAll(masterCb) {
+function toggleAll(m) {
   var allCbs = document.querySelectorAll('.rcb');
   selIds = {};
   for (var i = 0; i < allCbs.length; i++) {
-    allCbs[i].checked = masterCb.checked;
-    if (masterCb.checked) selIds[allCbs[i].getAttribute('data-id')] = true;
+    allCbs[i].checked = m.checked;
+    if (m.checked) selIds[allCbs[i].getAttribute('data-id')] = true;
     var row = allCbs[i].closest('tr');
-    if (row) row.className = masterCb.checked ? 'rsel' : '';
+    if (row) row.className = m.checked ? 'rsel' : '';
   }
-  updateBulkBar();
+  updateBB();
 }
 
-function updateBulkBar() {
-  var count = Object.keys(selIds).length;
-  var bar = document.getElementById('bulk-bar');
-  var cnt = document.getElementById('sel-count');
-  if (bar) bar.className = 'bulk-bar' + (count > 0 ? ' on' : '');
-  if (cnt) cnt.textContent = count + ' seçili';
+function updateBB() {
+  var cnt = Object.keys(selIds).length;
+  var b = document.getElementById('bulk-bar');
+  var c = document.getElementById('sel-count');
+  if (b) b.className = 'bulk-bar' + (cnt > 0 ? ' on' : '');
+  if (c) c.textContent = cnt + ' secili';
 }
 
 function clearSel() {
@@ -706,97 +823,111 @@ function clearSel() {
   var allCbs = document.querySelectorAll('.rcb');
   for (var i = 0; i < allCbs.length; i++) {
     allCbs[i].checked = false;
-    var row = allCbs[i].closest('tr');
-    if (row) row.className = '';
+    var r = allCbs[i].closest('tr');
+    if (r) r.className = '';
   }
   var sa = document.getElementById('sel-all');
   if (sa) sa.checked = false;
-  updateBulkBar();
+  updateBB();
 }
 
+// TOPLU SİL - Sıralı silme (paralel değil, sıralı daha güvenilir)
 function bulkDelete() {
   var ids = Object.keys(selIds);
-  if (!ids.length) { notify('Önce seçim yapın', 'err'); return; }
-  if (!confirm(ids.length + ' lead silinsin mi? Bu işlem geri alınamaz!')) return;
-  var ok = 0;
-  var promises = [];
-  for (var i = 0; i < ids.length; i++) {
-    var id = ids[i];
-    promises.push(
-      sbFetch('calls?customer_id=eq.' + id, 'DELETE')
-        .then(function() { return sbFetch('appointments?customer_id=eq.' + id, 'DELETE'); })
-        .then(function() { return sbFetch('sales?customer_id=eq.' + id, 'DELETE'); })
-        .then(function() { return sbFetch('customers?id=eq.' + id, 'DELETE'); })
-        .then(function() { ok++; })
-        .catch(function(e) { console.error(e); })
-    );
+  if (!ids.length) { notify('Once secim yapin', 'err'); return; }
+  if (!confirm(ids.length + ' lead silinsin mi?')) return;
+  
+  var btn = document.getElementById('bulk-del-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Siliniyor...'; }
+  
+  var done = 0, errors = 0;
+  var total = ids.length;
+  
+  function deleteOne(i) {
+    if (i >= total) {
+      if (btn) { btn.disabled = false; btn.textContent = 'Secilileri Sil'; }
+      notify(done + ' lead silindi' + (errors ? ' (' + errors + ' hata)' : ''));
+      selIds = {};
+      loadLeads();
+      return;
+    }
+    var cid = ids[i];
+    // Closure ile id'yi sabitle - sirayla sil
+    (function(custId, nextIdx) {
+      sbDel('calls?customer_id=eq.' + custId)
+        .then(function() { return sbDel('appointments?customer_id=eq.' + custId); })
+        .then(function() { return sbDel('sales?customer_id=eq.' + custId); })
+        .then(function() { return sbDel('customers?id=eq.' + custId); })
+        .then(function() { done++; deleteOne(nextIdx); })
+        .catch(function(e) {
+          console.error('Silme hatasi id=' + custId + ':', e.message);
+          errors++;
+          deleteOne(nextIdx);
+        });
+    })(cid, i + 1);
   }
-  Promise.all(promises).then(function() {
-    notify(ok + ' lead silindi');
-    selIds = {};
-    loadLeads();
-  });
+  deleteOne(0);
 }
 
 function bulkAssign() {
   var ids = Object.keys(selIds);
   var agId = document.getElementById('bulk-ag').value;
-  if (!agId) { notify('Personel seçin', 'err'); return; }
-  if (!ids.length) { notify('Önce lead seçin', 'err'); return; }
+  if (!agId) { notify('Personel secin', 'err'); return; }
+  if (!ids.length) { notify('Once lead secin', 'err'); return; }
   var agName = '';
-  for (var i = 0; i < allU.length; i++) { if (allU[i].id === agId) { agName = allU[i].full_name; break; } }
-  if (!confirm(ids.length + ' lead ' + agName + "'e atansın mı?")) return;
-  var ok = 0;
-  var promises = [];
-  for (var i = 0; i < ids.length; i++) {
-    var id = ids[i];
-    promises.push(
-      sbFetch('customers?id=eq.' + id, 'PATCH', {assigned_to: agId, updated_at: new Date().toISOString()})
-        .then(function() { ok++; })
-        .catch(function(e) { console.error(e); })
-    );
+  for (var i = 0; i < allU.length; i++) if (allU[i].id === agId) { agName = allU[i].full_name; break; }
+  if (!confirm(ids.length + ' lead ' + agName + "'e atansin mi?")) return;
+  var done = 0;
+  function assignOne(idx) {
+    if (idx >= ids.length) { notify(done + ' lead atandi'); selIds = {}; loadLeads(); return; }
+    sbSet('customers?id=eq.' + ids[idx], 'PATCH', {assigned_to: agId, updated_at: new Date().toISOString()})
+      .then(function() { done++; assignOne(idx + 1); })
+      .catch(function() { assignOne(idx + 1); });
   }
-  Promise.all(promises).then(function() {
-    notify(ok + ' lead atandı');
-    selIds = {};
-    loadLeads();
-  });
+  assignOne(0);
 }
 
-function openLead(lead) {
-  document.getElementById('mlt').textContent = lead ? 'Lead Düzenle' : 'Yeni Lead';
-  document.getElementById('lid').value = lead ? lead.id : '';
-  document.getElementById('l-n').value = lead ? (lead.full_name || '') : '';
-  document.getElementById('l-p').value = lead ? (lead.phone || '') : '';
-  document.getElementById('l-e').value = lead ? (lead.email || '') : '';
-  document.getElementById('l-c').value = lead ? (lead.city || '') : '';
-  document.getElementById('l-i').value = lead ? (lead.interest || '') : '';
-  document.getElementById('l-src').value = lead ? (lead.source || 'manual') : 'manual';
-  document.getElementById('l-st').value = lead ? (lead.status || 'cold') : 'cold';
-  document.getElementById('l-ag').value = lead ? (lead.assigned_to || '') : '';
-  document.getElementById('l-nt').value = lead ? (lead.notes || '') : '';
+function openLead(l) {
+  document.getElementById('mlt').textContent = l ? 'Lead Duzenle' : 'Yeni Lead';
+  document.getElementById('lid').value = l ? l.id : '';
+  document.getElementById('l-n').value = l ? (l.full_name || '') : '';
+  document.getElementById('l-p').value = l ? (l.phone || '') : '';
+  document.getElementById('l-e').value = l ? (l.email || '') : '';
+  document.getElementById('l-c').value = l ? (l.city || '') : '';
+  document.getElementById('l-i').value = l ? (l.interest || '') : '';
+  document.getElementById('l-src').value = l ? (l.source || 'manual') : 'manual';
+  document.getElementById('l-st').value = l ? (l.status || 'cold') : 'cold';
+  document.getElementById('l-ag').value = l ? (l.assigned_to || '') : '';
+  document.getElementById('l-nt').value = l ? (l.notes || '') : '';
   openM('m-lead');
 }
+function editLead(id) { for (var i = 0; i < allL.length; i++) if (allL[i].id === id) { openLead(allL[i]); return; } }
 
-function editLead(id) {
-  for (var i = 0; i < allL.length; i++) { if (allL[i].id === id) { openLead(allL[i]); return; } }
-}
-
-function delLead(id) {
-  if (!confirm('Bu lead silinsin mi?')) return;
-  sbFetch('calls?customer_id=eq.' + id, 'DELETE')
-    .then(function() { return sbFetch('appointments?customer_id=eq.' + id, 'DELETE'); })
-    .then(function() { return sbFetch('sales?customer_id=eq.' + id, 'DELETE'); })
-    .then(function() { return sbFetch('customers?id=eq.' + id, 'DELETE'); })
-    .then(function() { notify('Lead silindi'); loadLeads(); })
-    .catch(function(e) { notify(e.message, 'err'); });
-}
-
+// LEAD KAYDET - Telefon tekrar kontrolü
 function saveLead() {
   var id = document.getElementById('lid').value;
+  var phone = document.getElementById('l-p').value.trim();
+  var name = document.getElementById('l-n').value.trim();
+  if (!name || !phone) { notify('Ad ve telefon zorunlu', 'err'); return; }
+  
+  // Telefon tekrar kontrolü (yeni lead ise)
+  if (!id) {
+    sbGet('customers?phone=eq.' + encodeURIComponent(phone) + '&select=id,full_name').then(function(existing) {
+      if (existing.length > 0) {
+        notify('Bu telefon zaten kayitli: ' + existing[0].full_name, 'err');
+        return;
+      }
+      doSaveLead(id, phone, name);
+    }).catch(function() { doSaveLead(id, phone, name); });
+  } else {
+    doSaveLead(id, phone, name);
+  }
+}
+
+function doSaveLead(id, phone, name) {
   var data = {
-    full_name: document.getElementById('l-n').value.trim(),
-    phone: document.getElementById('l-p').value.trim(),
+    full_name: name,
+    phone: phone,
     email: document.getElementById('l-e').value.trim() || null,
     city: document.getElementById('l-c').value.trim() || null,
     interest: document.getElementById('l-i').value || null,
@@ -806,43 +937,56 @@ function saveLead() {
     notes: document.getElementById('l-nt').value.trim() || null,
     updated_at: new Date().toISOString()
   };
-  if (!data.full_name || !data.phone) { notify('Ad ve telefon zorunlu', 'err'); return; }
-  var p = id ? sbFetch('customers?id=eq.' + id, 'PATCH', data) : sbFetch('customers', 'POST', data);
-  p.then(function() { notify(id ? 'Lead güncellendi' : 'Lead eklendi'); closeM('m-lead'); loadLeads(); })
+  var p = id ? sbSet('customers?id=eq.' + id, 'PATCH', data) : sbSet('customers', 'POST', data);
+  p.then(function() { notify(id ? 'Lead guncellendi' : 'Lead eklendi'); closeM('m-lead'); loadLeads(); })
    .catch(function(e) { notify(e.message, 'err'); });
 }
 
+function delLead(id) {
+  if (!confirm('Silinsin mi?')) return;
+  sbDel('calls?customer_id=eq.' + id)
+    .then(function() { return sbDel('appointments?customer_id=eq.' + id); })
+    .then(function() { return sbDel('sales?customer_id=eq.' + id); })
+    .then(function() { return sbDel('customers?id=eq.' + id); })
+    .then(function() { notify('Lead silindi'); loadLeads(); })
+    .catch(function(e) { notify(e.message, 'err'); });
+}
+
+// PERSONELLER
 function loadAgents() {
   if (CU.role !== 'admin') return;
-  sbFetch('users?select=*&order=created_at.desc').then(function(users) {
-    var html = '';
-    for (var i = 0; i < users.length; i++) {
-      var u = users[i];
-      html += '<tr><td><div class="fx g8"><div class="av">' + u.full_name[0] + '</div>' + u.full_name + '</div></td>';
-      html += '<td style="color:var(--t3)">' + u.username + '</td>';
-      html += '<td><span class="tag ' + (u.role === 'admin' ? 'tadm' : 'ta') + '">' + u.role + '</span></td>';
-      html += '<td><span class="tag ' + (u.is_active ? 'th' : 'tl') + '">' + (u.is_active ? 'Aktif' : 'Pasif') + '</span></td>';
-      html += '<td id="al-' + u.id + '">...</td><td id="as-' + u.id + '">...</td>';
-      html += '<td><button class="btn bo sm" onclick="editAgent(\'' + u.id + '\')">Düzenle</button></td></tr>';
+  sbGet('users?select=*&order=created_at.desc').then(function(us) {
+    var h = '';
+    for (var i = 0; i < us.length; i++) {
+      var u = us[i];
+      var tipTag = u.role === 'admin' ? '<span class="tag tadm">Admin</span>' :
+                   u.role === 'ai' ? '<span class="tag tai">AI Ajan</span>' :
+                   '<span class="tag ta">Personel</span>';
+      h += '<tr><td><div class="fx g8"><div class="av">' + u.full_name[0] + '</div>' + u.full_name + '</div></td>';
+      h += '<td style="color:var(--t3)">' + u.username + '</td>';
+      h += '<td>' + tipTag + '</td>';
+      h += '<td><span class="tag ' + (u.is_active ? 'th' : 'tl') + '">' + (u.is_active ? 'Aktif' : 'Pasif') + '</span></td>';
+      h += '<td id="al-' + u.id + '">...</td><td id="as-' + u.id + '">...</td>';
+      h += '<td><button class="btn bo sm" onclick="editAgent(\'' + u.id + '\')">Duzenle</button></td></tr>';
     }
-    document.getElementById('agtb').innerHTML = html || '<tr><td colspan="7" class="empty">Personel yok</td></tr>';
-    for (var i = 0; i < users.length; i++) {
+    document.getElementById('agtb').innerHTML = h || '<tr><td colspan="7" class="empty">Personel yok</td></tr>';
+    for (var i = 0; i < us.length; i++) {
       (function(uid) {
-        sbFetch('customers?assigned_to=eq.' + uid + '&select=id').then(function(r) {
-          var el = document.getElementById('al-' + uid);
-          if (el) el.textContent = r.length + ' lead';
+        sbGet('customers?assigned_to=eq.' + uid + '&select=id').then(function(r) {
+          var e = document.getElementById('al-' + uid);
+          if (e) e.textContent = r.length + ' lead';
         });
-        sbFetch('sales?agent_id=eq.' + uid + '&status=eq.confirmed&select=id').then(function(r) {
-          var el = document.getElementById('as-' + uid);
-          if (el) el.textContent = r.length + ' satış';
+        sbGet('sales?agent_id=eq.' + uid + '&status=eq.confirmed&select=id').then(function(r) {
+          var e = document.getElementById('as-' + uid);
+          if (e) e.textContent = r.length + ' satis';
         });
-      })(users[i].id);
+      })(us[i].id);
     }
   }).catch(function(e) { notify(e.message, 'err'); });
 }
 
 function openAgent(u) {
-  document.getElementById('mat').textContent = u ? 'Personel Düzenle' : 'Personel Ekle';
+  document.getElementById('mat').textContent = u ? 'Personel Duzenle' : 'Personel Ekle';
   document.getElementById('aid').value = u ? u.id : '';
   document.getElementById('a-n').value = u ? u.full_name : '';
   document.getElementById('a-u').value = u ? u.username : '';
@@ -851,10 +995,7 @@ function openAgent(u) {
   document.getElementById('a-ac').value = u ? String(u.is_active) : 'true';
   openM('m-agent');
 }
-
-function editAgent(id) {
-  sbFetch('users?id=eq.' + id + '&select=*').then(function(r) { if (r[0]) openAgent(r[0]); });
-}
+function editAgent(id) { sbGet('users?id=eq.' + id + '&select=*').then(function(r) { if (r[0]) openAgent(r[0]); }); }
 
 function saveAgent() {
   var id = document.getElementById('aid').value;
@@ -866,78 +1007,72 @@ function saveAgent() {
   };
   var pw = document.getElementById('a-pw').value;
   if (pw) data.password_hash = pw;
-  if (!data.full_name || !data.username) { notify('Ad ve kullanıcı adı zorunlu', 'err'); return; }
-  if (!id && !pw) { notify('Şifre zorunlu', 'err'); return; }
-  var p = id ? sbFetch('users?id=eq.' + id, 'PATCH', data) : sbFetch('users', 'POST', data);
-  p.then(function() { notify(id ? 'Güncellendi' : 'Personel eklendi'); closeM('m-agent'); loadAgents(); fillAgSelects(); })
+  if (!data.full_name || !data.username) { notify('Zorunlu alanlar eksik', 'err'); return; }
+  if (!id && !pw) { notify('Sifre zorunlu', 'err'); return; }
+  var p = id ? sbSet('users?id=eq.' + id, 'PATCH', data) : sbSet('users', 'POST', data);
+  p.then(function() { notify(id ? 'Guncellendi' : 'Personel eklendi'); closeM('m-agent'); loadAgents(); fillAgSels(); })
    .catch(function(e) { notify(e.message, 'err'); });
 }
 
+// ARAMALAR
 function loadCalls() {
   var f = CU.role === 'agent' ? '&agent_id=eq.' + CU.id : '';
-  sbFetch('calls?select=*,customers(full_name),users(full_name)&order=called_at.desc' + f).then(function(calls) {
-    var oc = {interested:'İlgilendi', not_interested:'İlgilenmedi', callback:'Geri Arama', appointment:'Randevu', sold:'Satış'};
-    var html = '';
-    for (var i = 0; i < calls.length; i++) {
-      var c = calls[i];
-      var cls = c.outcome === 'sold' ? 'ts' : c.outcome === 'appointment' ? 'ta' : c.outcome === 'interested' ? 'tw2' : 'tc';
+  sbGet('calls?select=*,customers(full_name),users(full_name,role)&order=called_at.desc' + f).then(function(cs) {
+    var oc = {interested:'Ilgilendi',not_interested:'Ilgilenmedi',callback:'Geri Arama',appointment:'Randevu',sold:'Satis',ai_warm:'AI Sicak'};
+    var h = '';
+    for (var i = 0; i < cs.length; i++) {
+      var c = cs[i];
+      var isAI = c.call_type === 'ai' || (c.users && c.users.role === 'ai');
+      var cl = c.outcome === 'sold' ? 'ts' : c.outcome === 'appointment' ? 'ta' : c.outcome === 'interested' ? 'tw2' : 'tc';
       var dur = c.duration_seconds ? Math.floor(c.duration_seconds/60) + ':' + ('0' + c.duration_seconds%60).slice(-2) : '---';
-      html += '<tr>';
-      html += '<td>' + (c.customers ? c.customers.full_name : '---') + '</td>';
-      html += '<td>' + (c.users ? c.users.full_name : '---') + '</td>';
-      html += '<td><span class="tag ta">' + c.call_type + '</span></td>';
-      html += '<td>' + dur + '</td>';
-      html += '<td>' + (c.outcome ? '<span class="tag ' + cls + '">' + (oc[c.outcome] || c.outcome) + '</span>' : '---') + '</td>';
-      html += '<td style="color:var(--t3);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (c.notes || '---') + '</td>';
-      html += '<td>' + fmtDT(c.called_at) + '</td></tr>';
+      var agLabel = (c.users ? c.users.full_name : '---') + (isAI ? ' <span class="tag tai" style="font-size:8px">AI</span>' : '');
+      h += '<tr><td>' + (c.customers ? c.customers.full_name : '---') + '</td>';
+      h += '<td>' + agLabel + '</td>';
+      h += '<td><span class="tag ' + (isAI ? 'tai' : 'ta') + '">' + c.call_type + '</span></td>';
+      h += '<td>' + dur + '</td>';
+      h += '<td>' + (c.outcome ? '<span class="tag ' + cl + '">' + (oc[c.outcome] || c.outcome) + '</span>' : '---') + '</td>';
+      h += '<td style="color:var(--t3);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (c.notes || '---') + '</td>';
+      h += '<td>' + fdt(c.called_at) + '</td></tr>';
     }
-    document.getElementById('ctb').innerHTML = html || '<tr><td colspan="7" class="empty">Arama yok</td></tr>';
+    document.getElementById('ctb').innerHTML = h || '<tr><td colspan="7" class="empty">Arama yok</td></tr>';
   }).catch(function(e) { notify(e.message, 'err'); });
 }
 
-function openCallLog() { fillCuSelects(); openM('m-call'); }
-
+function openCallLog() { fillCuSels(); openM('m-call'); }
 function saveCall() {
   var data = {
     customer_id: document.getElementById('c-cu').value || null,
-    agent_id: CU.id,
-    call_type: document.getElementById('c-ty').value,
+    agent_id: CU.id, call_type: document.getElementById('c-ty').value,
     duration_seconds: parseInt(document.getElementById('c-d').value) || 0,
     status: document.getElementById('c-st').value,
     outcome: document.getElementById('c-ou').value || null,
     notes: document.getElementById('c-nt').value.trim() || null
   };
-  sbFetch('calls', 'POST', data)
-    .then(function() { notify('Arama kaydedildi'); closeM('m-call'); loadCalls(); })
+  sbSet('calls', 'POST', data).then(function() { notify('Arama kaydedildi'); closeM('m-call'); loadCalls(); })
     .catch(function(e) { notify(e.message, 'err'); });
 }
 
+// RANDEVULAR
 function loadAppts() {
   var f = CU.role === 'agent' ? '&agent_id=eq.' + CU.id : '';
-  sbFetch('appointments?select=*,customers(full_name),users(full_name)&order=appointment_date.asc' + f).then(function(appts) {
-    var tl = {call:'Telefon', meeting:'Yüz Yüze', online:'Online'};
-    var html = '';
-    for (var i = 0; i < appts.length; i++) {
-      var a = appts[i];
+  sbGet('appointments?select=*,customers(full_name),users(full_name)&order=appointment_date.asc' + f).then(function(as) {
+    var tl = {call:'Telefon',meeting:'Yuz Yuze',online:'Online'};
+    var h = '';
+    for (var i = 0; i < as.length; i++) {
+      var a = as[i];
       var sc = a.status === 'completed' ? 'ts' : a.status === 'cancelled' ? 'tl' : 'ta';
-      html += '<tr>';
-      html += '<td>' + (a.customers ? a.customers.full_name : '---') + '</td>';
-      html += '<td>' + (a.users ? a.users.full_name : '---') + '</td>';
-      html += '<td>' + fmtDT(a.appointment_date) + '</td>';
-      html += '<td>' + (tl[a.type] || a.type) + '</td>';
-      html += '<td><span class="tag ' + sc + '">' + a.status + '</span></td>';
-      html += '<td style="color:var(--t3)">' + (a.notes || '---') + '</td>';
-      html += '<td><div class="fx g6">';
-      html += '<button class="btn bv sm" onclick="updAppt(\'' + a.id + '\',\'completed\')">Tamam</button>';
-      html += '<button class="btn br sm" onclick="updAppt(\'' + a.id + '\',\'cancelled\')">İptal</button>';
-      html += '</div></td></tr>';
+      h += '<tr><td>' + (a.customers ? a.customers.full_name : '---') + '</td>';
+      h += '<td>' + (a.users ? a.users.full_name : '---') + '</td>';
+      h += '<td>' + fdt(a.appointment_date) + '</td>';
+      h += '<td>' + (tl[a.type] || a.type) + '</td>';
+      h += '<td><span class="tag ' + sc + '">' + a.status + '</span></td>';
+      h += '<td style="color:var(--t3)">' + (a.notes || '---') + '</td>';
+      h += '<td><div class="fx g6"><button class="btn bv sm" onclick="updAppt(\'' + a.id + '\',\'completed\')">Tamam</button><button class="btn br sm" onclick="updAppt(\'' + a.id + '\',\'cancelled\')">Iptal</button></div></td></tr>';
     }
-    document.getElementById('atb').innerHTML = html || '<tr><td colspan="7" class="empty">Randevu yok</td></tr>';
+    document.getElementById('atb').innerHTML = h || '<tr><td colspan="7" class="empty">Randevu yok</td></tr>';
   }).catch(function(e) { notify(e.message, 'err'); });
 }
-
-function openAppt() { fillCuSelects(); fillAgSelects(); openM('m-appt'); }
-
+function openAppt() { fillCuSels(); fillAgSels(); openM('m-appt'); }
 function saveAppt() {
   var dt = document.getElementById('ap-dt').value;
   if (!dt) { notify('Tarih zorunlu', 'err'); return; }
@@ -948,57 +1083,50 @@ function saveAppt() {
     type: document.getElementById('ap-ty').value,
     notes: document.getElementById('ap-nt').value.trim() || null
   };
-  sbFetch('appointments', 'POST', data).then(function() {
-    if (data.customer_id) sbFetch('customers?id=eq.' + data.customer_id, 'PATCH', {status:'appointment', updated_at: new Date().toISOString()});
+  sbSet('appointments', 'POST', data).then(function() {
+    if (data.customer_id) sbSet('customers?id=eq.' + data.customer_id, 'PATCH', {status:'appointment', updated_at: new Date().toISOString()});
     notify('Randevu eklendi'); closeM('m-appt'); loadAppts();
   }).catch(function(e) { notify(e.message, 'err'); });
 }
-
-function updAppt(id, status) {
-  sbFetch('appointments?id=eq.' + id, 'PATCH', {status: status})
-    .then(function() { notify('Güncellendi'); loadAppts(); })
+function updAppt(id, st) {
+  sbSet('appointments?id=eq.' + id, 'PATCH', {status: st})
+    .then(function() { notify('Guncellendi'); loadAppts(); })
     .catch(function(e) { notify(e.message, 'err'); });
 }
 
+// SATIŞLAR
 function loadSales() {
   var f = CU.role === 'agent' ? '&agent_id=eq.' + CU.id : '';
-  sbFetch('sales?select=*,customers(full_name),users(full_name)&order=created_at.desc' + f).then(function(sales) {
-    var totalDep = 0, totalCom = 0, thisMonth = 0;
-    var now = new Date().getMonth();
-    for (var i = 0; i < sales.length; i++) {
-      if (sales[i].status === 'confirmed') {
-        totalDep += Number(sales[i].deposit_amount);
-        totalCom += Number(sales[i].commission);
-      }
-      if (new Date(sales[i].sale_date).getMonth() === now) thisMonth++;
+  sbGet('sales?select=*,customers(full_name),users(full_name)&order=created_at.desc' + f).then(function(ss) {
+    var td = 0, tc = 0, tm = 0, mn = new Date().getMonth();
+    for (var i = 0; i < ss.length; i++) {
+      if (ss[i].status === 'confirmed') { td += Number(ss[i].deposit_amount); tc += Number(ss[i].commission); }
+      if (new Date(ss[i].sale_date).getMonth() === mn) tm++;
     }
-    document.getElementById('sm1').textContent = sales.length;
-    document.getElementById('sm2').textContent = totalDep.toLocaleString('tr-TR') + '$';
-    document.getElementById('sm3').textContent = totalCom.toLocaleString('tr-TR') + '$';
-    document.getElementById('sm4').textContent = thisMonth;
-    var html = '';
-    for (var i = 0; i < sales.length; i++) {
-      var s = sales[i];
+    document.getElementById('sm1').textContent = ss.length;
+    document.getElementById('sm2').textContent = td.toLocaleString('tr-TR') + '$';
+    document.getElementById('sm3').textContent = tc.toLocaleString('tr-TR') + '$';
+    document.getElementById('sm4').textContent = tm;
+    var h = '';
+    for (var i = 0; i < ss.length; i++) {
+      var s = ss[i];
       var sc = s.status === 'confirmed' ? 'ts' : s.status === 'cancelled' ? 'tl' : 'tw2';
-      html += '<tr>';
-      html += '<td>' + (s.customers ? s.customers.full_name : '---') + '</td>';
-      html += '<td>' + (s.users ? s.users.full_name : '---') + '</td>';
-      html += '<td>' + s.product + '</td>';
-      html += '<td style="color:var(--green)">' + Number(s.deposit_amount).toLocaleString() + ' ' + s.currency + '</td>';
-      html += '<td style="color:var(--gold)">' + Number(s.commission).toLocaleString() + ' ' + s.currency + '</td>';
-      html += '<td><span class="tag ' + sc + '">' + s.status + '</span></td>';
-      html += '<td>' + fmtDate(s.sale_date) + '</td></tr>';
+      h += '<tr><td>' + (s.customers ? s.customers.full_name : '---') + '</td>';
+      h += '<td>' + (s.users ? s.users.full_name : '---') + '</td>';
+      h += '<td>' + s.product + '</td>';
+      h += '<td style="color:var(--green)">' + Number(s.deposit_amount).toLocaleString() + ' ' + s.currency + '</td>';
+      h += '<td style="color:var(--gold)">' + Number(s.commission).toLocaleString() + ' ' + s.currency + '</td>';
+      h += '<td><span class="tag ' + sc + '">' + s.status + '</span></td>';
+      h += '<td>' + fd(s.sale_date) + '</td></tr>';
     }
-    document.getElementById('stb').innerHTML = html || '<tr><td colspan="7" class="empty">Satış yok</td></tr>';
+    document.getElementById('stb').innerHTML = h || '<tr><td colspan="7" class="empty">Satis yok</td></tr>';
   }).catch(function(e) { notify(e.message, 'err'); });
 }
-
 function openSale() {
-  fillCuSelects(); fillAgSelects();
+  fillCuSels(); fillAgSels();
   document.getElementById('s-dt').value = new Date().toISOString().split('T')[0];
   openM('m-sale');
 }
-
 function saveSale() {
   var data = {
     customer_id: document.getElementById('s-cu').value || null,
@@ -1011,115 +1139,253 @@ function saveSale() {
     status: document.getElementById('s-st').value,
     notes: document.getElementById('s-nt').value.trim() || null
   };
-  sbFetch('sales', 'POST', data).then(function() {
-    if (data.customer_id) sbFetch('customers?id=eq.' + data.customer_id, 'PATCH', {status:'sold', updated_at: new Date().toISOString()});
-    notify('Satış kaydedildi'); closeM('m-sale'); loadSales();
+  sbSet('sales', 'POST', data).then(function() {
+    if (data.customer_id) sbSet('customers?id=eq.' + data.customer_id, 'PATCH', {status:'sold', updated_at: new Date().toISOString()});
+    notify('Satis kaydedildi'); closeM('m-sale'); loadSales();
   }).catch(function(e) { notify(e.message, 'err'); });
 }
 
-function loadCamp() {
-  if (CU.role !== 'admin') return;
-  sbFetch('campaigns?select=*&order=created_at.desc').then(function(camps) {
-    var sc = {draft:'tc', running:'th', paused:'tw2', completed:'ts'};
-    var html = '';
-    for (var i = 0; i < camps.length; i++) {
-      var c = camps[i];
-      html += '<tr>';
-      html += '<td><b>' + c.name + '</b></td>';
-      html += '<td><span class="tag ' + (sc[c.status] || 'tc') + '">' + c.status + '</span></td>';
-      html += '<td>' + c.daily_limit + '</td><td>' + c.calls_made + '</td>';
-      html += '<td style="color:var(--green)">' + c.hot_leads_generated + '</td>';
-      html += '<td>' + fmtDate(c.created_at) + '</td>';
-      html += '<td><div class="fx g6">';
-      html += '<button class="btn bv sm" onclick="updCamp(\'' + c.id + '\',\'running\')">Başlat</button>';
-      html += '<button class="btn bo sm" onclick="updCamp(\'' + c.id + '\',\'paused\')">Durdur</button>';
-      html += '</div></td></tr>';
+// AI AJAN - Ayşe
+function loadAI() {
+  loadCamp();
+  previewPrompt();
+}
+
+function buildAysePrompt() {
+  var today = new Date().toLocaleDateString('tr-TR', {day:'numeric',month:'long',year:'numeric'});
+  return 'Sen Global Eksbina finansal danismani Aysesin. 15 yillik deneyimli, empatik, ikna edici bir finansal danismansin. Musteri her zaman haklinin bilinciyle hareket edersin.\n\n' +
+    'BUGUN: ' + today + '\n\n' +
+    'GUNCEL PIYASA DURUMU:\n' +
+    'ALTIN: 4.761 dolar seviyesinde. Hurmus Bogazi gerilimi ve Iran-ABD krizi nedeniyle altin guvenli liman talebi artmis durumda. Fed faiz belirsizligi ile birlikte altin 5.000 dolar hedefine yaklasıyor. Bu firsati kaçirmamak icin simdi dogru zaman.\n\n' +
+    'PETROL (Brent/WTI): 102+ dolar. ABD-Iran gerginligi Hurmus Bogazi\'ni tehdit ediyor, kuresel arz riski ciddi. Brent petrol 110 dolara dogru yukselebilir. Enerji CFDlerinde yukari yone pozisyon icin kritik an.\n\n' +
+    'GUMUS: Altin ile paralel hareket. Sanayi talep + jeopolitik risk kombinasyonu gucu destekliyor.\n\n' +
+    'EUR/USD: 1.1706 seviyesinde. Euro bolgesi zayifligi ve dolar gucuyle volatilite yuksek. Forex trendlerden kar etmek isteyenler icin ideal.\n\n' +
+    'NASDAQ/ENDEKSLER: ABD teknoloji sektoru guclü seyrediyor.\n\n' +
+    'ACiLiYET FAKTORU: Hurmus Bogazi gerginligi her an kapanabilir - bu pencere cok dar. Altin ve petrolde bu yukaris dalgas gecici olabilir, simdi girmek kritik.\n\n' +
+    'KONUSMA KURALLARI:\n' +
+    '- Turkce konuş, kisaltma kullanma\n' +
+    '- Her cumle maksimum 2 cumle, kisak ve net\n' +
+    '- Musteri ilgisine gore urun sun: altin/gumus > petrol > forex > endeks sirasinda\n' +
+    '- İLK 30 SANIYE en onemli: piyasa gundemine bagla\n' +
+    '- Itiraz OLMADAN acilis: "Merhaba, [isim] Bey/Hanim, bugun altin 4.761 dolara ulasti, Hurmus krizi ile rekor yolda. 60 saniye vaktiniz var mi?"\n\n' +
+    'ITIRAZ KARSILAMA:\n' +
+    '"Ilgilenmiyorum" -> "Anliyorum, sadece 60 saniye. Altinin bugun neden rekor kirdigini paylasmak istedim."\n' +
+    '"Guvenmiyorum" -> "Cok hakli bir soru. Global Eksbina uluslararasi denetimli platformdur. Demo hesap acin, tek kurus gondermeden sistemi gorun."\n' +
+    '"Param yok" -> "Demo hesap tamamen ucretsiz. Sistemi ogrenin, hazir olunca kucuk bir miktarla baslayin."\n' +
+    '"Riskli" -> "Altin tarihin en guvenli yatirimi. Zarar kesme emirleriyle riski kontrol altinda tutarsınız."\n' +
+    '"Dusunecegim" -> "Tabii ki. Ama Hurmus krizi cozcezse bu firsati kacirabilirsiniz. Sizi yarin sabahlayın arayabilir miyim?"\n\n' +
+    'HEDEF: Demo hesap acilisi veya randevu. Satis baskisi yapma, partner ol.\n' +
+    'YASAK: Garanti vaat etme, kesin kazan deme, 2 kez net hayir gelirse ısrar etme.';
+}
+
+function previewPrompt() {
+  document.getElementById('prompt-preview').textContent = buildAysePrompt();
+}
+
+function startAiCampaign() {
+  var target = document.getElementById('ai-target').value;
+  var limit = document.getElementById('ai-limit').value || 100;
+  var product = document.getElementById('ai-product').value;
+  var prompt = buildAysePrompt();
+  var sys = prompt;
+
+  // Vapi'ye prompt gönder
+  fetch('https://api.vapi.ai/assistant/' + AID, {
+    method: 'PATCH',
+    headers: {'Authorization': 'Bearer ' + VK, 'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      model: {
+        provider: 'anthropic',
+        model: 'claude-sonnet-4-20250514',
+        messages: [{role: 'system', content: sys}],
+        temperature: 0.75,
+        maxTokens: 180
+      }
+    })
+  }).then(function(r) { return r.json(); }).then(function(d) {
+    if (d.id) {
+      // Kampanya kaydet
+      sbSet('campaigns', 'POST', {
+        name: 'Ayse AI - ' + product + ' - ' + new Date().toLocaleDateString('tr-TR'),
+        status: 'running',
+        daily_limit: parseInt(limit),
+        calls_made: 0,
+        hot_leads_generated: 0,
+        created_by: CU.id
+      }).then(function() {
+        notify('Ayse kampanyasi baslatildi! Vapi promptu guncellendi.');
+        loadCamp();
+      });
+    } else {
+      notify('Vapi hatasi: ' + JSON.stringify(d).substring(0,100), 'err');
     }
-    document.getElementById('camptb').innerHTML = html || '<tr><td colspan="7" class="empty">Kampanya yok</td></tr>';
+  }).catch(function(e) { notify('Baglanti hatasi: ' + e.message, 'err'); });
+}
+
+// KAMPANYALAR
+function loadCamp() {
+  sbGet('campaigns?select=*&order=created_at.desc').then(function(cs) {
+    var sc = {draft:'tc', running:'th', paused:'tw2', completed:'ts'};
+    var h = '';
+    for (var i = 0; i < cs.length; i++) {
+      var c = cs[i];
+      h += '<tr><td><b>' + c.name + '</b></td>';
+      h += '<td><span class="tag ' + (sc[c.status] || 'tc') + '">' + c.status + '</span></td>';
+      h += '<td>' + c.daily_limit + '</td><td>' + c.calls_made + '</td>';
+      h += '<td style="color:var(--green)">' + c.hot_leads_generated + '</td>';
+      h += '<td>' + fd(c.created_at) + '</td>';
+      h += '<td><div class="fx g6">';
+      h += '<button class="btn bv sm" onclick="updCamp(\'' + c.id + '\',\'running\')">Baslat</button>';
+      h += '<button class="btn bo sm" onclick="updCamp(\'' + c.id + '\',\'paused\')">Durdur</button>';
+      h += '</div></td></tr>';
+    }
+    var camptb = document.getElementById('camptb');
+    if (camptb) camptb.innerHTML = h || '<tr><td colspan="7" class="empty">Kampanya yok</td></tr>';
+    
+    // AI sayfasındaki kampanya listesi
+    var campList = document.getElementById('camp-list');
+    if (campList) {
+      if (!cs.length) { campList.innerHTML = '<div class="empty">Kampanya yok</div>'; return; }
+      var lh = '';
+      for (var i = 0; i < Math.min(cs.length, 3); i++) {
+        var c = cs[i];
+        lh += '<div class="sb" style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)">';
+        lh += '<div><div style="font-size:12px;color:var(--t1)">' + c.name + '</div>';
+        lh += '<div style="font-size:10px;color:var(--t3)">' + c.calls_made + ' arandi · ' + c.hot_leads_generated + ' sicak</div></div>';
+        lh += '<span class="tag ' + (sc[c.status] || 'tc') + '">' + c.status + '</span></div>';
+      }
+      campList.innerHTML = lh;
+    }
   }).catch(function(e) { notify(e.message, 'err'); });
 }
-
 function openCamp() { openM('m-camp'); }
-
 function saveCamp() {
-  var data = {
-    name: document.getElementById('cp-n').value.trim(),
-    daily_limit: parseInt(document.getElementById('cp-l').value) || 500,
-    status: document.getElementById('cp-s').value,
-    created_by: CU.id
-  };
-  if (!data.name) { notify('Kampanya adı zorunlu', 'err'); return; }
-  sbFetch('campaigns', 'POST', data)
-    .then(function() { notify('Kampanya oluşturuldu'); closeM('m-camp'); loadCamp(); })
+  var data = {name: document.getElementById('cp-n').value.trim(), daily_limit: parseInt(document.getElementById('cp-l').value) || 500, status: document.getElementById('cp-s').value, created_by: CU.id};
+  if (!data.name) { notify('Kampanya adi zorunlu', 'err'); return; }
+  sbSet('campaigns', 'POST', data).then(function() { notify('Kampanya olusturuldu'); closeM('m-camp'); loadCamp(); })
+    .catch(function(e) { notify(e.message, 'err'); });
+}
+function updCamp(id, st) {
+  sbSet('campaigns?id=eq.' + id, 'PATCH', {status: st})
+    .then(function() { notify('Guncellendi'); loadCamp(); })
     .catch(function(e) { notify(e.message, 'err'); });
 }
 
-function updCamp(id, status) {
-  sbFetch('campaigns?id=eq.' + id, 'PATCH', {status: status})
-    .then(function() { notify('Güncellendi'); loadCamp(); })
-    .catch(function(e) { notify(e.message, 'err'); });
-}
-
-function openImport() { fillAgSelects('csv-ag'); openM('m-import'); }
+// CSV IMPORT - Dosya + tekil telefon kontrolü
+function openImport() { fillAgSels('csv-ag'); openM('m-import'); }
 
 function importCSV() {
   var raw = document.getElementById('csv-data').value.trim();
   var agId = document.getElementById('csv-ag').value || null;
-  if (!raw) { notify('CSV girin', 'err'); return; }
+  if (!raw) { notify('CSV girin veya dosya secin', 'err'); return; }
+  
   var lines = raw.split('\n');
   var valid = [];
   for (var i = 0; i < lines.length; i++) {
-    var parts = lines[i].split(',');
-    if (parts.length < 2) continue;
-    var fn = parts[0].trim().replace(/^"|"$/g,'');
-    var ph = parts[1].trim().replace(/^"|"$/g,'');
-    var em = parts[2] ? parts[2].trim().replace(/^"|"$/g,'') : null;
-    var ci = parts[3] ? parts[3].trim().replace(/^"|"$/g,'') : null;
-    var it = parts[4] ? parts[4].trim().replace(/^"|"$/g,'') : null;
+    var line = lines[i].trim();
+    if (!line) continue;
+    var pts = line.split(',');
+    if (pts.length < 2) continue;
+    var fn = pts[0].trim().replace(/^"|"$/g, '');
+    var ph = pts[1].trim().replace(/^"|"$/g, '');
+    var em = pts[2] ? pts[2].trim().replace(/^"|"$/g, '') : null;
+    var ci = pts[3] ? pts[3].trim().replace(/^"|"$/g, '') : null;
+    var it = pts[4] ? pts[4].trim().replace(/^"|"$/g, '') : null;
     if (!fn || !ph) continue;
-    valid.push({full_name:fn, phone:ph, email:em||null, city:ci||null, interest:it||null, assigned_to:agId, source:'csv'});
+    valid.push({full_name: fn, phone: ph, email: em || null, city: ci || null, interest: it || null, assigned_to: agId, source: 'csv'});
   }
-  if (!valid.length) { notify('Geçerli satır bulunamadı', 'err'); return; }
-  notify('Yükleniyor... ' + valid.length + ' satır');
-  var ok = 0, errs = 0;
-  var idx = 0;
-  function next() {
-    if (idx >= valid.length) {
-      notify(ok + ' lead yüklendi' + (errs ? ' (' + errs + ' hata)' : ''));
-      closeM('m-import');
-      loadLeads();
-      return;
+  if (!valid.length) { notify('Gecerli satir bulunamadi', 'err'); return; }
+  
+  // Mevcut telefonları çek - tekrar kontrolü
+  sbGet('customers?select=phone').then(function(existing) {
+    var existingPhones = {};
+    for (var i = 0; i < existing.length; i++) existingPhones[existing[i].phone] = true;
+    
+    var toInsert = [];
+    var skipped = 0;
+    for (var i = 0; i < valid.length; i++) {
+      if (existingPhones[valid[i].phone]) { skipped++; continue; }
+      toInsert.push(valid[i]);
     }
-    sbFetch('customers', 'POST', valid[idx])
-      .then(function() { ok++; idx++; next(); })
-      .catch(function() { errs++; idx++; next(); });
-  }
-  next();
+    
+    if (!toInsert.length) { notify('Tum numaralar zaten kayitli (' + skipped + ' atlatildi)', 'err'); return; }
+    
+    var prog = document.getElementById('csv-progress');
+    var progFill = document.getElementById('csv-prog-fill');
+    var progText = document.getElementById('csv-prog-text');
+    if (prog) prog.style.display = 'block';
+    
+    var ok = 0, idx = 0;
+    function next() {
+      if (idx >= toInsert.length) {
+        if (prog) prog.style.display = 'none';
+        notify(ok + ' lead yuklendi' + (skipped ? ' (' + skipped + ' tekrar atlatildi)' : ''));
+        closeM('m-import');
+        document.getElementById('csv-data').value = '';
+        document.getElementById('csv-file').value = '';
+        loadLeads();
+        return;
+      }
+      var pct = Math.round((idx / toInsert.length) * 100);
+      if (progFill) progFill.style.width = pct + '%';
+      if (progText) progText.textContent = idx + ' / ' + toInsert.length;
+      
+      sbSet('customers', 'POST', toInsert[idx])
+        .then(function() { ok++; idx++; next(); })
+        .catch(function() { idx++; next(); });
+    }
+    next();
+  }).catch(function() {
+    // Kontrol yapamadık, direkt yükle
+    var ok = 0, idx = 0;
+    function next() {
+      if (idx >= valid.length) { notify(ok + ' lead yuklendi'); closeM('m-import'); loadLeads(); return; }
+      sbSet('customers', 'POST', valid[idx]).then(function() { ok++; idx++; next(); }).catch(function() { idx++; next(); });
+    }
+    next();
+  });
 }
 
-function fillAgSelects(targetId) {
-  var ids = targetId ? [targetId] : ['l-ag', 'ap-ag', 's-ag', 'csv-ag'];
-  var opts = '<option value="">Seçin</option>';
+function fillAgSels(t) {
+  var ids = t ? [t] : ['l-ag', 'ap-ag', 's-ag', 'csv-ag'];
+  var o = '<option value="">Secin</option>';
   for (var i = 0; i < allU.length; i++) {
-    opts += '<option value="' + allU[i].id + '">' + allU[i].full_name + '</option>';
+    var label = allU[i].full_name + (allU[i].role === 'ai' ? ' (AI Ayse)' : '');
+    o += '<option value="' + allU[i].id + '">' + label + '</option>';
   }
   for (var i = 0; i < ids.length; i++) {
     var el = document.getElementById(ids[i]);
-    if (el) { var v = el.value; el.innerHTML = opts; el.value = v; }
+    if (!el) continue;
+    var v = el.value; el.innerHTML = o; el.value = v;
   }
 }
 
-function fillCuSelects() {
+function fillCuSels() {
   var f = CU.role === 'agent' ? '&assigned_to=eq.' + CU.id : '';
-  sbFetch('customers?select=id,full_name&order=full_name' + f + '&limit=500').then(function(custs) {
-    var opts = '<option value="">Müşteri seçin</option>';
-    for (var i = 0; i < custs.length; i++) {
-      opts += '<option value="' + custs[i].id + '">' + custs[i].full_name + '</option>';
-    }
+  sbGet('customers?select=id,full_name&order=full_name' + f + '&limit=500').then(function(cs) {
+    var o = '<option value="">Musteri secin</option>';
+    for (var i = 0; i < cs.length; i++) o += '<option value="' + cs[i].id + '">' + cs[i].full_name + '</option>';
     var ids = ['c-cu', 'ap-cu', 's-cu'];
     for (var i = 0; i < ids.length; i++) {
       var el = document.getElementById(ids[i]);
-      if (el) el.innerHTML = opts;
+      if (el) el.innerHTML = o;
+    }
+  });
+}
+
+// Ayşe personelini otomatik oluştur
+function createAyseIfNotExists() {
+  sbGet('users?username=eq.ayse&select=id').then(function(r) {
+    if (!r.length) {
+      sbSet('users', 'POST', {
+        username: 'ayse',
+        password_hash: 'ayse_ai_2026',
+        full_name: 'Ayse (AI)',
+        role: 'ai',
+        is_active: true
+      }).then(function() {
+        console.log('Ayse AI personeli olusturuldu');
+      }).catch(function() {});
     }
   });
 }
@@ -1129,6 +1395,9 @@ setInterval(function() {
   var el = document.getElementById('clk');
   if (el) el.textContent = n.toLocaleTimeString('tr-TR') + ' - ' + n.toLocaleDateString('tr-TR');
 }, 1000);
+
+// Sayfa yüklenince Ayşe'yi oluştur
+createAyseIfNotExists();
 </script>
 </body>
 </html>
