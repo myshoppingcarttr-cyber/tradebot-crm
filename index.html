@@ -103,43 +103,43 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
 <div id="login">
   <div class="lbox">
     <div class="llogo">
-      <div class="lname">GLOBAL EKSBİNA</div>
+      <div class="lname">GLOBAL EKSBÄ°NA</div>
       <div class="lsub">AI CALL CENTER CRM</div>
     </div>
-    <label class="fl">Kullanıcı Adı</label>
+    <label class="fl">KullanÄ±cÄ± AdÄ±</label>
     <input class="li" id="lu" placeholder="kullanici adi" autocomplete="off">
-    <label class="fl">Şifre</label>
-    <input class="li" id="lp" type="password" placeholder="••••••••">
-    <button class="lbtn" id="loginBtn">Giriş Yap</button>
+    <label class="fl">Åifre</label>
+    <input class="li" id="lp" type="password" placeholder="â¢â¢â¢â¢â¢â¢â¢â¢">
+    <button class="lbtn" id="loginBtn">GiriÅ Yap</button>
     <div class="lerr" id="lerr"></div>
   </div>
 </div>
 
 <div id="app">
   <div class="topbar">
-    <div class="tlogo">GLOBAL EKSBİNA</div>
+    <div class="tlogo">GLOBAL EKSBÄ°NA</div>
     <div class="tsep"></div>
     <div class="tnav" id="nav"></div>
     <div class="tright">
       <span style="font-size:10px;color:var(--t3)" id="clk"></span>
       <div class="ubadge"><div class="udot"></div><span id="uname">-</span></div>
-      <button class="lout" id="logoutBtn">Çıkış</button>
+      <button class="lout" id="logoutBtn">ÃÄ±kÄ±Å</button>
     </div>
   </div>
-  <div class="ticker"><span class="tick" id="ticker-text">&nbsp;&nbsp;Yükleniyor...&nbsp;&nbsp;</span></div>
+  <div class="ticker"><span class="tick" id="ticker-text">&nbsp;&nbsp;YÃ¼kleniyor...&nbsp;&nbsp;</span></div>
   <div class="main">
 
     <!-- DASHBOARD -->
     <div id="pg-dash" class="page act">
       <div class="metrics">
         <div class="metric"><div class="ml">Toplam Lead</div><div class="mv" id="m1" style="color:var(--blue)">-</div></div>
-        <div class="metric"><div class="ml">Sıcak Lead</div><div class="mv" id="m2" style="color:var(--green)">-</div></div>
+        <div class="metric"><div class="ml">SÄ±cak Lead</div><div class="mv" id="m2" style="color:var(--green)">-</div></div>
         <div class="metric"><div class="ml">Randevu</div><div class="mv" id="m3" style="color:var(--gold)">-</div></div>
-        <div class="metric"><div class="ml">Satış</div><div class="mv" id="m4" style="color:var(--purple)">-</div></div>
+        <div class="metric"><div class="ml">SatÄ±Å</div><div class="mv" id="m4" style="color:var(--purple)">-</div></div>
       </div>
       <div class="g2">
-        <div class="panel"><div class="ph"><div class="pt">Son Aramalar</div></div><div id="d-calls"><div class="empty">Yükleniyor...</div></div></div>
-        <div class="panel"><div class="ph"><div class="pt">Bugünün Randevuları</div></div><div id="d-appts"><div class="empty">Yükleniyor...</div></div></div>
+        <div class="panel"><div class="ph"><div class="pt">Son Aramalar</div></div><div id="d-calls"><div class="empty">YÃ¼kleniyor...</div></div></div>
+        <div class="panel"><div class="ph"><div class="pt">BugÃ¼nÃ¼n RandevularÄ±</div></div><div id="d-appts"><div class="empty">YÃ¼kleniyor...</div></div></div>
       </div>
     </div>
 
@@ -147,42 +147,42 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
     <div id="pg-leads" class="page">
       <div class="sb" style="margin-bottom:8px">
         <div class="fx g8" style="flex-wrap:wrap;gap:6px">
-          <input class="inp" style="width:190px" placeholder="🔍 Ara..." id="lsq" oninput="filterL()">
+          <input class="inp" style="width:190px" placeholder="ð Ara..." id="lsq" oninput="filterL()">
           <select class="inp" style="width:115px" id="lss" onchange="filterL()">
-            <option value="">Tüm Durumlar</option>
-            <option value="cold">Soğuk</option><option value="warm">Ilık</option>
-            <option value="hot">Sıcak</option><option value="appointment">Randevu</option>
-            <option value="sold">Satış</option><option value="lost">Kayıp</option>
+            <option value="">TÃ¼m Durumlar</option>
+            <option value="cold">SoÄuk</option><option value="warm">IlÄ±k</option>
+            <option value="hot">SÄ±cak</option><option value="appointment">Randevu</option>
+            <option value="sold">SatÄ±Å</option><option value="lost">KayÄ±p</option>
           </select>
-          <select class="inp" style="width:130px" id="lsa" onchange="filterL()"><option value="">Tüm Personeller</option></select>
+          <select class="inp" style="width:130px" id="lsa" onchange="filterL()"><option value="">TÃ¼m Personeller</option></select>
         </div>
         <div class="fx g8">
-          <button class="btn bo sm" onclick="openImport()">📁 CSV Yükle</button>
+          <button class="btn bo sm" onclick="openImport()">ð CSV YÃ¼kle</button>
           <button class="btn bg sm" onclick="openLead(null)">+ Yeni Lead</button>
         </div>
       </div>
       <div class="bulk-bar" id="bulk-bar">
-        <span id="sel-count">0 seçili</span>
+        <span id="sel-count">0 seÃ§ili</span>
         <select class="inp" style="width:150px;padding:4px 8px;font-size:11px" id="bulk-ag"></select>
-        <button class="btn bb sm" onclick="bulkAssign()">👤 Personele Ata</button>
-        <button class="btn br sm" id="bulk-del-btn" onclick="bulkDelete()">🗑️ Seçilileri Sil</button>
-        <button class="btn bo sm" onclick="clearSel()">✕ İptal</button>
+        <button class="btn bb sm" onclick="bulkAssign()">ð¤ Personele Ata</button>
+        <button class="btn br sm" id="bulk-del-btn" onclick="bulkDelete()">ðï¸ SeÃ§ilileri Sil</button>
+        <button class="btn bo sm" onclick="clearSel()">â Ä°ptal</button>
       </div>
       <div class="panel" style="padding:0"><div class="tw"><table>
         <thead><tr>
           <th style="width:32px"><input type="checkbox" id="sel-all" onchange="toggleAll(this)"></th>
-          <th>İsim</th><th>Telefon</th><th>Şehir</th><th>İlgi</th><th>Durum</th><th>Skor</th><th>Personel</th><th>Tarih</th><th>İşlem</th>
+          <th>Ä°sim</th><th>Telefon</th><th>Åehir</th><th>Ä°lgi</th><th>Durum</th><th>Skor</th><th>Personel</th><th>Tarih</th><th>Ä°Ålem</th>
         </tr></thead>
-        <tbody id="ltb"><tr><td colspan="10" class="empty">Yükleniyor...</td></tr></tbody>
+        <tbody id="ltb"><tr><td colspan="10" class="empty">YÃ¼kleniyor...</td></tr></tbody>
       </table></div></div>
     </div>
 
     <!-- ARAMALAR -->
     <div id="pg-calls" class="page">
-      <div class="sb" style="margin-bottom:10px"><div class="pt">Arama Geçmişi</div><button class="btn bg sm" onclick="openCallLog()">+ Arama Kaydet</button></div>
+      <div class="sb" style="margin-bottom:10px"><div class="pt">Arama GeÃ§miÅi</div><button class="btn bg sm" onclick="openCallLog()">+ Arama Kaydet</button></div>
       <div class="panel" style="padding:0"><div class="tw"><table>
-        <thead><tr><th>Müşteri</th><th>Tip</th><th>Süre</th><th>Sonuç</th><th>Skor</th><th>İlgi</th><th>Özet</th><th>Personele Ata</th><th>Tarih</th></tr></thead>
-        <tbody id="ctb"><tr><td colspan="9" class="empty">Yükleniyor...</td></tr></tbody>
+        <thead><tr><th>MÃ¼Återi</th><th>Personel/AI</th><th>Tip</th><th>SÃ¼re</th><th>SonuÃ§</th><th>Not</th><th>Tarih</th></tr></thead>
+        <tbody id="ctb"><tr><td colspan="9" class="empty">Y&#252;kleniyor...</td></tr></tbody>
       </table></div></div>
     </div>
 
@@ -190,14 +190,14 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
     <div id="pg-appts" class="page">
       <div class="sb" style="margin-bottom:10px"><div class="pt">Randevular</div><button class="btn bg sm" onclick="openAppt()">+ Randevu Ekle</button></div>
       <div class="panel" style="padding:0"><div class="tw"><table>
-        <thead><tr><th>Müşteri</th><th>Personel</th><th>Tarih/Saat</th><th>Tip</th><th>Durum</th><th>Not</th><th>İşlem</th></tr></thead>
-        <tbody id="atb"><tr><td colspan="7" class="empty">Yükleniyor...</td></tr></tbody>
+        <thead><tr><th>MÃ¼Återi</th><th>Personel</th><th>Tarih/Saat</th><th>Tip</th><th>Durum</th><th>Not</th><th>Ä°Ålem</th></tr></thead>
+        <tbody id="atb"><tr><td colspan="7" class="empty">YÃ¼kleniyor...</td></tr></tbody>
       </table></div></div>
     </div>
 
-    <!-- SATIŞLAR -->
+    <!-- SATIÅLAR -->
     <div id="pg-sales" class="page">
-      <div class="sb" style="margin-bottom:10px"><div class="pt">Satışlar</div><button class="btn bg sm" onclick="openSale()">+ Satış Kaydet</button></div>
+      <div class="sb" style="margin-bottom:10px"><div class="pt">SatÄ±Ålar</div><button class="btn bg sm" onclick="openSale()">+ SatÄ±Å Kaydet</button></div>
       <div class="metrics">
         <div class="metric"><div class="ml">Toplam</div><div class="mv" id="sm1" style="color:var(--purple)">-</div></div>
         <div class="metric"><div class="ml">Depozit</div><div class="mv" id="sm2" style="color:var(--green)">-</div></div>
@@ -205,59 +205,59 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
         <div class="metric"><div class="ml">Bu Ay</div><div class="mv" id="sm4" style="color:var(--blue)">-</div></div>
       </div>
       <div class="panel" style="padding:0"><div class="tw"><table>
-        <thead><tr><th>Müşteri</th><th>Personel</th><th>Ürün</th><th>Depozit</th><th>Komisyon</th><th>Durum</th><th>Tarih</th></tr></thead>
-        <tbody id="stb"><tr><td colspan="7" class="empty">Yükleniyor...</td></tr></tbody>
+        <thead><tr><th>MÃ¼Återi</th><th>Personel</th><th>ÃrÃ¼n</th><th>Depozit</th><th>Komisyon</th><th>Durum</th><th>Tarih</th></tr></thead>
+        <tbody id="stb"><tr><td colspan="7" class="empty">YÃ¼kleniyor...</td></tr></tbody>
       </table></div></div>
     </div>
 
     <!-- PERSONELLER -->
     <div id="pg-agents" class="page">
-      <div class="sb" style="margin-bottom:10px"><div class="pt">Personel Yönetimi</div><button class="btn bg sm" onclick="openAgent(null)">+ Personel Ekle</button></div>
+      <div class="sb" style="margin-bottom:10px"><div class="pt">Personel YÃ¶netimi</div><button class="btn bg sm" onclick="openAgent(null)">+ Personel Ekle</button></div>
       <div class="panel" style="padding:0"><div class="tw"><table>
-        <thead><tr><th>İsim</th><th>Kull.Adı</th><th>Tip</th><th>Durum</th><th>Lead</th><th>Satış</th><th>İşlem</th></tr></thead>
-        <tbody id="agtb"><tr><td colspan="7" class="empty">Yükleniyor...</td></tr></tbody>
+        <thead><tr><th>Ä°sim</th><th>Kull.AdÄ±</th><th>Tip</th><th>Durum</th><th>Lead</th><th>SatÄ±Å</th><th>Ä°Ålem</th></tr></thead>
+        <tbody id="agtb"><tr><td colspan="7" class="empty">YÃ¼kleniyor...</td></tr></tbody>
       </table></div></div>
     </div>
 
-    <!-- AI AJAN (Ayşe) -->
+    <!-- AI AJAN (AyÅe) -->
     <div id="pg-ai" class="page">
       <div class="ai-panel" style="margin-bottom:14px">
         <div class="fx g8" style="margin-bottom:10px">
-          <div class="ai-badge"><div class="ai-dot"></div>Ayşe AI Ajan — Aktif</div>
-          <span style="font-size:10px;color:var(--t3);margin-left:8px">Global Eksbina · Finansal Danışman</span>
+          <div class="ai-badge"><div class="ai-dot"></div>AyÅe AI Ajan â Aktif</div>
+          <span style="font-size:10px;color:var(--t3);margin-left:8px">Global Eksbina Â· Finansal DanÄ±Åman</span>
         </div>
         <div style="font-size:11px;color:var(--t2);line-height:1.7">
-          Ayşe, outbound aramalar yaparak soğuk ve ılık leadleri sıcağa dönüştürür. Altın, petrol ve forex ürünlerine odaklanır. Güncel piyasa verilerini ve jeopolitik gelişmeleri kullanarak aciliyet yaratır.
+          AyÅe, outbound aramalar yaparak soÄuk ve Ä±lÄ±k leadleri sÄ±caÄa dÃ¶nÃ¼ÅtÃ¼rÃ¼r. AltÄ±n, petrol ve forex Ã¼rÃ¼nlerine odaklanÄ±r. GÃ¼ncel piyasa verilerini ve jeopolitik geliÅmeleri kullanarak aciliyet yaratÄ±r.
         </div>
       </div>
       <div class="g2">
         <div class="panel">
-          <div class="ph"><div class="pt">Kampanya Başlat</div></div>
+          <div class="ph"><div class="pt">Kampanya BaÅlat</div></div>
           <div class="fg"><label class="fl">Hedef Lead Durumu</label>
             <select class="inp" id="ai-target">
-              <option value="cold,warm">Soğuk + Ilık</option>
-              <option value="cold">Sadece Soğuk</option>
-              <option value="warm">Sadece Ilık</option>
+              <option value="cold,warm">SoÄuk + IlÄ±k</option>
+              <option value="cold">Sadece SoÄuk</option>
+              <option value="warm">Sadece IlÄ±k</option>
             </select>
           </div>
-          <div class="fg"><label class="fl">Günlük Arama Limiti</label>
+          <div class="fg"><label class="fl">GÃ¼nlÃ¼k Arama Limiti</label>
             <input class="inp" id="ai-limit" type="number" value="100">
           </div>
-          <div class="fg"><label class="fl">Ürün Odağı</label>
+          <div class="fg"><label class="fl">ÃrÃ¼n OdaÄÄ±</label>
             <select class="inp" id="ai-product">
-              <option value="gold">Altın / Gümüş (Öncelikli)</option>
+              <option value="gold">AltÄ±n / GÃ¼mÃ¼Å (Ãncelikli)</option>
               <option value="oil">Petrol / Brent WTI</option>
               <option value="forex">Forex EUR/USD</option>
-              <option value="all">Tüm Ürünler</option>
+              <option value="all">TÃ¼m ÃrÃ¼nler</option>
             </select>
           </div>
-          <button class="btn bg" style="width:100%" onclick="startAiCampaign()">🚀 Ayşe Aramaya Başlasın</button>
+          <button class="btn bg" style="width:100%" onclick="startAiCampaign()">ð AyÅe Aramaya BaÅlasÄ±n</button>
         </div>
         <div class="panel">
-          <div class="ph"><div class="pt">Ayşe Prompt Önizleme</div>
+          <div class="ph"><div class="pt">AyÅe Prompt Ãnizleme</div>
             <button class="btn bo sm" onclick="previewPrompt()">Yenile</button>
           </div>
-          <div id="prompt-preview" style="background:var(--d4);border-radius:6px;padding:10px;font-size:10px;color:var(--t2);line-height:1.8;max-height:260px;overflow-y:auto;white-space:pre-wrap">Butona basın...</div>
+          <div id="prompt-preview" style="background:var(--d4);border-radius:6px;padding:10px;font-size:10px;color:var(--t2);line-height:1.8;max-height:260px;overflow-y:auto;white-space:pre-wrap">Butona basÄ±n...</div>
         </div>
       </div>
       <div class="panel">
@@ -268,10 +268,10 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
 
     <!-- KAMPANYALAR -->
     <div id="pg-camp" class="page">
-      <div class="sb" style="margin-bottom:10px"><div class="pt">Tüm Kampanyalar</div><button class="btn bg sm" onclick="openCamp()">+ Yeni Kampanya</button></div>
+      <div class="sb" style="margin-bottom:10px"><div class="pt">TÃ¼m Kampanyalar</div><button class="btn bg sm" onclick="openCamp()">+ Yeni Kampanya</button></div>
       <div class="panel" style="padding:0"><div class="tw"><table>
-        <thead><tr><th>Kampanya</th><th>Durum</th><th>Günlük</th><th>Aranan</th><th>Sıcak</th><th>Tarih</th><th>İşlem</th></tr></thead>
-        <tbody id="camptb"><tr><td colspan="7" class="empty">Yükleniyor...</td></tr></tbody>
+        <thead><tr><th>Kampanya</th><th>Durum</th><th>GÃ¼nlÃ¼k</th><th>Aranan</th><th>SÄ±cak</th><th>Tarih</th><th>Ä°Ålem</th></tr></thead>
+        <tbody id="camptb"><tr><td colspan="7" class="empty">YÃ¼kleniyor...</td></tr></tbody>
       </table></div></div>
     </div>
 
@@ -288,12 +288,12 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
   </div>
   <div class="fr">
     <div><label class="fl">E-posta</label><input class="inp" id="l-e"></div>
-    <div><label class="fl">Şehir</label><input class="inp" id="l-c"></div>
+    <div><label class="fl">Åehir</label><input class="inp" id="l-c"></div>
   </div>
   <div class="fr">
-    <div><label class="fl">İlgi Alanı</label>
+    <div><label class="fl">Ä°lgi AlanÄ±</label>
       <select class="inp" id="l-i">
-        <option value="">Seçin</option><option>Altin/Gumus</option><option>Petrol/Brent</option>
+        <option value="">SeÃ§in</option><option>Altin/Gumus</option><option>Petrol/Brent</option>
         <option>Forex</option><option>Bitcoin/Kripto</option><option>CFD</option>
         <option>Hisse</option><option>Endeks</option><option>Genel</option>
       </select>
@@ -308,18 +308,18 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
   <div class="fr">
     <div><label class="fl">Durum</label>
       <select class="inp" id="l-st">
-        <option value="cold">Soğuk</option><option value="warm">Ilık</option>
-        <option value="hot">Sıcak</option><option value="appointment">Randevu</option>
-        <option value="sold">Satış</option><option value="lost">Kayıp</option>
+        <option value="cold">SoÄuk</option><option value="warm">IlÄ±k</option>
+        <option value="hot">SÄ±cak</option><option value="appointment">Randevu</option>
+        <option value="sold">SatÄ±Å</option><option value="lost">KayÄ±p</option>
       </select>
     </div>
     <div><label class="fl">Personel (tek atama)</label>
-      <select class="inp" id="l-ag"><option value="">Atanmamış</option></select>
+      <select class="inp" id="l-ag"><option value="">AtanmamÄ±Å</option></select>
     </div>
   </div>
   <div class="fg"><label class="fl">Notlar</label><textarea class="inp" id="l-nt" rows="2"></textarea></div>
   <div class="mbtns">
-    <button class="btn bo" onclick="closeM('m-lead')">İptal</button>
+    <button class="btn bo" onclick="closeM('m-lead')">Ä°ptal</button>
     <button class="btn bg" onclick="saveLead()">Kaydet</button>
   </div>
 </div></div>
@@ -329,14 +329,14 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
   <input type="hidden" id="aid">
   <div class="fr">
     <div><label class="fl">Ad Soyad *</label><input class="inp" id="a-n"></div>
-    <div><label class="fl">Kullanıcı Adı *</label><input class="inp" id="a-u"></div>
+    <div><label class="fl">KullanÄ±cÄ± AdÄ± *</label><input class="inp" id="a-u"></div>
   </div>
   <div class="fr">
-    <div><label class="fl">Şifre *</label><input class="inp" id="a-pw" type="password"></div>
+    <div><label class="fl">Åifre *</label><input class="inp" id="a-pw" type="password"></div>
     <div><label class="fl">Tip</label>
       <select class="inp" id="a-r">
         <option value="agent">Personel</option>
-        <option value="ai">AI Ajan (Ayşe)</option>
+        <option value="ai">AI Ajan (AyÅe)</option>
         <option value="admin">Admin</option>
       </select>
     </div>
@@ -345,7 +345,7 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
     <select class="inp" id="a-ac"><option value="true">Aktif</option><option value="false">Pasif</option></select>
   </div>
   <div class="mbtns">
-    <button class="btn bo" onclick="closeM('m-agent')">İptal</button>
+    <button class="btn bo" onclick="closeM('m-agent')">Ä°ptal</button>
     <button class="btn bg" onclick="saveAgent()">Kaydet</button>
   </div>
 </div></div>
@@ -353,32 +353,32 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
 <div class="mov" id="m-call"><div class="modal">
   <div class="mtitle">Arama Kaydet</div>
   <div class="fr">
-    <div><label class="fl">Müşteri</label><select class="inp" id="c-cu"><option value="">Seçin</option></select></div>
+    <div><label class="fl">MÃ¼Återi</label><select class="inp" id="c-cu"><option value="">SeÃ§in</option></select></div>
     <div><label class="fl">Tip</label>
       <select class="inp" id="c-ty">
-        <option value="outbound">Giden</option><option value="inbound">Gelen</option><option value="ai">AI (Ayşe)</option>
+        <option value="outbound">Giden</option><option value="inbound">Gelen</option><option value="ai">AI (AyÅe)</option>
       </select>
     </div>
   </div>
   <div class="fr">
-    <div><label class="fl">Süre (sn)</label><input class="inp" id="c-d" type="number" placeholder="120"></div>
+    <div><label class="fl">SÃ¼re (sn)</label><input class="inp" id="c-d" type="number" placeholder="120"></div>
     <div><label class="fl">Durum</label>
       <select class="inp" id="c-st">
-        <option value="completed">Tamamlandı</option><option value="no_answer">Cevap Yok</option>
-        <option value="busy">Meşgul</option><option value="failed">Başarısız</option>
+        <option value="completed">TamamlandÄ±</option><option value="no_answer">Cevap Yok</option>
+        <option value="busy">MeÅgul</option><option value="failed">BaÅarÄ±sÄ±z</option>
       </select>
     </div>
   </div>
-  <div class="fg"><label class="fl">Sonuç</label>
+  <div class="fg"><label class="fl">SonuÃ§</label>
     <select class="inp" id="c-ou">
-      <option value="">Seçin</option><option value="interested">İlgilendi</option>
-      <option value="not_interested">İlgilenmedi</option><option value="callback">Geri Arama</option>
-      <option value="appointment">Randevu</option><option value="sold">Satış</option>
+      <option value="">SeÃ§in</option><option value="interested">Ä°lgilendi</option>
+      <option value="not_interested">Ä°lgilenmedi</option><option value="callback">Geri Arama</option>
+      <option value="appointment">Randevu</option><option value="sold">SatÄ±Å</option>
     </select>
   </div>
   <div class="fg"><label class="fl">Notlar</label><textarea class="inp" id="c-nt" rows="2"></textarea></div>
   <div class="mbtns">
-    <button class="btn bo" onclick="closeM('m-call')">İptal</button>
+    <button class="btn bo" onclick="closeM('m-call')">Ä°ptal</button>
     <button class="btn bg" onclick="saveCall()">Kaydet</button>
   </div>
 </div></div>
@@ -386,32 +386,32 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
 <div class="mov" id="m-appt"><div class="modal">
   <div class="mtitle">Randevu Ekle</div>
   <div class="fr">
-    <div><label class="fl">Müşteri</label><select class="inp" id="ap-cu"><option value="">Seçin</option></select></div>
-    <div><label class="fl">Personel</label><select class="inp" id="ap-ag"><option value="">Seçin</option></select></div>
+    <div><label class="fl">MÃ¼Återi</label><select class="inp" id="ap-cu"><option value="">SeÃ§in</option></select></div>
+    <div><label class="fl">Personel</label><select class="inp" id="ap-ag"><option value="">SeÃ§in</option></select></div>
   </div>
   <div class="fr">
     <div><label class="fl">Tarih/Saat *</label><input class="inp" id="ap-dt" type="datetime-local"></div>
     <div><label class="fl">Tip</label>
       <select class="inp" id="ap-ty">
-        <option value="call">Telefon</option><option value="meeting">Yüz Yüze</option><option value="online">Online</option>
+        <option value="call">Telefon</option><option value="meeting">YÃ¼z YÃ¼ze</option><option value="online">Online</option>
       </select>
     </div>
   </div>
   <div class="fg"><label class="fl">Notlar</label><textarea class="inp" id="ap-nt" rows="2"></textarea></div>
   <div class="mbtns">
-    <button class="btn bo" onclick="closeM('m-appt')">İptal</button>
+    <button class="btn bo" onclick="closeM('m-appt')">Ä°ptal</button>
     <button class="btn bg" onclick="saveAppt()">Kaydet</button>
   </div>
 </div></div>
 
 <div class="mov" id="m-sale"><div class="modal">
-  <div class="mtitle">Satış Kaydet</div>
+  <div class="mtitle">SatÄ±Å Kaydet</div>
   <div class="fr">
-    <div><label class="fl">Müşteri *</label><select class="inp" id="s-cu"><option value="">Seçin</option></select></div>
-    <div><label class="fl">Personel</label><select class="inp" id="s-ag"><option value="">Seçin</option></select></div>
+    <div><label class="fl">MÃ¼Återi *</label><select class="inp" id="s-cu"><option value="">SeÃ§in</option></select></div>
+    <div><label class="fl">Personel</label><select class="inp" id="s-ag"><option value="">SeÃ§in</option></select></div>
   </div>
   <div class="fr">
-    <div><label class="fl">Ürün *</label>
+    <div><label class="fl">ÃrÃ¼n *</label>
       <select class="inp" id="s-pr">
         <option>Altin/Gumus</option><option>Petrol/Brent</option><option>Forex</option>
         <option>Bitcoin/Kripto</option><option>CFD</option><option>Hisse</option><option>Endeks</option>
@@ -420,7 +420,7 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
     <div><label class="fl">Tarih</label><input class="inp" id="s-dt" type="date"></div>
   </div>
   <div class="fr">
-    <div><label class="fl">Depozit Miktarı</label><input class="inp" id="s-dep" type="number" placeholder="1000"></div>
+    <div><label class="fl">Depozit MiktarÄ±</label><input class="inp" id="s-dep" type="number" placeholder="1000"></div>
     <div><label class="fl">Para Birimi</label>
       <select class="inp" id="s-cur">
         <option value="USD">USD</option><option value="EUR">EUR</option>
@@ -432,57 +432,57 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
     <div><label class="fl">Komisyon</label><input class="inp" id="s-com" type="number" placeholder="100"></div>
     <div><label class="fl">Durum</label>
       <select class="inp" id="s-st">
-        <option value="pending">Bekliyor</option><option value="confirmed">Onaylandı</option><option value="cancelled">İptal</option>
+        <option value="pending">Bekliyor</option><option value="confirmed">OnaylandÄ±</option><option value="cancelled">Ä°ptal</option>
       </select>
     </div>
   </div>
   <div class="fg"><label class="fl">Notlar</label><textarea class="inp" id="s-nt" rows="2"></textarea></div>
   <div class="mbtns">
-    <button class="btn bo" onclick="closeM('m-sale')">İptal</button>
+    <button class="btn bo" onclick="closeM('m-sale')">Ä°ptal</button>
     <button class="btn bg" onclick="saveSale()">Kaydet</button>
   </div>
 </div></div>
 
 <div class="mov" id="m-camp"><div class="modal">
   <div class="mtitle">Yeni Kampanya</div>
-  <div class="fg"><label class="fl">Kampanya Adı *</label><input class="inp" id="cp-n" placeholder="Altin Kampanyasi Nisan 2026"></div>
+  <div class="fg"><label class="fl">Kampanya AdÄ± *</label><input class="inp" id="cp-n" placeholder="Altin Kampanyasi Nisan 2026"></div>
   <div class="fr">
-    <div><label class="fl">Günlük Limit</label><input class="inp" id="cp-l" type="number" value="500"></div>
+    <div><label class="fl">GÃ¼nlÃ¼k Limit</label><input class="inp" id="cp-l" type="number" value="500"></div>
     <div><label class="fl">Durum</label>
       <select class="inp" id="cp-s"><option value="draft">Taslak</option><option value="running">Aktif</option></select>
     </div>
   </div>
   <div class="mbtns">
-    <button class="btn bo" onclick="closeM('m-camp')">İptal</button>
+    <button class="btn bo" onclick="closeM('m-camp')">Ä°ptal</button>
     <button class="btn bg" onclick="saveCamp()">Kaydet</button>
   </div>
 </div></div>
 
-<!-- CSV IMPORT - Dosya Seç veya Yapıştır -->
+<!-- CSV IMPORT - Dosya SeÃ§ veya YapÄ±ÅtÄ±r -->
 <div class="mov" id="m-import"><div class="modal">
-  <div class="mtitle">CSV Toplu Lead Yükleme</div>
+  <div class="mtitle">CSV Toplu Lead YÃ¼kleme</div>
   <div style="background:var(--d4);border-radius:6px;padding:10px;font-size:11px;color:var(--t2);margin-bottom:10px;line-height:1.8">
     Format: <b style="color:var(--gold)">ad_soyad, telefon, email, sehir, ilgi_alani</b><br>
-    ⚠️ Aynı telefon numarası tekrar eklenemez.
+    â ï¸ AynÄ± telefon numarasÄ± tekrar eklenemez.
   </div>
   <div class="fg">
-    <label class="fl">📁 CSV Dosyası Seç</label>
+    <label class="fl">ð CSV DosyasÄ± SeÃ§</label>
     <input type="file" id="csv-file" accept=".csv,.txt" class="inp" style="padding:6px">
   </div>
   <div class="fg">
-    <label class="fl">veya yapıştır</label>
+    <label class="fl">veya yapÄ±ÅtÄ±r</label>
     <textarea class="inp" id="csv-data" rows="5" placeholder="Ahmet Yilmaz,+905551234567,ahmet@mail.com,Istanbul,Altin"></textarea>
   </div>
   <div class="fg"><label class="fl">Personele Ata (tek atama)</label>
-    <select class="inp" id="csv-ag"><option value="">Atanmamış</option></select>
+    <select class="inp" id="csv-ag"><option value="">AtanmamÄ±Å</option></select>
   </div>
   <div id="csv-progress" style="display:none">
     <div class="prog-wrap"><div class="prog-fill" id="csv-prog-fill" style="width:0%"></div></div>
     <div style="font-size:10px;color:var(--t3);text-align:center" id="csv-prog-text">0 / 0</div>
   </div>
   <div class="mbtns">
-    <button class="btn bo" onclick="closeM('m-import')">İptal</button>
-    <button class="btn bg" onclick="importCSV()">Yükle</button>
+    <button class="btn bo" onclick="closeM('m-import')">Ä°ptal</button>
+    <button class="btn bg" onclick="importCSV()">YÃ¼kle</button>
   </div>
 </div></div>
 
@@ -640,7 +640,7 @@ for (var mi = 0; mi < movs.length; mi++) {
   })(movs[mi]));
 }
 
-// TICKER - Canlı piyasa verisi
+// TICKER - CanlÄ± piyasa verisi
 function loadTicker() {
   fetch('https://api.twelvedata.com/price?symbol=XAU/USD,BTC/USD,EUR/USD,XTI/USD&apikey=85b17a5c18be4e10bc32efc247e8f02b')
     .then(function(r) { return r.json(); })
@@ -708,7 +708,7 @@ function loadDash() {
   });
 }
 
-// LEADS - Tekil telefon + tek personel ataması
+// LEADS - Tekil telefon + tek personel atamasÄ±
 function loadLeads() {
   sbGet('users?select=id,full_name,role&is_active=eq.true&order=full_name').then(function(users) {
     allU = users;
@@ -723,7 +723,7 @@ function loadLeads() {
     document.getElementById('bulk-ag').innerHTML = bo;
     fillAgSels(); fillCuSels();
   });
-  // Admin tüm leadleri görür, personel sadece kendi atananları
+  // Admin tÃ¼m leadleri gÃ¶rÃ¼r, personel sadece kendi atananlarÄ±
   var f = CU.role === 'agent' ? '&assigned_to=eq.' + CU.id : '';
   sbGet('customers?select=*,users(full_name,role)&order=created_at.desc' + f).then(function(ls) {
     allL = ls;
@@ -831,7 +831,7 @@ function clearSel() {
   updateBB();
 }
 
-// TOPLU SİL - Sıralı silme (paralel değil, sıralı daha güvenilir)
+// TOPLU SÄ°L - SÄ±ralÄ± silme (paralel deÄil, sÄ±ralÄ± daha gÃ¼venilir)
 function bulkDelete() {
   var ids = Object.keys(selIds);
   if (!ids.length) { notify('Once secim yapin', 'err'); return; }
@@ -903,14 +903,14 @@ function openLead(l) {
 }
 function editLead(id) { for (var i = 0; i < allL.length; i++) if (allL[i].id === id) { openLead(allL[i]); return; } }
 
-// LEAD KAYDET - Telefon tekrar kontrolü
+// LEAD KAYDET - Telefon tekrar kontrolÃ¼
 function saveLead() {
   var id = document.getElementById('lid').value;
   var phone = document.getElementById('l-p').value.trim();
   var name = document.getElementById('l-n').value.trim();
   if (!name || !phone) { notify('Ad ve telefon zorunlu', 'err'); return; }
   
-  // Telefon tekrar kontrolü (yeni lead ise)
+  // Telefon tekrar kontrolÃ¼ (yeni lead ise)
   if (!id) {
     sbGet('customers?phone=eq.' + encodeURIComponent(phone) + '&select=id,full_name').then(function(existing) {
       if (existing.length > 0) {
@@ -1018,15 +1018,15 @@ function saveAgent() {
 function loadCalls() {
   var f = CU.role === 'agent' ? '&agent_id=eq.' + CU.id : '';
   sbGet('calls?select=*,customers(id,full_name),users(full_name,role)&order=called_at.desc&limit=200' + f).then(function(cs) {
-    var oc = {interested:'İlgilendi',not_interested:'İlgilenmedi',callback:'Geri Arama',appointment:'Randevu',sold:'Satış',
-      initiated:'Başladı','no-answer':'Cevap Yok','customer-busy':'Meşgul','customer-ended-call':'Kapattı',
-      'customer-did-not-answer':'Cevap Yok',ended:'Bitti',completed:'Tamamlandı'};
+    var oc = {interested:'&#304;lgilendi',not_interested:'&#304;lgilenmedi',callback:'Geri Arama',appointment:'Randevu',sold:'Sat&#305;&#351;',
+      initiated:'Ba&#351;lad&#305;','no-answer':'Cevap Yok','customer-busy':'Me&#351;gul',
+      'customer-ended-call':'Kapatt&#305;','customer-did-not-answer':'Cevap Yok',ended:'Bitti',completed:'Tamamland&#305;'};
     var ilgiMap = {
-      yuksek:'<span class="tag th">Yüksek</span>',
+      yuksek:'<span class="tag th">Y&#252;ksek</span>',
       orta:'<span class="tag tw2">Orta</span>',
-      dusuk:'<span class="tag tc">Düşük</span>',
+      dusuk:'<span class="tag tc">D&#252;&#351;&#252;k</span>',
       cevap_vermedi:'<span class="tag tl">Cevap Yok</span>',
-      mesgul:'<span class="tag tl">Meşgul</span>'
+      mesgul:'<span class="tag tl">Me&#351;gul</span>'
     };
     var h = '';
     for (var i = 0; i < cs.length; i++) {
@@ -1036,12 +1036,12 @@ function loadCalls() {
       var dur = c.duration_seconds ? Math.floor(c.duration_seconds/60)+':'+('0'+c.duration_seconds%60).slice(-2) : '---';
       var skor = c.skor ? '<b style="color:'+(c.skor>=7?'var(--green)':c.skor>=4?'var(--gold)':'var(--t3)')+'">'+c.skor+'/10</b>' : '---';
       var ilgi = c.ilgi_seviyesi ? (ilgiMap[c.ilgi_seviyesi]||'<span class="tag tc">'+c.ilgi_seviyesi+'</span>') : '---';
-      var ozet = c.summary && c.summary.length>3
-        ? '<span title="'+c.summary.replace(/"/g,"'")+'" style="cursor:pointer;color:var(--t2);font-size:10px" onclick="alert(this.title)">'+c.summary.substring(0,45)+(c.summary.length>45?'...':'')+'</span>'
+      var ozet = c.summary && c.summary.length > 3
+        ? '<span title="'+c.summary.replace(/[<>"]/g,'').substring(0,200)+'" style="cursor:pointer;color:var(--t2);font-size:10px" onclick="alert(this.getAttribute('title'))">'+c.summary.substring(0,45)+(c.summary.length>45?'...':'')+'</span>'
         : (c.notes ? '<span style="color:var(--t3);font-size:10px">'+c.notes.substring(0,45)+'</span>' : '---');
       var custId = c.customers ? c.customers.id : null;
-      var assignBtn = (isAI && custId) ? '<button class="btn bb sm" onclick="openAssignFromCall(''+custId+'')">Personele At</button>' : '---';
-      var tip = isAI ? '<span class="tag tai">AI Ayşe</span>' : '<span class="tag ta">'+(c.call_type||'manuel')+'</span>';
+      var assignBtn = (isAI && custId) ? '<button class="btn bb sm" onclick="openAssignFromCall(''+custId+'')">Ata</button>' : '---';
+      var tip = isAI ? '<span class="tag tai">AI Ay&#351;e</span>' : '<span class="tag ta">'+(c.call_type||'manuel')+'</span>';
       h += '<tr>';
       h += '<td><div style="font-size:11px;color:var(--t1)">'+(c.customers?c.customers.full_name:'---')+'</div>';
       if(c.demo_kabul) h += '<span class="tag th" style="font-size:8px">Demo</span> ';
@@ -1061,14 +1061,14 @@ function loadCalls() {
 
 function openAssignFromCall(customerId) {
   var agents = allU.filter(function(u) { return u.role !== 'ai'; });
-  if (!agents.length) { notify('Önce Personeller sayfasından personel ekleyin', 'err'); return; }
+  if (!agents.length) { notify('Personel listesi bo&#351;!', 'err'); return; }
   var list = agents.map(function(u,i) { return (i+1)+'. '+u.full_name; }).join('\n');
-  var sel = prompt('Hangi personele atayalım?\n\n'+list+'\n\nNumara girin:');
+  var sel = prompt('Hangi personele atansin?\n\n'+list+'\n\nNumara girin:');
   var idx = parseInt(sel)-1;
-  if (isNaN(idx)||idx<0||idx>=agents.length) { notify('Geçersiz seçim', 'err'); return; }
+  if (isNaN(idx)||idx<0||idx>=agents.length) { notify('Ge&#231;ersiz se&#231;im', 'err'); return; }
   var ag = agents[idx];
   sbSet('customers?id=eq.'+customerId,'PATCH',{assigned_to:ag.id,status:'warm',updated_at:new Date().toISOString()})
-    .then(function() { notify(ag.full_name+"'e atandı - Lead ısıtıldı!"); loadCalls(); })
+    .then(function() { notify(ag.full_name+"'e atandi!"); loadCalls(); })
     .catch(function(e) { notify(e.message,'err'); });
 }
 
@@ -1128,7 +1128,7 @@ function updAppt(id, st) {
     .catch(function(e) { notify(e.message, 'err'); });
 }
 
-// SATIŞLAR
+// SATIÅLAR
 function loadSales() {
   var f = CU.role === 'agent' ? '&agent_id=eq.' + CU.id : '';
   sbGet('sales?select=*,customers(full_name),users(full_name)&order=created_at.desc' + f).then(function(ss) {
@@ -1179,7 +1179,7 @@ function saveSale() {
   }).catch(function(e) { notify(e.message, 'err'); });
 }
 
-// AI AJAN - Ayşe
+// AI AJAN - AyÅe
 function loadAI() {
   loadCamp();
   previewPrompt();
@@ -1190,26 +1190,26 @@ function buildAysePrompt() {
   return 'Sen Global Eksbina finansal danismani Aysesin. 15 yillik deneyimli, empatik, ikna edici bir finansal danismansin. Musteri her zaman haklinin bilinciyle hareket edersin.\n\n' +
     'BUGUN: ' + today + '\n\n' +
     'GUNCEL PIYASA DURUMU:\n' +
-    'ALTIN: 4.761 dolar seviyesinde. Hurmus Bogazi gerilimi ve Iran-ABD krizi nedeniyle altin guvenli liman talebi artmis durumda. Fed faiz belirsizligi ile birlikte altin 5.000 dolar hedefine yaklasıyor. Bu firsati kaçirmamak icin simdi dogru zaman.\n\n' +
+    'ALTIN: 4.761 dolar seviyesinde. Hurmus Bogazi gerilimi ve Iran-ABD krizi nedeniyle altin guvenli liman talebi artmis durumda. Fed faiz belirsizligi ile birlikte altin 5.000 dolar hedefine yaklasÄ±yor. Bu firsati kaÃ§irmamak icin simdi dogru zaman.\n\n' +
     'PETROL (Brent/WTI): 102+ dolar. ABD-Iran gerginligi Hurmus Bogazi\'ni tehdit ediyor, kuresel arz riski ciddi. Brent petrol 110 dolara dogru yukselebilir. Enerji CFDlerinde yukari yone pozisyon icin kritik an.\n\n' +
     'GUMUS: Altin ile paralel hareket. Sanayi talep + jeopolitik risk kombinasyonu gucu destekliyor.\n\n' +
     'EUR/USD: 1.1706 seviyesinde. Euro bolgesi zayifligi ve dolar gucuyle volatilite yuksek. Forex trendlerden kar etmek isteyenler icin ideal.\n\n' +
-    'NASDAQ/ENDEKSLER: ABD teknoloji sektoru guclü seyrediyor.\n\n' +
+    'NASDAQ/ENDEKSLER: ABD teknoloji sektoru guclÃ¼ seyrediyor.\n\n' +
     'ACiLiYET FAKTORU: Hurmus Bogazi gerginligi her an kapanabilir - bu pencere cok dar. Altin ve petrolde bu yukaris dalgas gecici olabilir, simdi girmek kritik.\n\n' +
     'KONUSMA KURALLARI:\n' +
-    '- Turkce konuş, kisaltma kullanma\n' +
+    '- Turkce konuÅ, kisaltma kullanma\n' +
     '- Her cumle maksimum 2 cumle, kisak ve net\n' +
     '- Musteri ilgisine gore urun sun: altin/gumus > petrol > forex > endeks sirasinda\n' +
-    '- İLK 30 SANIYE en onemli: piyasa gundemine bagla\n' +
+    '- Ä°LK 30 SANIYE en onemli: piyasa gundemine bagla\n' +
     '- Itiraz OLMADAN acilis: "Merhaba, [isim] Bey/Hanim, bugun altin 4.761 dolara ulasti, Hurmus krizi ile rekor yolda. 60 saniye vaktiniz var mi?"\n\n' +
     'ITIRAZ KARSILAMA:\n' +
     '"Ilgilenmiyorum" -> "Anliyorum, sadece 60 saniye. Altinin bugun neden rekor kirdigini paylasmak istedim."\n' +
     '"Guvenmiyorum" -> "Cok hakli bir soru. Global Eksbina uluslararasi denetimli platformdur. Demo hesap acin, tek kurus gondermeden sistemi gorun."\n' +
     '"Param yok" -> "Demo hesap tamamen ucretsiz. Sistemi ogrenin, hazir olunca kucuk bir miktarla baslayin."\n' +
-    '"Riskli" -> "Altin tarihin en guvenli yatirimi. Zarar kesme emirleriyle riski kontrol altinda tutarsınız."\n' +
-    '"Dusunecegim" -> "Tabii ki. Ama Hurmus krizi cozcezse bu firsati kacirabilirsiniz. Sizi yarin sabahlayın arayabilir miyim?"\n\n' +
+    '"Riskli" -> "Altin tarihin en guvenli yatirimi. Zarar kesme emirleriyle riski kontrol altinda tutarsÄ±nÄ±z."\n' +
+    '"Dusunecegim" -> "Tabii ki. Ama Hurmus krizi cozcezse bu firsati kacirabilirsiniz. Sizi yarin sabahlayÄ±n arayabilir miyim?"\n\n' +
     'HEDEF: Demo hesap acilisi veya randevu. Satis baskisi yapma, partner ol.\n' +
-    'YASAK: Garanti vaat etme, kesin kazan deme, 2 kez net hayir gelirse ısrar etme.';
+    'YASAK: Garanti vaat etme, kesin kazan deme, 2 kez net hayir gelirse Ä±srar etme.';
 }
 
 function previewPrompt() {
@@ -1223,7 +1223,7 @@ function startAiCampaign() {
   var prompt = buildAysePrompt();
   var sys = prompt;
 
-  // Vapi'ye prompt gönder
+  // Vapi'ye prompt gÃ¶nder
   fetch('https://api.vapi.ai/assistant/' + AID, {
     method: 'PATCH',
     headers: {'Authorization': 'Bearer ' + VK, 'Content-Type': 'application/json'},
@@ -1276,7 +1276,7 @@ function loadCamp() {
     var camptb = document.getElementById('camptb');
     if (camptb) camptb.innerHTML = h || '<tr><td colspan="7" class="empty">Kampanya yok</td></tr>';
     
-    // AI sayfasındaki kampanya listesi
+    // AI sayfasÄ±ndaki kampanya listesi
     var campList = document.getElementById('camp-list');
     if (campList) {
       if (!cs.length) { campList.innerHTML = '<div class="empty">Kampanya yok</div>'; return; }
@@ -1285,7 +1285,7 @@ function loadCamp() {
         var c = cs[i];
         lh += '<div class="sb" style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)">';
         lh += '<div><div style="font-size:12px;color:var(--t1)">' + c.name + '</div>';
-        lh += '<div style="font-size:10px;color:var(--t3)">' + c.calls_made + ' arandi · ' + c.hot_leads_generated + ' sicak</div></div>';
+        lh += '<div style="font-size:10px;color:var(--t3)">' + c.calls_made + ' arandi Â· ' + c.hot_leads_generated + ' sicak</div></div>';
         lh += '<span class="tag ' + (sc[c.status] || 'tc') + '">' + c.status + '</span></div>';
       }
       campList.innerHTML = lh;
@@ -1305,7 +1305,7 @@ function updCamp(id, st) {
     .catch(function(e) { notify(e.message, 'err'); });
 }
 
-// CSV IMPORT - Dosya + tekil telefon kontrolü
+// CSV IMPORT - Dosya + tekil telefon kontrolÃ¼
 function openImport() { fillAgSels('csv-ag'); openM('m-import'); }
 
 function importCSV() {
@@ -1330,7 +1330,7 @@ function importCSV() {
   }
   if (!valid.length) { notify('Gecerli satir bulunamadi', 'err'); return; }
   
-  // Mevcut telefonları çek - tekrar kontrolü
+  // Mevcut telefonlarÄ± Ã§ek - tekrar kontrolÃ¼
   sbGet('customers?select=phone').then(function(existing) {
     var existingPhones = {};
     for (var i = 0; i < existing.length; i++) existingPhones[existing[i].phone] = true;
@@ -1370,7 +1370,7 @@ function importCSV() {
     }
     next();
   }).catch(function() {
-    // Kontrol yapamadık, direkt yükle
+    // Kontrol yapamadÄ±k, direkt yÃ¼kle
     var ok = 0, idx = 0;
     function next() {
       if (idx >= valid.length) { notify(ok + ' lead yuklendi'); closeM('m-import'); loadLeads(); return; }
@@ -1407,7 +1407,7 @@ function fillCuSels() {
   });
 }
 
-// Ayşe personelini otomatik oluştur
+// AyÅe personelini otomatik oluÅtur
 function createAyseIfNotExists() {
   sbGet('users?username=eq.ayse&select=id').then(function(r) {
     if (!r.length) {
@@ -1430,73 +1430,215 @@ setInterval(function() {
   if (el) el.textContent = n.toLocaleTimeString('tr-TR') + ' - ' + n.toLocaleDateString('tr-TR');
 }, 1000);
 
-// Sayfa yüklenince Ayşe'yi oluştur
+// Sayfa yÃ¼klenince AyÅe'yi oluÅtur
 createAyseIfNotExists();
 </script>
-<script>
-/* AYSE KAMPANYA v5.0 */
+
+<script id="ayse-kampanya-script">
 (function(){
-var PH='97bf7ebd-d04c-4faa-b897-5ade6c02ea3a';
-var VK='74b7b21d-f286-4a56-b1ac-2bf37a91d088';
+const PHONE_ID='97bf7ebd-d04c-4faa-b897-5ade6c02ea3a';
+const VK='74b7b21d-f286-4a56-b1ac-2bf37a91d088';
+const AID='133aa70c-db4b-4155-be6b-220450c0b21a';
+const SB='https://muwynsxukmxjquoqcbac.supabase.co';
+const SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3luc3h1a214anF1b3FjYmFjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjExMzQwMCwiZXhwIjoyMDkxNjg5NDAwfQ.33AsVo1mIeNHznTKnr6IUjVTLP_puNeNFJMS8-GsO30';
+const SBH={'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':'application/json'};
+
+function initKampanya(){
+  if(document.getElementById('ayse-kampanya-btn')) return;
+  
+  // Toolbar'a Ayşe butonu ekle
+  const tright = document.querySelector('.tright');
+  if(!tright) { setTimeout(initKampanya, 1000); return; }
+  
+  const btn = document.createElement('button');
+  btn.id = 'ayse-kampanya-btn';
+  btn.innerHTML = '🤖 Ayşe';
+  btn.style.cssText = 'padding:4px 10px;border-radius:4px;font-size:10px;cursor:pointer;border:1px solid rgba(96,165,250,.3);background:rgba(96,165,250,.1);color:#60a5fa;font-weight:600;margin-right:4px';
+  btn.onclick = toggleKampanya;
+  tright.insertBefore(btn, tright.firstChild);
+}
+
+function toggleKampanya(){
+  const old = document.getElementById('ayse-kampanya-panel');
+  if(old){ old.remove(); return; }
+  
+  const panel = document.createElement('div');
+  panel.id = 'ayse-kampanya-panel';
+  panel.style.cssText = 'position:fixed;top:46px;right:0;width:320px;height:calc(100vh - 46px);background:#13131a;border-left:1px solid rgba(201,169,110,.25);padding:14px;z-index:8000;font-family:system-ui,sans-serif;font-size:12px;color:#f0ede8;overflow-y:auto;display:flex;flex-direction:column;gap:10px';
+  panel.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="font-size:13px;font-weight:700;color:#C9A96E">🤖 Ayşe Kampanya</div>
+      <button onclick="document.getElementById('ayse-kampanya-panel').remove()" style="background:none;border:none;color:#5a566a;cursor:pointer;font-size:18px">✕</button>
+    </div>
+    <div style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);border-radius:6px;padding:8px;font-size:10px;color:#22c55e">✅ SIP Hattı: +90 212 822 04 16</div>
+    <div style="background:#1a1a24;border-radius:8px;padding:12px;display:grid;gap:8px">
+      <div>
+        <label style="color:#a8a4b0;font-size:10px;display:block;margin-bottom:3px">Hedef Durum</label>
+        <select id="kp-status" style="width:100%;background:#21212e;border:1px solid rgba(201,169,110,.2);border-radius:5px;padding:6px 8px;color:#f0ede8;font-size:11px">
+          <option value="cold,warm">Soğuk + Ilık</option>
+          <option value="cold">Sadece Soğuk</option>
+          <option value="warm">Sadece Ilık</option>
+          <option value="hot">Sadece Sıcak</option>
+        </select>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div>
+          <label style="color:#a8a4b0;font-size:10px;display:block;margin-bottom:3px">Kaç Lead?</label>
+          <input id="kp-limit" type="number" value="10" min="1" max="500" style="width:100%;background:#21212e;border:1px solid rgba(201,169,110,.2);border-radius:5px;padding:6px 8px;color:#f0ede8;font-size:11px;box-sizing:border-box">
+        </div>
+        <div>
+          <label style="color:#a8a4b0;font-size:10px;display:block;margin-bottom:3px">Bekleme (sn)</label>
+          <input id="kp-delay" type="number" value="60" min="5" max="600" style="width:100%;background:#21212e;border:1px solid rgba(201,169,110,.2);border-radius:5px;padding:6px 8px;color:#f0ede8;font-size:11px;box-sizing:border-box">
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <button id="kp-btn-start" onclick="window.ayseBaslat()" style="background:#C9A96E;color:#000;border:none;border-radius:7px;padding:11px;font-size:12px;font-weight:700;cursor:pointer">🚀 Başlat</button>
+      <button onclick="window.ayseRapor()" style="background:rgba(96,165,250,.1);color:#60a5fa;border:1px solid rgba(96,165,250,.2);border-radius:7px;padding:11px;font-size:11px;font-weight:600;cursor:pointer">📊 Rapor</button>
+    </div>
+    <button id="kp-btn-stop" onclick="window._ayseStop=true" style="display:none;width:100%;background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.3);border-radius:7px;padding:10px;font-size:12px;font-weight:700;cursor:pointer">⏹ Durdur</button>
+    <div id="kp-progress" style="display:none;background:#1a1a24;border-radius:8px;padding:10px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:#a8a4b0;font-size:11px">İlerleme</span><span id="kp-pct" style="color:#C9A96E;font-size:11px;font-weight:700">0/0</span></div>
+      <div style="background:#2a2a3a;border-radius:3px;height:6px;overflow:hidden;margin-bottom:6px"><div id="kp-bar" style="height:100%;background:#C9A96E;width:0%;transition:width .3s;border-radius:3px"></div></div>
+      <div id="kp-cur" style="color:#60a5fa;font-size:10px"></div>
+    </div>
+    <div id="kp-log" style="display:none;background:#0d0d11;border-radius:8px;padding:8px;max-height:220px;overflow-y:auto;font-size:10px;line-height:1.8">
+      <div style="color:#5a566a;font-size:9px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">LOG</div>
+    </div>
+    <div id="kp-rapor" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="color:#C9A96E;font-size:11px;font-weight:700">📊 Rapor</div>
+        <button onclick="window.ayseCSV()" style="background:rgba(34,197,94,.1);color:#22c55e;border:1px solid rgba(34,197,94,.2);border-radius:5px;padding:4px 10px;font-size:10px;cursor:pointer">📥 CSV</button>
+      </div>
+      <div id="kp-rapor-ic"></div>
+    </div>
+  `;
+  document.body.appendChild(panel);
+}
+
+function kpLog(msg,renk){
+  const d=document.getElementById('kp-log');if(!d)return;
+  d.style.display='block';
+  d.innerHTML+=`<div style="color:${renk||'#a8a4b0'}">${new Date().toLocaleTimeString('tr')} ${msg}</div>`;
+  d.scrollTop=d.scrollHeight;
+}
+
+window._ayseStop=false;
+window._ayseSonuclar=[];
+
+window.ayseBaslat=async function(){
+  const statuses=document.getElementById('kp-status').value.split(',');
+  const limit=parseInt(document.getElementById('kp-limit').value)||10;
+  const delay=parseInt(document.getElementById('kp-delay').value)||60;
+  document.getElementById('kp-btn-start').style.display='none';
+  document.getElementById('kp-btn-stop').style.display='block';
+  document.getElementById('kp-progress').style.display='block';
+  document.getElementById('kp-rapor').style.display='none';
+  window._ayseStop=false; window._ayseSonuclar=[];
+  kpLog('📋 Leadler çekiliyor...','#60a5fa');
+  const leads=await(await fetch(SB+'/rest/v1/customers?select=id,full_name,phone,status&status=in.('+statuses.join(',')+')'+'&limit='+limit+'&order=created_at.asc',{headers:{apikey:SK,'Authorization':'Bearer '+SK}})).json();
+  if(!leads.length){kpLog('❌ Lead bulunamadı!','#ef4444');return;}
+  kpLog('✅ '+leads.length+' lead | SIP aktif','#22c55e');
+  const total=leads.length; let done=0,ok=0,fail=0;
+  for(const lead of leads){
+    if(window._ayseStop){kpLog('⏹ Durduruldu.','#ef4444');break;}
+    const fn=(lead.full_name||'').split(' ')[0];
+    document.getElementById('kp-cur').textContent='📞 '+lead.full_name+' · '+lead.phone;
+    kpLog('📞 '+lead.full_name+' · '+lead.phone,'#C9A96E');
+    try{
+      const r=await fetch('https://api.vapi.ai/call/phone',{method:'POST',headers:{'Authorization':'Bearer '+VK,'Content-Type':'application/json'},
+        body:JSON.stringify({assistantId:AID,phoneNumberId:PHONE_ID,customer:{number:lead.phone,name:lead.full_name},
+          assistantOverrides:{firstMessage:'Merhaba '+fn+', ben Ayse, Global Eksbina finansal danismaniniz. Bugun altin rekor kirdi, altmis saniyeniz var mi?'}})});
+      const d=await r.json();
+      if(d.id){
+        ok++;kpLog('  ✅ Başladı · '+d.id.substring(0,8)+'...','#22c55e');
+        await fetch(SB+'/rest/v1/calls',{method:'POST',headers:SBH,body:JSON.stringify({customer_id:lead.id,agent_type:'ai',agent_name:'Ayşe',call_type:'outbound',vapi_call_id:d.id,outcome:'initiated',notes:'SIP kampanya · '+new Date().toLocaleString('tr')})});
+        await fetch(SB+'/rest/v1/customers?id=eq.'+lead.id,{method:'PATCH',headers:SBH,body:JSON.stringify({status:'warm',notes:'Ayşe aradı: '+new Date().toLocaleString('tr')})});
+        window._ayseSonuclar.push({isim:lead.full_name,tel:lead.phone,durum:'✅',callId:d.id,zaman:new Date().toLocaleString('tr')});
+      }else{
+        fail++;kpLog('  ❌ '+(d.message||JSON.stringify(d).substring(0,60)),'#ef4444');
+        window._ayseSonuclar.push({isim:lead.full_name,tel:lead.phone,durum:'❌ '+(d.message||''),callId:'',zaman:new Date().toLocaleString('tr')});
+      }
+    }catch(e){fail++;kpLog('  ❌ '+e.message,'#ef4444');}
+    done++;
+    document.getElementById('kp-bar').style.width=Math.round(done/total*100)+'%';
+    document.getElementById('kp-pct').textContent=done+'/'+total+' ('+ok+' ✅ '+fail+' ❌)';
+    if(done<total&&!window._ayseStop){
+      for(let i=delay;i>0;i--){if(window._ayseStop)break;document.getElementById('kp-cur').textContent='⏳ Sonraki: '+i+'sn · '+ok+' başarılı';await new Promise(r=>setTimeout(r,1000));}
+    }
+  }
+  window._ayseStop=false;
+  document.getElementById('kp-btn-start').style.display='block';
+  document.getElementById('kp-btn-stop').style.display='none';
+  document.getElementById('kp-cur').textContent='✅ Tamamlandı! '+ok+' başarılı, '+fail+' hata';
+  kpLog('🎉 Kampanya bitti! '+ok+'/'+total,'#22c55e');
+  window.ayseRapor();
+};
+
+window.ayseRapor=async function(){
+  const r=await fetch(SB+'/rest/v1/calls?select=*,customers(full_name,phone)&agent_type=eq.ai&order=created_at.desc&limit=100',{headers:{apikey:SK,'Authorization':'Bearer '+SK}});
+  const calls=await r.json();
+  const el=document.getElementById('kp-rapor'); if(!el) return;
+  el.style.display='block';
+  const t=calls.length;
+  document.getElementById('kp-rapor-ic').innerHTML=`
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px">
+      <div style="background:#1a1a24;border-radius:6px;padding:8px;text-align:center"><div style="font-size:20px;font-weight:700;color:#60a5fa">${t}</div><div style="font-size:9px;color:#5a566a">TOPLAM</div></div>
+      <div style="background:#1a1a24;border-radius:6px;padding:8px;text-align:center"><div style="font-size:20px;font-weight:700;color:#22c55e">${calls.filter(c=>c.outcome==='initiated'||c.outcome==='completed').length}</div><div style="font-size:9px;color:#5a566a">BAŞARILI</div></div>
+      <div style="background:#1a1a24;border-radius:6px;padding:8px;text-align:center"><div style="font-size:20px;font-weight:700;color:#C9A96E">${calls.filter(c=>c.call_type==='outbound').length}</div><div style="font-size:9px;color:#5a566a">OUTBOUND</div></div>
+    </div>
+    <div style="background:#1a1a24;border-radius:6px;padding:8px;max-height:160px;overflow-y:auto">
+      ${calls.slice(0,20).map(c=>`<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.03)"><div><div style="color:#f0ede8;font-size:10px">${c.customers?.full_name||'?'}</div><div style="color:#5a566a;font-size:9px">${c.customers?.phone||''}</div></div><span style="font-size:9px;color:#C9A96E;align-self:center">${c.outcome||'?'}</span></div>`).join('')}
+    </div>`;
+  window._ayseSonuclar=calls;
+};
+
+window.ayseCSV=function(){
+  const rows=[['İsim','Telefon','Durum','Zaman']];
+  window._ayseSonuclar.forEach(s=>rows.push([s.customers?.full_name||s.isim||'',s.customers?.phone||s.tel||'',s.outcome||s.durum||'',s.created_at||s.zaman||'']));
+  const blob=new Blob([rows.map(r=>r.map(c=>'"'+String(c||'').replace(/"/g,'""')+'"').join(',')).join('\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ayse_'+new Date().toISOString().split('T')[0]+'.csv';a.click();
+};
+
+// DOM hazır olunca başlat
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initKampanya);
+else initKampanya();
+// Login sonrası da kontrol et
+setInterval(initKampanya, 2000);
+})();
+</script>
+<script>
+(function(){
+var PH='97bf7ebd-d04c-4faa-b897-5ade6c02ea3a',VK='74b7b21d-f286-4a56-b1ac-2bf37a91d088';
 var AID='133aa70c-db4b-4155-be6b-220450c0b21a';
 var SB='https://muwynsxukmxjquoqcbac.supabase.co';
 var SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3luc3h1a214anF1b3FjYmFjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjExMzQwMCwiZXhwIjoyMDkxNjg5NDAwfQ.33AsVo1mIeNHznTKnr6IUjVTLP_puNeNFJMS8-GsO30';
-var SBH={'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':'application/json'};
-window._akStop=false; window._akSon=[]; window._akRunning=false;
+var H={'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':'application/json'};
+window._akStop=false;window._akSon=[];window._akRunning=false;
 
-function log(m,c){
-  var d=document.getElementById('ak-log');
-  if(!d)return; d.style.display='block';
-  var r=document.createElement('div');
-  r.style.cssText='color:'+(c||'#a8a4b0')+';padding:2px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:10px';
-  r.textContent=new Date().toLocaleTimeString('tr')+' '+m;
-  d.appendChild(r); d.scrollTop=d.scrollHeight;
-}
+function log(m,c){var d=document.getElementById('ak-log');if(!d)return;d.style.display='block';var r=document.createElement('div');r.style.cssText='color:'+(c||'#a8a4b0')+';padding:2px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:10px';r.textContent=new Date().toLocaleTimeString('tr')+' '+m;d.appendChild(r);d.scrollTop=d.scrollHeight;}
 
 function openPanel(){
   if(document.getElementById('ayse-kp')){document.getElementById('ayse-kp').remove();return;}
-  var p=document.createElement('div'); p.id='ayse-kp';
+  var p=document.createElement('div');p.id='ayse-kp';
   p.style.cssText='position:fixed;top:46px;right:0;width:360px;height:calc(100vh - 46px);background:#13131a;border-left:2px solid rgba(201,169,110,.3);z-index:9000;font-family:system-ui,sans-serif;font-size:12px;color:#f0ede8;display:flex;flex-direction:column;box-shadow:-4px 0 20px rgba(0,0,0,.5)';
-  p.innerHTML=
-    '<div style="padding:14px 16px;border-bottom:1px solid rgba(201,169,110,.15);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;background:#1a1a24">'
-    +'<div><div style="font-size:13px;font-weight:700;color:#C9A96E">Ayşe Kampanya Merkezi</div>'
-    +'<div style="font-size:9px;color:#22c55e;margin-top:2px">SIP Hattı: +90 212 822 04 16 - Aktif</div></div>'
-    +'<button onclick="document.getElementById('ayse-kp').remove()" style="background:none;border:none;color:#5a566a;cursor:pointer;font-size:20px;line-height:1">×</button></div>'
-    +'<div style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px">'
-    +'<div style="background:#1a1a24;border-radius:8px;padding:12px;display:grid;gap:8px">'
-    +'<div style="color:#5a566a;font-size:9px;letter-spacing:.8px;text-transform:uppercase">Kampanya Ayarları</div>'
-    +'<div><label style="color:#a8a4b0;font-size:10px;display:block;margin-bottom:3px">Hedef Lead Durumu</label>'
-    +'<select id="ak-st" style="width:100%;background:#21212e;border:1px solid rgba(201,169,110,.2);border-radius:5px;padding:6px 8px;color:#f0ede8;font-size:11px">'
-    +'<option value="cold,warm">Soğuk + Ilık (Hepsi)</option>'
-    +'<option value="cold">Sadece Soğuk</option>'
-    +'<option value="warm">Sadece Ilık</option>'
-    +'<option value="hot">Sadece Sıcak</option></select></div>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
-    +'<div><label style="color:#a8a4b0;font-size:10px;display:block;margin-bottom:3px">Kaç Lead?</label>'
-    +'<input id="ak-lim" type="number" value="10" min="1" max="500" style="width:100%;background:#21212e;border:1px solid rgba(201,169,110,.2);border-radius:5px;padding:6px 8px;color:#f0ede8;font-size:11px;box-sizing:border-box"></div>'
-    +'<div><label style="color:#a8a4b0;font-size:10px;display:block;margin-bottom:3px">Bekleme (sn)</label>'
-    +'<input id="ak-del" type="number" value="60" min="10" max="600" style="width:100%;background:#21212e;border:1px solid rgba(201,169,110,.2);border-radius:5px;padding:6px 8px;color:#f0ede8;font-size:11px;box-sizing:border-box"></div></div></div>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
-    +'<button id="ak-go" onclick="window.akBaslat()" style="background:#C9A96E;color:#000;border:none;border-radius:7px;padding:12px;font-size:12px;font-weight:700;cursor:pointer">🚀 Başlat</button>'
-    +'<button onclick="window.akRapor()" style="background:rgba(96,165,250,.1);color:#60a5fa;border:1px solid rgba(96,165,250,.2);border-radius:7px;padding:12px;font-size:11px;font-weight:600;cursor:pointer">📊 Rapor</button></div>'
-    +'<button id="ak-stp" onclick="window._akStop=true" style="display:none;width:100%;background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.3);border-radius:7px;padding:10px;font-size:12px;font-weight:700;cursor:pointer">⏹ Durdur</button>'
-    +'<div id="ak-prg" style="display:none;background:#1a1a24;border-radius:8px;padding:10px">'
-    +'<div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:#a8a4b0;font-size:11px">İlerleme</span><span id="ak-pct" style="color:#C9A96E;font-size:11px;font-weight:700">0/0</span></div>'
-    +'<div style="background:#2a2a3a;border-radius:3px;height:8px;overflow:hidden;margin-bottom:6px"><div id="ak-bar" style="height:100%;background:linear-gradient(90deg,#C9A96E,#f0c88a);width:0%;transition:width .4s;border-radius:3px"></div></div>'
-    +'<div id="ak-cur" style="color:#60a5fa;font-size:10px;min-height:16px"></div></div>'
-    +'<div id="ak-log" style="display:none;background:#0d0d11;border-radius:8px;padding:8px;max-height:200px;overflow-y:auto">'
-    +'<div style="color:#5a566a;font-size:9px;text-transform:uppercase;margin-bottom:4px">Arama Logu</div></div>'
-    +'<div id="ak-rep" style="display:none">'
-    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">'
-    +'<span style="color:#C9A96E;font-size:12px;font-weight:700">📊 Kampanya Raporu</span>'
-    +'<button onclick="window.akCSV()" style="background:rgba(34,197,94,.1);color:#22c55e;border:1px solid rgba(34,197,94,.2);border-radius:5px;padding:4px 12px;font-size:10px;cursor:pointer;font-weight:600">📥 CSV İndir</button></div>'
-    +'<div id="ak-rep-ic"></div></div>'
-    +'</div>';
+  p.innerHTML='<div style="padding:14px 16px;border-bottom:1px solid rgba(201,169,110,.15);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;background:#1a1a24"><div><div style="font-size:13px;font-weight:700;color:#C9A96E">Ay&#351;e Kampanya Merkezi</div><div style="font-size:9px;color:#22c55e;margin-top:2px">SIP: +90 212 822 04 16 - Aktif</div></div><button onclick="document.getElementById('ayse-kp').remove()" style="background:none;border:none;color:#5a566a;cursor:pointer;font-size:20px">&#215;</button></div>'
+  +'<div style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px">'
+  +'<div style="background:#1a1a24;border-radius:8px;padding:12px;display:grid;gap:8px"><div style="color:#5a566a;font-size:9px;letter-spacing:.8px;text-transform:uppercase">Kampanya Ayarlar&#305;</div>'
+  +'<div><label style="color:#a8a4b0;font-size:10px;display:block;margin-bottom:3px">Hedef Lead Durumu</label><select id="ak-st" style="width:100%;background:#21212e;border:1px solid rgba(201,169,110,.2);border-radius:5px;padding:6px 8px;color:#f0ede8;font-size:11px"><option value="cold,warm">So&#287;uk + Il&#305;k (Hepsi)</option><option value="cold">Sadece So&#287;uk</option><option value="warm">Sadece Il&#305;k</option><option value="hot">Sadece S&#305;cak</option></select></div>'
+  +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div><label style="color:#a8a4b0;font-size:10px;display:block;margin-bottom:3px">Ka&#231; Lead?</label><input id="ak-lim" type="number" value="10" min="1" max="500" style="width:100%;background:#21212e;border:1px solid rgba(201,169,110,.2);border-radius:5px;padding:6px 8px;color:#f0ede8;font-size:11px;box-sizing:border-box"></div>'
+  +'<div><label style="color:#a8a4b0;font-size:10px;display:block;margin-bottom:3px">Bekleme (sn)</label><input id="ak-del" type="number" value="60" min="10" max="600" style="width:100%;background:#21212e;border:1px solid rgba(201,169,110,.2);border-radius:5px;padding:6px 8px;color:#f0ede8;font-size:11px;box-sizing:border-box"></div></div></div>'
+  +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button id="ak-go" onclick="window.akBaslat()" style="background:#C9A96E;color:#000;border:none;border-radius:7px;padding:12px;font-size:12px;font-weight:700;cursor:pointer">Ba&#351;lat</button><button onclick="window.akRapor()" style="background:rgba(96,165,250,.1);color:#60a5fa;border:1px solid rgba(96,165,250,.2);border-radius:7px;padding:12px;font-size:11px;font-weight:600;cursor:pointer">Rapor</button></div>'
+  +'<button id="ak-stp" onclick="window._akStop=true" style="display:none;width:100%;background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.3);border-radius:7px;padding:10px;font-size:12px;font-weight:700;cursor:pointer">Durdur</button>'
+  +'<div id="ak-prg" style="display:none;background:#1a1a24;border-radius:8px;padding:10px"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:#a8a4b0;font-size:11px">&#304;lerleme</span><span id="ak-pct" style="color:#C9A96E;font-size:11px;font-weight:700">0/0</span></div><div style="background:#2a2a3a;border-radius:3px;height:8px;overflow:hidden;margin-bottom:6px"><div id="ak-bar" style="height:100%;background:linear-gradient(90deg,#C9A96E,#f0c88a);width:0%;transition:width .4s;border-radius:3px"></div></div><div id="ak-cur" style="color:#60a5fa;font-size:10px;min-height:16px"></div></div>'
+  +'<div id="ak-log" style="display:none;background:#0d0d11;border-radius:8px;padding:8px;max-height:200px;overflow-y:auto"><div style="color:#5a566a;font-size:9px;text-transform:uppercase;margin-bottom:4px">Arama Logu</div></div>'
+  +'<div id="ak-rep" style="display:none"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="color:#C9A96E;font-size:12px;font-weight:700">Kampanya Raporu</span><button onclick="window.akCSV()" style="background:rgba(34,197,94,.1);color:#22c55e;border:1px solid rgba(34,197,94,.2);border-radius:5px;padding:4px 12px;font-size:10px;cursor:pointer;font-weight:600">CSV &#304;ndir</button></div><div id="ak-rep-ic"></div></div>'
+  +'</div>';
   document.body.appendChild(p);
 }
 
 window.akBaslat=async function(){
-  if(window._akRunning){alert('Kampanya zaten çalışıyor!');return;}
+  if(window._akRunning){alert('Kampanya zaten caliyor!');return;}
   var st=document.getElementById('ak-st').value.split(',');
   var lim=parseInt(document.getElementById('ak-lim').value)||10;
   var del=parseInt(document.getElementById('ak-del').value)||60;
@@ -1504,148 +1646,110 @@ window.akBaslat=async function(){
   document.getElementById('ak-stp').style.display='block';
   document.getElementById('ak-prg').style.display='block';
   document.getElementById('ak-rep').style.display='none';
-  window._akStop=false; window._akSon=[]; window._akRunning=true;
-  log('Supabase'den leadler çekiliyor...','#60a5fa');
+  window._akStop=false;window._akSon=[];window._akRunning=true;
+  log('Leadler cekiliyor...','#60a5fa');
   var leads;
   try{
     var r=await fetch(SB+'/rest/v1/customers?select=id,full_name,phone,status&status=in.('+st.join(',')+ ')&limit='+lim+'&order=created_at.asc',{headers:{apikey:SK,'Authorization':'Bearer '+SK}});
     leads=await r.json();
   }catch(e){log('Hata: '+e.message,'#ef4444');window._akRunning=false;return;}
-  if(!Array.isArray(leads)||!leads.length){
-    log('Uygun lead bulunamadı! ('+st.join(',')+ ')','#ef4444');
-    document.getElementById('ak-go').style.display='block';
-    document.getElementById('ak-stp').style.display='none';
-    window._akRunning=false; return;
-  }
-  log(leads.length+' lead bulundu. Aramalar başlıyor...','#22c55e');
+  if(!Array.isArray(leads)||!leads.length){log('Lead bulunamadi! ('+st.join(',')+ ')','#ef4444');document.getElementById('ak-go').style.display='block';document.getElementById('ak-stp').style.display='none';window._akRunning=false;return;}
+  log(leads.length+' lead. Aramalar basliyor...','#22c55e');
   var total=leads.length,done=0,ok=0,fail=0;
   for(var i=0;i<leads.length;i++){
-    if(window._akStop){log('Kampanya durduruldu.','#f97316');break;}
+    if(window._akStop){log('Durduruldu.','#f97316');break;}
     var lead=leads[i];
-    var fn=(lead.full_name||'').split(' ')[0]||'Sayın';
+    var fn=(lead.full_name||'').split(' ')[0]||'Sayin';
     document.getElementById('ak-cur').textContent=lead.full_name+' - '+lead.phone;
     log(lead.full_name+' ('+lead.phone+')','#C9A96E');
     try{
-      var rr=await fetch('https://api.vapi.ai/call/phone',{
-        method:'POST',
-        headers:{'Authorization':'Bearer '+VK,'Content-Type':'application/json'},
-        body:JSON.stringify({
-          assistantId:AID,phoneNumberId:PH,
-          customer:{number:lead.phone,name:lead.full_name},
-          assistantOverrides:{firstMessage:'Merhaba '+fn+', ben Ayşe, Global Eksbina finansal danışmanınız. Bugün altın rekor kırdı, altmış saniyeniz var mı?'}
-        })
-      });
+      var rr=await fetch('https://api.vapi.ai/call/phone',{method:'POST',headers:{'Authorization':'Bearer '+VK,'Content-Type':'application/json'},body:JSON.stringify({assistantId:AID,phoneNumberId:PH,customer:{number:lead.phone,name:lead.full_name},assistantOverrides:{firstMessage:'Merhaba '+fn+', ben Ayse, Global Eksbina finansal danismaniniz. Bugun altin rekor kirdi, altmis saniyeniz var mi?'}})});
       var d=await rr.json();
       if(d.id){
-        ok++; log('  ✅ Arama başladı - '+d.id.substring(0,8),'#22c55e');
+        ok++;log('  OK - '+d.id.substring(0,8),'#22c55e');
         try{
-          await fetch(SB+'/rest/v1/calls',{method:'POST',headers:SBH,body:JSON.stringify({
-            customer_id:lead.id,agent_name:'Ayse',call_type:'outbound',
-            vapi_call_id:d.id,outcome:'initiated',status:'active',
-            notes:'AI Kampanya - '+new Date().toLocaleString('tr')
-          })});
-          await fetch(SB+'/rest/v1/customers?id=eq.'+lead.id,{method:'PATCH',headers:SBH,
-            body:JSON.stringify({status:'warm',notes:'Ayşe aradı: '+new Date().toLocaleString('tr')})});
+          await fetch(SB+'/rest/v1/calls',{method:'POST',headers:H,body:JSON.stringify({customer_id:lead.id,agent_name:'Ayse',call_type:'outbound',vapi_call_id:d.id,outcome:'initiated',status:'active',notes:'AI Kampanya - '+new Date().toLocaleString('tr')})});
+          await fetch(SB+'/rest/v1/customers?id=eq.'+lead.id,{method:'PATCH',headers:H,body:JSON.stringify({status:'warm',notes:'Ayse aradi: '+new Date().toLocaleString('tr')})});
         }catch(e2){}
         window._akSon.push({isim:lead.full_name,tel:lead.phone,durum:'OK',callId:d.id,zaman:new Date().toLocaleString('tr')});
       }else{
-        fail++;
-        var hata=(d.message||JSON.stringify(d)).substring(0,80);
-        log('  ❌ Hata: '+hata,'#ef4444');
+        fail++;var hata=(d.message||JSON.stringify(d)).substring(0,80);
+        log('  Hata: '+hata,'#ef4444');
         window._akSon.push({isim:lead.full_name,tel:lead.phone,durum:'Hata',hata:hata,zaman:new Date().toLocaleString('tr')});
       }
-    }catch(e){fail++;log('  ❌ '+e.message,'#ef4444');}
+    }catch(e){fail++;log('  Hata: '+e.message,'#ef4444');}
     done++;
     document.getElementById('ak-bar').style.width=Math.round(done/total*100)+'%';
     document.getElementById('ak-pct').textContent=done+'/'+total+' ('+ok+' OK, '+fail+' hata)';
-    if(done<total&&!window._akStop){
-      for(var s=del;s>0;s--){
-        if(window._akStop)break;
-        document.getElementById('ak-cur').textContent='Sonraki arama: '+s+' saniye | '+ok+' başarılı';
-        await new Promise(function(res){setTimeout(res,1000);});
-      }
-    }
+    if(done<total&&!window._akStop){for(var s=del;s>0;s--){if(window._akStop)break;document.getElementById('ak-cur').textContent='Sonraki: '+s+'sn | '+ok+' basarili';await new Promise(function(res){setTimeout(res,1000);});}}
   }
-  window._akRunning=false; window._akStop=false;
+  window._akRunning=false;window._akStop=false;
   document.getElementById('ak-go').style.display='block';
   document.getElementById('ak-stp').style.display='none';
-  document.getElementById('ak-cur').textContent='Tamamlandı! '+ok+'/'+total+' başarılı';
-  log('Kampanya tamamlandı: '+ok+'/'+total,'#22c55e');
+  document.getElementById('ak-cur').textContent='Tamamlandi! '+ok+'/'+total;
+  log('Kampanya bitti: '+ok+'/'+total,'#22c55e');
   setTimeout(function(){window.akRapor();},500);
 };
 
 window.akRapor=async function(){
   var rep=document.getElementById('ak-rep'),ic=document.getElementById('ak-rep-ic');
-  if(!rep||!ic)return; rep.style.display='block';
-  log('Rapor yükleniyor...','#60a5fa');
+  if(!rep||!ic)return;rep.style.display='block';
+  log('Rapor yukleniyor...','#60a5fa');
   try{
     var r=await fetch(SB+'/rest/v1/calls?select=*,customers(full_name,phone,status)&agent_name=eq.Ayse&order=created_at.desc&limit=500',{headers:{apikey:SK,'Authorization':'Bearer '+SK}});
-    var calls=await r.json();
-    window._akSon=calls;
-    var t=calls.length;
-    var konustu=calls.filter(function(c){return(c.duration_seconds||0)>5;}).length;
+    var calls=await r.json();window._akSon=calls;
+    var t=calls.length,konustu=calls.filter(function(c){return(c.duration_seconds||0)>5;}).length;
     var demoOk=calls.filter(function(c){return c.demo_kabul;}).length;
     var randevu=calls.filter(function(c){return c.randevu_alindi;}).length;
-    var cevapYok=t-konustu;
     var skorlar=calls.filter(function(c){return(c.skor||0)>0;});
     var avgSkor=skorlar.length>0?(skorlar.reduce(function(a,c){return a+(c.skor||0);},0)/skorlar.length).toFixed(1):'--';
-    ic.innerHTML=
-      '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px">'
+    ic.innerHTML='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px">'
       +'<div style="background:#1a1a24;border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:700;color:#60a5fa">'+t+'</div><div style="font-size:9px;color:#5a566a;margin-top:2px">TOPLAM</div></div>'
-      +'<div style="background:#1a1a24;border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:700;color:#22c55e">'+konustu+'</div><div style="font-size:9px;color:#5a566a;margin-top:2px">KONUŞTU</div></div>'
-      +'<div style="background:#1a1a24;border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:700;color:#ef4444">'+cevapYok+'</div><div style="font-size:9px;color:#5a566a;margin-top:2px">CEVAP YOK</div></div>'
+      +'<div style="background:#1a1a24;border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:700;color:#22c55e">'+konustu+'</div><div style="font-size:9px;color:#5a566a;margin-top:2px">KONUTU</div></div>'
+      +'<div style="background:#1a1a24;border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:700;color:#ef4444">'+(t-konustu)+'</div><div style="font-size:9px;color:#5a566a;margin-top:2px">CEVAP YOK</div></div>'
       +'<div style="background:#1a1a24;border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:700;color:#C9A96E">'+avgSkor+'</div><div style="font-size:9px;color:#5a566a;margin-top:2px">ORT SKOR</div></div>'
       +'<div style="background:#1a1a24;border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:700;color:#a78bfa">'+demoOk+'</div><div style="font-size:9px;color:#5a566a;margin-top:2px">DEMO</div></div>'
-      +'<div style="background:#1a1a24;border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:700;color:#f97316">'+randevu+'</div><div style="font-size:9px;color:#5a566a;margin-top:2px">RANDEVU</div></div>'
-      +'</div>'
+      +'<div style="background:#1a1a24;border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:700;color:#f97316">'+randevu+'</div><div style="font-size:9px;color:#5a566a;margin-top:2px">RANDEVU</div></div></div>'
       +'<div style="background:#1a1a24;border-radius:6px;padding:10px;max-height:280px;overflow-y:auto">'
-      +'<div style="color:#5a566a;font-size:9px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Arama Detayları</div>'
+      +'<div style="color:#5a566a;font-size:9px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Arama Detaylari</div>'
       +calls.slice(0,50).map(function(c){
         var dur=c.duration_seconds?Math.floor(c.duration_seconds/60)+':'+ ('0'+c.duration_seconds%60).slice(-2):'0:00';
         var skorEl=c.skor?'<b style="color:'+(c.skor>=7?'#22c55e':c.skor>=4?'#C9A96E':'#5a566a')+'"> '+c.skor+'/10</b>':'';
         var badges='';
-        if(c.demo_kabul)badges+='<span style="font-size:8px;background:rgba(34,197,94,.15);color:#22c55e;padding:1px 5px;border-radius:3px;margin-left:3px">Demo ✓</span>';
-        if(c.randevu_alindi)badges+='<span style="font-size:8px;background:rgba(96,165,250,.15);color:#60a5fa;padding:1px 5px;border-radius:3px;margin-left:3px">Randevu ✓</span>';
+        if(c.demo_kabul)badges+='<span style="font-size:8px;background:rgba(34,197,94,.15);color:#22c55e;padding:1px 5px;border-radius:3px;margin-left:3px">Demo</span>';
+        if(c.randevu_alindi)badges+='<span style="font-size:8px;background:rgba(96,165,250,.15);color:#60a5fa;padding:1px 5px;border-radius:3px;margin-left:3px">Randevu</span>';
         return '<div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)">'
-          +'<div style="display:flex;justify-content:space-between;align-items:start">'
-          +'<div><span style="color:#f0ede8;font-size:11px">'+(c.customers&&c.customers.full_name||'?')+'</span>'+badges+'</div>'
+          +'<div style="display:flex;justify-content:space-between;align-items:center"><div><span style="color:#f0ede8;font-size:11px">'+(c.customers&&c.customers.full_name||'?')+'</span>'+badges+'</div>'
           +'<div style="display:flex;gap:6px;align-items:center;flex-shrink:0"><span style="color:#5a566a;font-size:10px">'+dur+'</span>'+skorEl+'</div></div>'
           +(c.summary?'<div style="color:#a8a4b0;font-size:10px;margin-top:3px">'+c.summary.substring(0,100)+'</div>':'')
-          +(c.itiraz?'<div style="color:#f97316;font-size:9px;margin-top:1px">İtiraz: '+c.itiraz+'</div>':'')
+          +(c.itiraz?'<div style="color:#f97316;font-size:9px;margin-top:1px">&#304;tiraz: '+c.itiraz+'</div>':'')
           +(c.takip_notu?'<div style="color:#C9A96E;font-size:9px;margin-top:1px">Takip: '+c.takip_notu+'</div>':'')
           +'</div>';
       }).join('')+'</div>';
-    log('Rapor hazır: '+t+' arama, '+konustu+' konuşma','#22c55e');
-  }catch(e){log('Rapor hatası: '+e.message,'#ef4444');}
+    log('Rapor hazir: '+t+' arama, '+konustu+' konusma','#22c55e');
+  }catch(e){log('Rapor hatasi: '+e.message,'#ef4444');}
 };
 
 window.akCSV=function(){
   var calls=window._akSon||[];
-  var rows=[['İsim','Telefon','Durum','Süre','Sonuç','Skor','İlgi','Demo','Randevu','Özet','İtiraz','Takip Notu','Tarih']];
+  var rows=[['Isim','Telefon','Durum','Sure','Sonuc','Skor','Ilgi','Demo','Randevu','Ozet','Itiraz','Takip Notu','Tarih']];
   calls.forEach(function(c){
     var dur=c.duration_seconds?Math.floor(c.duration_seconds/60)+':'+ ('0'+c.duration_seconds%60).slice(-2):'';
-    rows.push([(c.customers&&c.customers.full_name)||c.isim||'',(c.customers&&c.customers.phone)||c.tel||'',
-      (c.customers&&c.customers.status)||'',dur,c.outcome||c.durum||'',c.skor||'',c.ilgi_seviyesi||'',
-      c.demo_kabul?'EVET':'',c.randevu_alindi?'EVET':'',(c.summary||'').replace(/[
-,]/g,' '),
-      (c.itiraz||'').replace(/,/g,';'),(c.takip_notu||'').replace(/,/g,';'),c.created_at||c.zaman||'']);
+    rows.push([(c.customers&&c.customers.full_name)||c.isim||'',(c.customers&&c.customers.phone)||c.tel||'',(c.customers&&c.customers.status)||'',dur,c.outcome||c.durum||'',c.skor||'',c.ilgi_seviyesi||'',c.demo_kabul?'EVET':'',c.randevu_alindi?'EVET':'',(c.summary||'').replace(/[
+,]/g,' '),(c.itiraz||'').replace(/,/g,';'),(c.takip_notu||'').replace(/,/g,';'),c.created_at||c.zaman||'']);
   });
   var csv='﻿'+rows.map(function(r){return r.map(function(v){return '"'+String(v||'').replace(/"/g,'""')+'"';}).join(',');}).join('
 ');
   var blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
-  var a=document.createElement('a');a.href=URL.createObjectURL(blob);
-  a.download='ayse_raporu_'+new Date().toISOString().split('T')[0]+'.csv';a.click();
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ayse_raporu_'+new Date().toISOString().split('T')[0]+'.csv';a.click();
 };
 
 function addBtn(){
   if(document.getElementById('ak-nav-btn'))return;
-  var tr=document.querySelector('.tright');
-  if(!tr)return;
-  var b=document.createElement('button');
-  b.id='ak-nav-btn'; b.textContent='🤖 Kampanya';
+  var tr=document.querySelector('.tright');if(!tr)return;
+  var b=document.createElement('button');b.id='ak-nav-btn';b.textContent='Kampanya';
   b.style.cssText='padding:5px 12px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(201,169,110,.4);background:rgba(201,169,110,.12);color:#C9A96E;white-space:nowrap;margin-right:4px';
-  b.onclick=openPanel;
-  tr.insertBefore(b,tr.firstChild);
+  b.onclick=openPanel;tr.insertBefore(b,tr.firstChild);
 }
 [200,500,1000,2000,3000].forEach(function(t){setTimeout(addBtn,t);});
 new MutationObserver(function(){addBtn();}).observe(document.body,{childList:true,subtree:true});
