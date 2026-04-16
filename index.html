@@ -1127,7 +1127,39 @@ function playRec(vapiId) {
     var url = d.recordingUrl || d.stereoRecordingUrl || (d.artifact && d.artifact.recordingUrl);
     if(!url){notify('Ses kaydı yok','err');return;}
     var w=window.open('','_blank');
-    w.document.write('<html><body style="background:#0d0d11;display:flex;align-items:center;justify-content:center;height:100vh;margin:0"><div style="text-align:center"><p style="color:#C9A96E;font-family:system-ui;margin-bottom:16px">🎙️ '+( d.customer&&d.customer.number||vapiId.substring(0,12))+'</p><audio controls autoplay src="'+url+'" style="width:320px"></audio><br><a href="'+url+'" download style="color:#60a5fa;font-size:12px;margin-top:12px;display:block;font-family:system-ui">📥 İndir</a></div></body></html>');
+    w.document.write('<html><body style="background:#0d0d11;display:flex;align-items:center;justify-content:center;height:100vh;margin:0"><div style="text-align:center"><p style="color:#C9A96E;font-family:system-ui;margin-bottom:16px">🎙️ '+( d.customer&&d.customer.number||vapiId.substring(0,12))+'</p><audio controls autoplay src="'+url+'" style="width:320px"></audio><br><a href="'+url+'" download style="color:#60a5fa;font-size:12px;margin-top:12px;display:block;font-family:system-ui">📥 İndir</a></div>
+<script>
+(function(){
+  var _orig=window.loadCalls;
+  if(!_orig){setTimeout(arguments.callee,500);return;}
+  window.loadCalls=function(){
+    _orig.apply(this,arguments);
+    setTimeout(function(){
+      document.querySelectorAll("#ctb tr").forEach(function(row){
+        var cells=row.querySelectorAll("td");
+        if(cells.length<5) return;
+        var sureTd=cells[2];
+        var skorTd=cells[4];
+        var sonuc=(cells[3]?.textContent||"").trim();
+        if(sureTd&&sureTd.textContent.trim()==="---"){
+          var d="---";
+          if(sonuc.includes("Mes")||sonuc.toLowerCase().includes("busy")) d="Mesgul";
+          else if(sonuc.includes("Cevap")||sonuc.toLowerCase().includes("no-answer")||sonuc.toLowerCase().includes("did-not")) d="Cevapsiz";
+          else if(sonuc.includes("Kapatt")||sonuc.toLowerCase().includes("ended")) d="<5sn";
+          else if(sonuc.includes("Hata")||sonuc.includes("error")||sonuc.includes("sip")||sonuc.includes("connect")) d="Baglanamadi";
+          else if(sonuc.includes("Basladi")) d="Bekliyor";
+          if(d!=="---") sureTd.innerHTML='<span style="color:#5a566a;font-size:11px">'+d+'</span>';
+        }
+        if(skorTd&&skorTd.textContent.trim()==="---"){
+          skorTd.innerHTML='<span style="color:#3a3748">-</span>';
+        }
+      });
+    },600);
+  };
+  window.loadCalls();
+})();
+</script>
+</body></html>');
   }).catch(function(){notify('Ses kaydı yüklenemedi','err');});
 }
 
