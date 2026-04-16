@@ -181,7 +181,7 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
     <div id="pg-calls" class="page">
       <div class="sb" style="margin-bottom:10px"><div class="pt">Arama Geçmişi</div><button class="btn bg sm" onclick="openCallLog()">+ Arama Kaydet</button></div>
       <div class="panel" style="padding:0"><div class="tw"><table>
-        <thead><tr><th>Müşteri</th><th>Tip</th><th>Süre</th><th>Sonuç</th><th>Skor</th><th>İlgi</th><th>Özet</th><th>Personele Ata</th><th>Tarih</th></tr></thead>
+        <thead><tr><th>Müşteri</th><th>Tip</th><th>Süre</th><th>Sonuç</th><th>Skor</th><th>İlgi</th><th>Özet</th><th>Personele Ata</th><th>🎙️</th><th>Tarih</th></tr></thead>
         <tbody id="ctb"><tr><td colspan="9" class="empty">Yükleniyor...</td></tr></tbody>
       </table></div></div>
     </div>
@@ -1060,6 +1060,11 @@ function loadCalls() {
       var assignBtn = (isAI && custId)
         ? '<button class="btn bb sm" onclick="openAssignFromCall(\'' + custId + '\')">Ata</button>'
         : '---';
+      // Ses kaydı butonu
+      var recBtn = '---';
+      if(c.vapi_call_id && c.vapi_call_id.length > 10) {
+        recBtn = '<button class="btn bo sm" style="font-size:10px" onclick="playRec(\'' + c.vapi_call_id + '\')">🎙️</button>';
+      }
       var tip = isAI
         ? '<span class="tag tai">AI Ayşe</span>'
         : '<span class="tag ta">'+(c.call_type||'manuel')+'</span>';
@@ -1075,11 +1080,24 @@ function loadCalls() {
       h += '<td>'+ilgi+'</td>';
       h += '<td style="max-width:180px">'+ozet+'</td>';
       h += '<td>'+assignBtn+'</td>';
+      h += '<td>'+recBtn+'</td>';
       h += '<td>'+fdt(c.called_at||c.created_at)+'</td>';
       h += '</tr>';
     }
     document.getElementById('ctb').innerHTML = h || '<tr><td colspan="9" class="empty">Arama yok</td></tr>';
   }).catch(function(e) { notify(e.message, 'err'); });
+}
+
+
+function playRec(vapiId) {
+  var VK='74b7b21d-f286-4a56-b1ac-2bf37a91d088';
+  fetch('https://api.vapi.ai/call/'+vapiId,{headers:{'Authorization':'Bearer '+VK}})
+  .then(function(r){return r.json();}).then(function(d){
+    var url = d.recordingUrl || d.stereoRecordingUrl || (d.artifact && d.artifact.recordingUrl);
+    if(!url){notify('Ses kaydı yok','err');return;}
+    var w=window.open('','_blank');
+    w.document.write('<html><body style="background:#0d0d11;display:flex;align-items:center;justify-content:center;height:100vh;margin:0"><div style="text-align:center"><p style="color:#C9A96E;font-family:system-ui;margin-bottom:16px">🎙️ '+( d.customer&&d.customer.number||vapiId.substring(0,12))+'</p><audio controls autoplay src="'+url+'" style="width:320px"></audio><br><a href="'+url+'" download style="color:#60a5fa;font-size:12px;margin-top:12px;display:block;font-family:system-ui">📥 İndir</a></div></body></html>');
+  }).catch(function(){notify('Ses kaydı yüklenemedi','err');});
 }
 
 function openAssignFromCall(customerId) {
