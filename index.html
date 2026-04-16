@@ -149,6 +149,16 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
 
     <!-- LEADS -->
     <div id="pg-leads" class="page">
+      <div id="lead-cats" style="display:flex;gap:6px;flex-wrap:wrap;padding:10px 0 4px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:10px">
+        <button onclick="filterLeads('all')" data-cat="all" class="cat-btn active" style="padding:5px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.1);color:#f0ede8">Tümü</button>
+        <button onclick="filterLeads('yeni')" data-cat="yeni" class="cat-btn" style="padding:5px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(96,165,250,.4);background:rgba(96,165,250,.1);color:#60a5fa">🆕 Yeni</button>
+        <button onclick="filterLeads('sicak')" data-cat="sicak" class="cat-btn" style="padding:5px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(239,68,68,.4);background:rgba(239,68,68,.1);color:#ef4444">🔥 Sıcak</button>
+        <button onclick="filterLeads('ilgili')" data-cat="ilgili" class="cat-btn" style="padding:5px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(201,169,110,.4);background:rgba(201,169,110,.1);color:#C9A96E">🌡️ İlgili</button>
+        <button onclick="filterLeads('ilgilenmedi')" data-cat="ilgilenmedi" class="cat-btn" style="padding:5px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(107,114,128,.4);background:rgba(107,114,128,.1);color:#6b7280">❌ İlgilenmedi</button>
+        <button onclick="filterLeads('cevapsiz')" data-cat="cevapsiz" class="cat-btn" style="padding:5px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(251,191,36,.4);background:rgba(251,191,36,.1);color:#fbbf24">📵 Cevapsız</button>
+        <button onclick="filterLeads('ulasilamiyor')" data-cat="ulasilamiyor" class="cat-btn" style="padding:5px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(239,68,68,.3);background:rgba(239,68,68,.08);color:#f87171">🚫 Ulaşılamıyor</button>
+        <span id="lead-cat-count" style="font-size:11px;color:#5a566a;margin-left:auto;align-self:center"></span>
+      </div>
       <div class="sb" style="margin-bottom:8px">
         <div class="fx g8" style="flex-wrap:wrap;gap:6px">
           <input class="inp" style="width:190px" placeholder="🔍 Ara..." id="lsq" oninput="filterL()">
@@ -730,6 +740,29 @@ function loadDash() {
 }
 
 // LEADS - Tekil telefon + tek personel ataması
+
+window._leadCatFilter="all";
+window.filterLeads=function(cat){
+  window._leadCatFilter=cat;
+  // Buton aktif/pasif
+  document.querySelectorAll(".cat-btn").forEach(function(b){
+    b.style.opacity=b.getAttribute("data-cat")===cat?"1":"0.5";
+  });
+  // Satırları filtrele
+  var rows=document.querySelectorAll("#ltb tr");
+  var vis=0;
+  rows.forEach(function(row){
+    if(cat==="all"){row.style.display="";vis++;return;}
+    var statusCell=row.querySelector("td:nth-child(4)");
+    var txt=statusCell?statusCell.textContent.toLowerCase():"";
+    var match=txt.indexOf(cat.toLowerCase())>-1;
+    row.style.display=match?"":"none";
+    if(match)vis++;
+  });
+  var cnt=document.getElementById("lead-cat-count");
+  if(cnt)cnt.textContent=vis+" kişi";
+};
+
 function loadLeads() {
   sbGet('users?select=id,full_name,role&is_active=eq.true&order=full_name').then(function(users) {
     allU = users;
@@ -1560,9 +1593,13 @@ window.syncVapiAnalysis = async function(callback) {
         var sd=(call.analysis&&call.analysis.structuredData)||{};
         var skor=sd.skor||0;
         var ilgi=sd.ilgi_seviyesi||'cevap_vermedi';
-        var newStatus='cold';
-        if(ilgi==='yuksek'||skor>=7) newStatus='hot';
-        else if(ilgi==='orta'||skor>=4) newStatus='warm';
+        var newStatus='cevapsiz';
+        var out=call.endedReason||'';
+        if(out==='customer-busy'||out.includes('unavailable')||out.includes('error')) newStatus='ulasilamiyor';
+        else if(ilgi==='yuksek'||skor>=7) newStatus='sicak';
+        else if(ilgi==='orta'||skor>=4) newStatus='ilgili';
+        else if(ilgi==='dusuk'||skor>0) newStatus='ilgilenmedi';
+        else if(out==='no-answer'||out.includes('no-answer')) newStatus='cevapsiz';
         await fetch(SB+'/rest/v1/calls?id=eq.'+row.id,{method:'PATCH',headers:H,body:JSON.stringify({
           outcome:call.endedReason||'ended',status:'completed',
           duration_seconds:Math.round(call.duration||0),
@@ -1724,7 +1761,7 @@ window.syncVapiAnalysis = async function(callback) {
       var calledToday = await calledTodayRes.json();
       var excludeIds = calledToday.map(function(c){return c.customer_id;}).filter(Boolean);
       
-      var url = SB+'/rest/v1/customers?select=id,full_name,phone,status&status=in.('+st.join(',')+ ')&limit='+lim+'&order=created_at.asc';
+      var url = SB+'/rest/v1/customers?select=id,full_name,phone,status&status=eq.yeni&limit='+lim+'&order=created_at.asc';
       if(excludeIds.length > 0) url += '&id=not.in.('+excludeIds.join(',')+')';
       var r=await fetch(url,{headers:{apikey:SK,'Authorization':'Bearer '+SK}});
       leads=await r.json();
