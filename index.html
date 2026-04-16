@@ -1625,6 +1625,13 @@ window.syncVapiAnalysis = async function(callback) {
   if(callback) callback();
 };
 
+
+// Aramalar sayfası otomatik refresh
+setInterval(function(){
+  if(document.getElementById("pg-calls")?.classList.contains("active")){
+    loadCalls();
+  }
+},90000);
 </script>
 <script>
 /* AYSE KAMPANYA MERKEZI v5.0 */
@@ -1707,7 +1714,8 @@ window.syncVapiAnalysis = async function(callback) {
     h+='<div style="color:#5a566a;font-size:9px;letter-spacing:.8px;text-transform:uppercase">Kampanya Ayarları</div>';
     h+='<label style="color:#a8a4b0;font-size:10px">Hedef Lead Durumu</label>';
     h+='<select id="ak-st" style="width:100%;background:#21212e;border:1px solid rgba(201,169,110,.2);border-radius:5px;padding:6px 8px;color:#f0ede8;font-size:11px">';
-    h+='<option value="cold,warm">Soğuk + Ilık (Hepsi)</option>';
+    h+='<option value="yeni" selected>🆕 Yeni (Hiç Aranmamış)</option>
+        <option value="cold,warm">Soğuk + Ilık (Eski)</option>';
     h+='<option value="cold">Sadece Soğuk</option>';
     h+='<option value="warm">Sadece Ilık</option>';
     h+='<option value="hot">Sadece Sıcak</option></select>';
