@@ -1498,6 +1498,47 @@ setInterval(function() {
 // Sayfa yüklenince Ayşe'yi oluştur
 createAyseIfNotExists();
 
+/* OTOMATIK WA: Sync sonrasi ilgili kişilere gönder */
+window.autoSendWA=async function(){
+  var SB="https://muwynsxukmxjquoqcbac.supabase.co";
+  var SK="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3luc3h1a214anF1b3FjYmFjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjExMzQwMCwiZXhwIjoyMDkxNjg5NDAwfQ.33AsVo1mIeNHznTKnr6IUjVTLP_puNeNFJMS8-GsO30";
+  var GID="7107590155",GTK="8b8165397f164d05885b51c78bbd6c9065f5cf41af774f6dbf";
+  var WA="https://chat.whatsapp.com/L0ThUZrubDkLM4EH4Q966p";
+  var TG="https://t.me/+Pbiq-fHUVM4wMmJk";
+  try{
+    var ago=new Date(Date.now()-3*60*60*1000).toISOString();
+    var rows=await fetch(SB+"/rest/v1/calls?agent_name=eq.Ayse&status=eq.completed&wa_sent=is.null&created_at=gte."+ago+"&select=id,skor,ilgi_seviyesi,takip_notu,customers(full_name,phone)",{headers:{"apikey":SK,"Authorization":"Bearer "+SK}}).then(function(r){return r.json();});
+    var sent=0;
+    for(var i=0;i<rows.length;i++){
+      var row=rows[i];
+      var skor=row.skor||0;
+      var ilgi=row.ilgi_seviyesi||"";
+      var takip=(row.takip_notu||"").toLowerCase();
+      var phone=row.customers&&row.customers.phone;
+      var name=(row.customers&&row.customers.full_name)||"Sayin Musteri";
+      if(!phone) continue;
+      var grupIstedi=takip.indexOf("grup")>-1||takip.indexOf("whatsapp")>-1||takip.indexOf("link")>-1;
+      var cokIlgili=skor>=7||ilgi==="yuksek";
+      var hesapIstiyor=takip.indexOf("hesap")>-1||takip.indexOf("acmak")>-1||takip.indexOf("yatirim")>-1;
+      if(!grupIstedi&&!cokIlgili&&!hesapIstiyor) continue;
+      var msg="";
+      if(hesapIstiyor){
+        msg="Merhaba "+name+"! Ben Ayse, Global Eksbina. Az once konustuk.\n\nHesap icin gerekenler:\n\u2705 E-posta adresiniz\n\u2705 Kimlik on yuzunun fotografi\n\nBu numaraya gonderin, hesabiniz ayni gun acilir!\n\n\uD83C\uDF81 Su an acanlara ozel: ilk yatirimda yuzde on bonus, VIP danismanlik, ucretsiz analiz raporlari";
+      } else {
+        msg="Merhaba "+name+"! Ben Ayse, Global Eksbina.\n\nGunluk piyasa analizleri paylastigimiz ucretsiz gruplar:\n\n\uD83D\uDCCA WhatsApp Grubu:\n"+WA+"\n\n\uD83D\uDCE2 Telegram Kanali:\n"+TG+"\n\nIstediginiz zaman cikabilirsiniz, hicbir baglayicilik yok!";
+      }
+      await new Promise(function(res){setTimeout(res,3000);});
+      var r=await fetch("https://api.green-api.com/waInstance"+GID+"/sendMessage/"+GTK,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({chatId:phone.replace(/[^0-9]/g,"")+"@c.us",message:msg})}).then(function(r){return r.json();});
+      if(r.idMessage){
+        await fetch(SB+"/rest/v1/calls?id=eq."+row.id,{method:"PATCH",headers:{"apikey":SK,"Authorization":"Bearer "+SK,"Content-Type":"application/json"},body:JSON.stringify({wa_sent:true})});
+        sent++;
+      }
+    }
+    if(sent>0&&typeof notify==="function") notify(sent+" kisiye otomatik WhatsApp gonderildi");
+  }catch(e){}
+};
+
+
 window.syncVapiAnalysis = async function(callback) {
   var VK='74b7b21d-f286-4a56-b1ac-2bf37a91d088';
   var SB='https://muwynsxukmxjquoqcbac.supabase.co';
@@ -1573,7 +1614,7 @@ window.syncVapiAnalysis = async function(callback) {
       p+='1. Baglanti: Merhaba [isim]! Bugun altin '+au+' dolar, sizi bilgilendirmek istedim.\n';
       p+='2. Merak: Piyasalari takip ediyor musunuz? Altin son 3 ayda cok hareket etti.\n';
       p+='3. Ihtiyac: Birikimlerinizi nerede degerlendiriyorsunuz?\n';
-      p+='4. Cozum: Global Eksbina - 100 USD'den altin/doviz/kripto islemi, 7/24 mobil\n';
+      p+='4. Cozum: Global Eksbina - 100 USDden altin/doviz/kripto islemi, 7/24 mobil\n';
       p+='5. Itiraz yonet: Para yok->100 USD yeter | Risk->Altin guvenli | Dusuneyim->Grubu oner\n';
       p+='6. GRUP: Her gorusmede sor - WA: https://chat.whatsapp.com/L0ThUZrubDkLM4EH4Q966p TG: https://t.me/+Pbiq-fHUVM4wMmJk\n';
       p+='7. Randevu: 15 dk online gorusme ister misiniz?\n\n';
@@ -1748,7 +1789,7 @@ window.syncVapiAnalysis = async function(callback) {
     document.getElementById('ak-stp').style.display='none';
     document.getElementById('ak-cur').textContent='Tamamlandı! '+ok+'/'+total;
     log('Kampanya bitti: '+ok+'/'+total+'. 30sn sonra analizler yüklenecek...','#22c55e');
-    setTimeout(function(){window.syncVapiAnalysis(function(){window.akRapor();});},30000);
+    setTimeout(function(){window.syncVapiAnalysis(function(){window.akRapor();setTimeout(function(){window.autoSendWA();},5000);});},30000);
   };
 
   window.akRapor=async function(){
