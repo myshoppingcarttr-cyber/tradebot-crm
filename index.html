@@ -684,7 +684,7 @@ function loadDash() {
   // İkna oranı ve arama istatistikleri
   sbGet('calls?agent_name=eq.Ayse&select=skor,ilgi_seviyesi,duration_seconds').then(function(cs) {
     var total = cs.length;
-    var konustu = cs.filter(function(c){return (c.duration_seconds||0)>5;}).length;
+    var konustu = cs.filter(function(c){return (c.duration_seconds||0)>3||(c.skor||0)>0;}).length;
     var skorlu = cs.filter(function(c){return (c.skor||0)>0;});
     var avgSkor = skorlu.length>0 ? (skorlu.reduce(function(a,c){return a+(c.skor||0);},0)/skorlu.length).toFixed(1) : '-';
     var ikna = cs.filter(function(c){return c.ilgi_seviyesi==='yuksek'||c.ilgi_seviyesi==='orta'||(c.skor||0)>=5;}).length;
