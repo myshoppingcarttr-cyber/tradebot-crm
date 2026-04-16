@@ -1075,9 +1075,12 @@ function loadCalls() {
     var oc = {
       interested:'İlgilendi', not_interested:'İlgilenmedi', callback:'Geri Arama',
       appointment:'Randevu', sold:'Satış', initiated:'Başladı',
-      'no-answer':'Cevap Yok', 'customer-busy':'Meşgul',
-      'customer-ended-call':'Kapattı', 'customer-did-not-answer':'Cevap Yok',
-      ended:'Bitti', completed:'Tamamlandı'
+      'no-answer':'📵 Cevap Yok', 'customer-busy':'📞 Meşgul',
+      'customer-ended-call':'❌ Kapattı', 'customer-did-not-answer':'📵 Cevap Yok',
+      ended:'Bitti', completed:'Tamamlandı',
+      'call.in-progress.error-providerfault-outbound-sip-480-temporarily-unavailable':'🚫 Ulaşılamıyor',
+      'call.in-progress.error-sip-outbound-call-failed-to-connect':'🚫 Bağlanamadı',
+      'call.in-progress.error-providerfault-anthropic-llm-failed':'⚠️ AI Hatası'
     };
     var ilgiMap = {
       yuksek:'<span class="tag th">Yüksek</span>',
@@ -1793,6 +1796,7 @@ window.syncVapiAnalysis = async function(callback) {
         var d=await rr.json();
         if(d.id){
           ok++; log('  ✅ '+d.id.substring(0,8),'#22c55e');
+          if(ok%5===0){window.syncVapiAnalysis(function(){if(typeof loadCalls==='function')loadCalls();});}
           try{
             await fetch(SB+'/rest/v1/calls',{method:'POST',headers:SBH,body:JSON.stringify({
               customer_id:lead.id,agent_name:'Ayse',call_type:'outbound',
