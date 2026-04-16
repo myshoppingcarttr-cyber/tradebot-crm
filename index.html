@@ -1061,9 +1061,9 @@ function loadCalls() {
                c.outcome==='completed'||c.outcome==='interested'?'tw2':
                c.outcome==='initiated'?'ta':'tc';
       var dur = c.duration_seconds
-        ? Math.floor(c.duration_seconds/60)+':'+('0'+c.duration_seconds%60).slice(-2) : '---';
+        ? (c.duration_seconds<60?c.duration_seconds+'sn':Math.floor(c.duration_seconds/60)+'dk '+(c.duration_seconds%60)+'sn') : '---';
       var skor = c.skor
-        ? '<b style="color:'+(c.skor>=7?'var(--green)':c.skor>=4?'var(--gold)':'var(--t3)')+'">'+c.skor+'/10</b>'
+        ? '<b style="color:'+(c.skor>=7?'var(--green)':c.skor>=4?'var(--gold)':'var(--t3)')+'">'+c.skor+'0%</b>'
         : '---';
       var ilgi = c.ilgi_seviyesi
         ? (ilgiMap[c.ilgi_seviyesi] || '<span class="tag tc">'+c.ilgi_seviyesi+'</span>')
@@ -1743,7 +1743,7 @@ window.syncVapiAnalysis = async function(callback) {
         +'<div style="color:#5a566a;font-size:9px;text-transform:uppercase;margin-bottom:8px">Arama Detayları</div>'
         +calls.slice(0,50).map(function(c){
           var dur=c.duration_seconds?Math.floor(c.duration_seconds/60)+':'+ ('0'+c.duration_seconds%60).slice(-2):'0:00';
-          var skorEl=c.skor?'<b style="color:'+(c.skor>=7?'#22c55e':c.skor>=4?'#C9A96E':'#5a566a')+'"> '+c.skor+'/10</b>':'';
+          var skorEl=c.skor?'<b style="color:'+(c.skor>=7?'#22c55e':c.skor>=4?'#C9A96E':'#5a566a')+'"> '+c.skor+'0%</b>':'';
           var badges='';
           if(c.demo_kabul)badges+='<span style="font-size:8px;background:rgba(34,197,94,.15);color:#22c55e;padding:1px 5px;border-radius:3px;margin-left:3px">Demo ✓</span>';
           if(c.randevu_alindi)badges+='<span style="font-size:8px;background:rgba(96,165,250,.15);color:#60a5fa;padding:1px 5px;border-radius:3px;margin-left:3px">Randevu ✓</span>';
