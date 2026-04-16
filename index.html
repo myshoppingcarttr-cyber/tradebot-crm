@@ -149,16 +149,6 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
 
     <!-- LEADS -->
     <div id="pg-leads" class="page">
-      <div id="lead-cats" style="display:flex;gap:6px;flex-wrap:wrap;padding:10px 0 4px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:10px">
-        <button onclick="filterLeads('all')" data-cat="all" class="cat-btn active" style="padding:5px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.1);color:#f0ede8">Tümü</button>
-        <button onclick="filterLeads('yeni')" data-cat="yeni" class="cat-btn" style="padding:5px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(96,165,250,.4);background:rgba(96,165,250,.1);color:#60a5fa">🆕 Yeni</button>
-        <button onclick="filterLeads('sicak')" data-cat="sicak" class="cat-btn" style="padding:5px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(239,68,68,.4);background:rgba(239,68,68,.1);color:#ef4444">🔥 Sıcak</button>
-        <button onclick="filterLeads('ilgili')" data-cat="ilgili" class="cat-btn" style="padding:5px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(201,169,110,.4);background:rgba(201,169,110,.1);color:#C9A96E">🌡️ İlgili</button>
-        <button onclick="filterLeads('ilgilenmedi')" data-cat="ilgilenmedi" class="cat-btn" style="padding:5px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(107,114,128,.4);background:rgba(107,114,128,.1);color:#6b7280">❌ İlgilenmedi</button>
-        <button onclick="filterLeads('cevapsiz')" data-cat="cevapsiz" class="cat-btn" style="padding:5px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(251,191,36,.4);background:rgba(251,191,36,.1);color:#fbbf24">📵 Cevapsız</button>
-        <button onclick="filterLeads('ulasilamiyor')" data-cat="ulasilamiyor" class="cat-btn" style="padding:5px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(239,68,68,.3);background:rgba(239,68,68,.08);color:#f87171">🚫 Ulaşılamıyor</button>
-        <span id="lead-cat-count" style="font-size:11px;color:#5a566a;margin-left:auto;align-self:center"></span>
-      </div>
       <div class="sb" style="margin-bottom:8px">
         <div class="fx g8" style="flex-wrap:wrap;gap:6px">
           <input class="inp" style="width:190px" placeholder="🔍 Ara..." id="lsq" oninput="filterL()">
@@ -740,29 +730,6 @@ function loadDash() {
 }
 
 // LEADS - Tekil telefon + tek personel ataması
-
-window._leadCatFilter="all";
-window.filterLeads=function(cat){
-  window._leadCatFilter=cat;
-  // Buton aktif/pasif
-  document.querySelectorAll(".cat-btn").forEach(function(b){
-    b.style.opacity=b.getAttribute("data-cat")===cat?"1":"0.5";
-  });
-  // Satırları filtrele
-  var rows=document.querySelectorAll("#ltb tr");
-  var vis=0;
-  rows.forEach(function(row){
-    if(cat==="all"){row.style.display="";vis++;return;}
-    var statusCell=row.querySelector("td:nth-child(4)");
-    var txt=statusCell?statusCell.textContent.toLowerCase():"";
-    var match=txt.indexOf(cat.toLowerCase())>-1;
-    row.style.display=match?"":"none";
-    if(match)vis++;
-  });
-  var cnt=document.getElementById("lead-cat-count");
-  if(cnt)cnt.textContent=vis+" kişi";
-};
-
 function loadLeads() {
   sbGet('users?select=id,full_name,role&is_active=eq.true&order=full_name').then(function(users) {
     allU = users;
@@ -1075,12 +1042,9 @@ function loadCalls() {
     var oc = {
       interested:'İlgilendi', not_interested:'İlgilenmedi', callback:'Geri Arama',
       appointment:'Randevu', sold:'Satış', initiated:'Başladı',
-      'no-answer':'📵 Cevap Yok', 'customer-busy':'📞 Meşgul',
-      'customer-ended-call':'❌ Kapattı', 'customer-did-not-answer':'📵 Cevap Yok',
-      ended:'Bitti', completed:'Tamamlandı',
-      'call.in-progress.error-providerfault-outbound-sip-480-temporarily-unavailable':'🚫 Ulaşılamıyor',
-      'call.in-progress.error-sip-outbound-call-failed-to-connect':'🚫 Bağlanamadı',
-      'call.in-progress.error-providerfault-anthropic-llm-failed':'⚠️ AI Hatası'
+      'no-answer':'Cevap Yok', 'customer-busy':'Meşgul',
+      'customer-ended-call':'Kapattı', 'customer-did-not-answer':'Cevap Yok',
+      ended:'Bitti', completed:'Tamamlandı'
     };
     var ilgiMap = {
       yuksek:'<span class="tag th">Yüksek</span>',
@@ -1534,47 +1498,6 @@ setInterval(function() {
 // Sayfa yüklenince Ayşe'yi oluştur
 createAyseIfNotExists();
 
-/* OTOMATIK WA: Sync sonrasi ilgili kişilere gönder */
-window.autoSendWA=async function(){
-  var SB="https://muwynsxukmxjquoqcbac.supabase.co";
-  var SK="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3luc3h1a214anF1b3FjYmFjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjExMzQwMCwiZXhwIjoyMDkxNjg5NDAwfQ.33AsVo1mIeNHznTKnr6IUjVTLP_puNeNFJMS8-GsO30";
-  var GID="7107590155",GTK="8b8165397f164d05885b51c78bbd6c9065f5cf41af774f6dbf";
-  var WA="https://chat.whatsapp.com/L0ThUZrubDkLM4EH4Q966p";
-  var TG="https://t.me/+Pbiq-fHUVM4wMmJk";
-  try{
-    var ago=new Date(Date.now()-3*60*60*1000).toISOString();
-    var rows=await fetch(SB+"/rest/v1/calls?agent_name=eq.Ayse&status=eq.completed&wa_sent=is.null&created_at=gte."+ago+"&select=id,skor,ilgi_seviyesi,takip_notu,customers(full_name,phone)",{headers:{"apikey":SK,"Authorization":"Bearer "+SK}}).then(function(r){return r.json();});
-    var sent=0;
-    for(var i=0;i<rows.length;i++){
-      var row=rows[i];
-      var skor=row.skor||0;
-      var ilgi=row.ilgi_seviyesi||"";
-      var takip=(row.takip_notu||"").toLowerCase();
-      var phone=row.customers&&row.customers.phone;
-      var name=(row.customers&&row.customers.full_name)||"Sayin Musteri";
-      if(!phone) continue;
-      var grupIstedi=takip.indexOf("grup")>-1||takip.indexOf("whatsapp")>-1||takip.indexOf("link")>-1;
-      var cokIlgili=skor>=7||ilgi==="yuksek";
-      var hesapIstiyor=takip.indexOf("hesap")>-1||takip.indexOf("acmak")>-1||takip.indexOf("yatirim")>-1;
-      if(!grupIstedi&&!cokIlgili&&!hesapIstiyor) continue;
-      var msg="";
-      if(hesapIstiyor){
-        msg="Merhaba "+name+"! Ben Ayse, Global Eksbina. Az once konustuk.\n\nHesap icin gerekenler:\n\u2705 E-posta adresiniz\n\u2705 Kimlik on yuzunun fotografi\n\nBu numaraya gonderin, hesabiniz ayni gun acilir!\n\n\uD83C\uDF81 Su an acanlara ozel: ilk yatirimda yuzde on bonus, VIP danismanlik, ucretsiz analiz raporlari";
-      } else {
-        msg="Merhaba "+name+"! Ben Ayse, Global Eksbina.\n\nGunluk piyasa analizleri paylastigimiz ucretsiz gruplar:\n\n\uD83D\uDCCA WhatsApp Grubu:\n"+WA+"\n\n\uD83D\uDCE2 Telegram Kanali:\n"+TG+"\n\nIstediginiz zaman cikabilirsiniz, hicbir baglayicilik yok!";
-      }
-      await new Promise(function(res){setTimeout(res,3000);});
-      var r=await fetch("https://api.green-api.com/waInstance"+GID+"/sendMessage/"+GTK,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({chatId:phone.replace(/[^0-9]/g,"")+"@c.us",message:msg})}).then(function(r){return r.json();});
-      if(r.idMessage){
-        await fetch(SB+"/rest/v1/calls?id=eq."+row.id,{method:"PATCH",headers:{"apikey":SK,"Authorization":"Bearer "+SK,"Content-Type":"application/json"},body:JSON.stringify({wa_sent:true})});
-        sent++;
-      }
-    }
-    if(sent>0&&typeof notify==="function") notify(sent+" kisiye otomatik WhatsApp gonderildi");
-  }catch(e){}
-};
-
-
 window.syncVapiAnalysis = async function(callback) {
   var VK='74b7b21d-f286-4a56-b1ac-2bf37a91d088';
   var SB='https://muwynsxukmxjquoqcbac.supabase.co';
@@ -1596,13 +1519,9 @@ window.syncVapiAnalysis = async function(callback) {
         var sd=(call.analysis&&call.analysis.structuredData)||{};
         var skor=sd.skor||0;
         var ilgi=sd.ilgi_seviyesi||'cevap_vermedi';
-        var newStatus='cevapsiz';
-        var out=call.endedReason||'';
-        if(out==='customer-busy'||out.includes('unavailable')||out.includes('error')) newStatus='ulasilamiyor';
-        else if(ilgi==='yuksek'||skor>=7) newStatus='sicak';
-        else if(ilgi==='orta'||skor>=4) newStatus='ilgili';
-        else if(ilgi==='dusuk'||skor>0) newStatus='ilgilenmedi';
-        else if(out==='no-answer'||out.includes('no-answer')) newStatus='cevapsiz';
+        var newStatus='cold';
+        if(ilgi==='yuksek'||skor>=7) newStatus='hot';
+        else if(ilgi==='orta'||skor>=4) newStatus='warm';
         await fetch(SB+'/rest/v1/calls?id=eq.'+row.id,{method:'PATCH',headers:H,body:JSON.stringify({
           outcome:call.endedReason||'ended',status:'completed',
           duration_seconds:Math.round(call.duration||0),
@@ -1630,42 +1549,6 @@ window.syncVapiAnalysis = async function(callback) {
 /* AYSE KAMPANYA MERKEZI v5.0 */
 (function(){
   var PH='97bf7ebd-d04c-4faa-b897-5ade6c02ea3a';
-  var VK2='74b7b21d-f286-4a56-b1ac-2bf37a91d088';
-  var AID2='133aa70c-db4b-4155-be6b-220450c0b21a';
-
-  // Kampanya baslamadan once guncelle
-  async function updateVapiWithPrices() {
-    try {
-      var tick=document.querySelector('.ticker')?.textContent||'';
-      var au=tick.match(/Altin[\s]+([\d,.]+)/)?.[1]||'4800';
-      var btc=tick.match(/Bitcoin[\s]+([\d,.]+)/)?.[1]||'74000';
-      var eur=tick.match(/EUR\/USD[\s]+([\d.]+)/)?.[1]||'1.17';
-      var d=new Date();
-      var gun=d.toLocaleDateString('tr-TR',{weekday:'long',day:'numeric',month:'long'});
-      var s=d.toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
-      var p='Sen Ayse, Global Eksbina finansal danismanisin. Turkce konuşuyorsun.\n\n';
-      p+='CANLI PIYASA VERILERI ('+gun+' saat '+s+'):\n';
-      p+='Altin: '+au+' USD/ons\n';
-      p+='Bitcoin: '+btc+' USD\n';
-      p+='EUR/USD: '+eur+'\n';
-      p+='WTI Petrol: 82-84 USD\n\n';
-      p+='Bu verileri konusmada kullan. Mesela: Bugun altin '+au+' dolar seviyesinde.\n\n';
-      p+='SATIS ADIMLARI:\n';
-      p+='1. Baglanti: Merhaba [isim]! Bugun altin '+au+' dolar, sizi bilgilendirmek istedim.\n';
-      p+='2. Merak: Piyasalari takip ediyor musunuz? Altin son 3 ayda cok hareket etti.\n';
-      p+='3. Ihtiyac: Birikimlerinizi nerede degerlendiriyorsunuz?\n';
-      p+='4. Cozum: Global Eksbina - 100 USDden altin/doviz/kripto islemi, 7/24 mobil\n';
-      p+='5. Itiraz yonet: Para yok->100 USD yeter | Risk->Altin guvenli | Dusuneyim->Grubu oner\n';
-      p+='6. GRUP: Her gorusmede sor - WA: https://chat.whatsapp.com/L0ThUZrubDkLM4EH4Q966p TG: https://t.me/+Pbiq-fHUVM4wMmJk\n';
-      p+='7. Randevu: 15 dk online gorusme ister misiniz?\n\n';
-      p+='Kural: 20 saniye konuş, sonra sor ve dinle. Grubu mutlaka oner.';
-      var fm='Merhaba! Ben Ayse, Global Eksbina. Bugun altin '+au+' dolar seviyesini gecti. Size ozel bir firsat var, 60 saniyeniz var mi?';
-      await fetch('https://api.vapi.ai/assistant/'+AID2,{
-        method:'PATCH',headers:{'Authorization':'Bearer '+VK2,'Content-Type':'application/json'},
-        body:JSON.stringify({model:{provider:'anthropic',model:'claude-3-5-sonnet-20241022',messages:[{role:'system',content:p}]},firstMessage:fm})
-      });
-    } catch(e){}
-  }
   var VK='74b7b21d-f286-4a56-b1ac-2bf37a91d088';
   var AID='133aa70c-db4b-4155-be6b-220450c0b21a';
   var SB='https://muwynsxukmxjquoqcbac.supabase.co';
@@ -1745,7 +1628,6 @@ window.syncVapiAnalysis = async function(callback) {
   }
 
   window.akBaslat=async function(){
-    await updateVapiWithPrices();
     if(window._akRunning){alert('Kampanya zaten çalışıyor!');return;}
     var st=document.getElementById('ak-st').value.split(',');
     var lim=parseInt(document.getElementById('ak-lim').value)||10;
@@ -1764,7 +1646,7 @@ window.syncVapiAnalysis = async function(callback) {
       var calledToday = await calledTodayRes.json();
       var excludeIds = calledToday.map(function(c){return c.customer_id;}).filter(Boolean);
       
-      var url = SB+'/rest/v1/customers?select=id,full_name,phone,status&status=eq.yeni&limit='+lim+'&order=created_at.asc';
+      var url = SB+'/rest/v1/customers?select=id,full_name,phone,status&status=in.('+st.join(',')+ ')&limit='+lim+'&order=created_at.asc';
       if(excludeIds.length > 0) url += '&id=not.in.('+excludeIds.join(',')+')';
       var r=await fetch(url,{headers:{apikey:SK,'Authorization':'Bearer '+SK}});
       leads=await r.json();
@@ -1796,7 +1678,6 @@ window.syncVapiAnalysis = async function(callback) {
         var d=await rr.json();
         if(d.id){
           ok++; log('  ✅ '+d.id.substring(0,8),'#22c55e');
-          if(ok%5===0){window.syncVapiAnalysis(function(){if(typeof loadCalls==='function')loadCalls();});}
           try{
             await fetch(SB+'/rest/v1/calls',{method:'POST',headers:SBH,body:JSON.stringify({
               customer_id:lead.id,agent_name:'Ayse',call_type:'outbound',
@@ -1830,7 +1711,7 @@ window.syncVapiAnalysis = async function(callback) {
     document.getElementById('ak-stp').style.display='none';
     document.getElementById('ak-cur').textContent='Tamamlandı! '+ok+'/'+total;
     log('Kampanya bitti: '+ok+'/'+total+'. 30sn sonra analizler yüklenecek...','#22c55e');
-    setTimeout(function(){window.syncVapiAnalysis(function(){window.akRapor();setTimeout(function(){window.autoSendWA();},5000);});},30000);
+    setTimeout(function(){window.syncVapiAnalysis(function(){window.akRapor();});},30000);
   };
 
   window.akRapor=async function(){
