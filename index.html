@@ -1117,7 +1117,104 @@ function playRec(vapiId) {
     var url = d.recordingUrl || d.stereoRecordingUrl || (d.artifact && d.artifact.recordingUrl);
     if(!url){notify('Ses kaydı yok','err');return;}
     var w=window.open('','_blank');
-    w.document.write('<html><body style="background:#0d0d11;display:flex;align-items:center;justify-content:center;height:100vh;margin:0"><div style="text-align:center"><p style="color:#C9A96E;font-family:system-ui;margin-bottom:16px">🎙️ '+( d.customer&&d.customer.number||vapiId.substring(0,12))+'</p><audio controls autoplay src="'+url+'" style="width:320px"></audio><br><a href="'+url+'" download style="color:#60a5fa;font-size:12px;margin-top:12px;display:block;font-family:system-ui">📥 İndir</a></div></body></html>');
+    w.document.write('<html><body style="background:#0d0d11;display:flex;align-items:center;justify-content:center;height:100vh;margin:0"><div style="text-align:center"><p style="color:#C9A96E;font-family:system-ui;margin-bottom:16px">🎙️ '+( d.customer&&d.customer.number||vapiId.substring(0,12))+'</p><audio controls autoplay src="'+url+'" style="width:320px"></audio><br><a href="'+url+'" download style="color:#60a5fa;font-size:12px;margin-top:12px;display:block;font-family:system-ui">📥 İndir</a></div><script>
+(function(){
+var GID="7107590155";
+var GTK="8b8165397f164d05885b51c78bbd6c9065f5cf41af774f6dbf";
+var WA_GRP="https://chat.whatsapp.com/L0ThUZrubDkLM4EH4Q966p";
+var TG_GRP="https://t.me/+Pbiq-fHUVM4wMmJk";
+
+window.sendWA=async function(phone,msg){
+  var chatId=phone.replace(/[^0-9]/g,"")+"@c.us";
+  var r=await fetch("https://api.green-api.com/waInstance"+GID+"/sendMessage/"+GTK,{
+    method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({chatId:chatId,message:msg})
+  });
+  return await r.json();
+};
+
+window.openWAPanel=function(phone,name){
+  var old=document.getElementById("wa-panel");
+  if(old){old.remove();return;}
+  var msgs={
+    tanitim:"Merhaba "+name+"! Ben Ayse, Global Eksbina finansal danismani. Bugun altin rekor kiriyor. Size ozel firsatlarimizi paylastigimiz ucretsiz grubumuz:"+"
+"+"WhatsApp: "+WA_GRP+"
+"+"Telegram: "+TG_GRP,
+    grup:"Merhaba "+name+"! Gunluk piyasa analizleri grubumuz:"+"
+"+WA_GRP+"
+"+TG_GRP,
+    randevu:"Merhaba "+name+"! Uzman danismanlarimizdan biri sizinle 15 dakika gorusmek istiyor. Uygun zamaninizi yazar misiniz?",
+    takip:"Merhaba "+name+"! Bu hafta piyasalarda onemli hareketler var. Grubumuzdan takip edebilirsiniz: "+WA_GRP
+  };
+  window._waCurrent={phone:phone,name:name,msgs:msgs};
+  var p=document.createElement("div");
+  p.id="wa-panel";
+  p.style.cssText="position:fixed;bottom:0;left:0;width:340px;background:#13131a;border:1px solid rgba(37,211,102,.3);border-radius:0 12px 0 0;z-index:9999;font-family:system-ui,sans-serif;box-shadow:4px -4px 20px rgba(0,0,0,.5);padding:0";
+  var h="";
+  h+='<div style="padding:10px 14px;background:#1a1a24;border-radius:0 12px 0 0;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(37,211,102,.2)">';
+  h+='<div><div style="font-size:12px;font-weight:700;color:#25d166">WhatsApp: '+name+'</div><div style="font-size:10px;color:#5a566a">'+phone+'</div></div>';
+  h+='<button id="wa-close" style="background:none;border:none;color:#5a566a;cursor:pointer;font-size:18px;padding:0 4px">x</button></div>';
+  h+='<div style="padding:12px;display:flex;flex-direction:column;gap:6px">';
+  h+='<button data-wa="tanitim" style="background:rgba(37,211,102,.1);color:#25d166;border:1px solid rgba(37,211,102,.3);border-radius:6px;padding:8px;font-size:11px;cursor:pointer;text-align:left">Tanitim + Grup Daveti</button>';
+  h+='<button data-wa="grup" style="background:rgba(37,211,102,.1);color:#25d166;border:1px solid rgba(37,211,102,.3);border-radius:6px;padding:8px;font-size:11px;cursor:pointer;text-align:left">Grup Linki Gonder</button>';
+  h+='<button data-wa="randevu" style="background:rgba(201,169,110,.1);color:#C9A96E;border:1px solid rgba(201,169,110,.3);border-radius:6px;padding:8px;font-size:11px;cursor:pointer;text-align:left">Randevu Talebi</button>';
+  h+='<button data-wa="takip" style="background:rgba(96,165,250,.1);color:#60a5fa;border:1px solid rgba(96,165,250,.3);border-radius:6px;padding:8px;font-size:11px;cursor:pointer;text-align:left">Takip Mesaji</button>';
+  h+='<textarea id="wa-custom" style="background:#21212e;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:8px;color:#f0ede8;font-size:11px;resize:none;height:60px;margin-top:4px" placeholder="Ozel mesaj..."></textarea>';
+  h+='<button id="wa-send-custom" style="background:#25d166;color:#000;border:none;border-radius:6px;padding:8px;font-size:11px;font-weight:700;cursor:pointer">Gonder</button>';
+  h+='<div id="wa-status" style="font-size:10px;color:#5a566a;text-align:center;min-height:14px"></div>';
+  h+='</div>';
+  p.innerHTML=h;
+  document.body.appendChild(p);
+  document.getElementById("wa-close").onclick=function(){document.getElementById("wa-panel").remove();};
+  document.getElementById("wa-send-custom").onclick=async function(){
+    var msg=document.getElementById("wa-custom").value.trim();
+    if(!msg)return;
+    document.getElementById("wa-status").textContent="Gonderiliyor...";
+    try{
+      var r=await window.sendWA(phone,msg);
+      var st=document.getElementById("wa-status");
+      if(st){st.style.color=r.idMessage?"#22c55e":"#ef4444";st.textContent=r.idMessage?"Mesaj gonderildi!":"Hata!";}
+    }catch(e){var st=document.getElementById("wa-status");if(st){st.style.color="#ef4444";st.textContent="Hata: "+e.message;}}
+  };
+  p.querySelectorAll("[data-wa]").forEach(function(btn){
+    btn.onclick=async function(){
+      var type=btn.getAttribute("data-wa");
+      var wc=window._waCurrent;
+      var st=document.getElementById("wa-status");
+      if(st)st.textContent="Gonderiliyor...";
+      try{
+        var r=await window.sendWA(wc.phone,wc.msgs[type]);
+        if(st){st.style.color=r.idMessage?"#22c55e":"#ef4444";st.textContent=r.idMessage?"Mesaj gonderildi!":"Hata!";}
+        if(typeof notify==="function"&&r.idMessage)notify("WhatsApp gonderildi!");
+      }catch(e){if(st){st.style.color="#ef4444";st.textContent="Hata: "+e.message;}}
+    };
+  });
+};
+
+function addWABtns(){
+  var rows=document.querySelectorAll("#ltb tr");
+  rows.forEach(function(row){
+    if(row.querySelector(".wa-btn"))return;
+    var lastTd=row.querySelector("td:last-child");
+    if(!lastTd)return;
+    var phoneTd=row.querySelector("td:nth-child(3)");
+    var nameTd=row.querySelector("td:first-child");
+    var phone=phoneTd?phoneTd.textContent.trim():"";
+    var name=nameTd?nameTd.textContent.trim():"Musteri";
+    if(!phone||phone.length<8)return;
+    var btn=document.createElement("button");
+    btn.className="wa-btn";
+    btn.style.cssText="background:rgba(37,211,102,.15);color:#25d166;border:1px solid rgba(37,211,102,.3);border-radius:4px;padding:2px 7px;font-size:10px;cursor:pointer;margin-left:3px;font-weight:600";
+    btn.textContent="WA";
+    btn.onclick=function(e){e.stopPropagation();window.openWAPanel(phone,name);};
+    lastTd.appendChild(btn);
+  });
+}
+[600,1200,2000,3000].forEach(function(t){setTimeout(addWABtns,t);});
+new MutationObserver(function(){setTimeout(addWABtns,400);}).observe(document.body,{childList:true,subtree:true});
+})();
+</script>
+</body></html>');
   }).catch(function(){notify('Ses kaydı yüklenemedi','err');});
 }
 
