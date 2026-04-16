@@ -1554,9 +1554,15 @@ createAyseIfNotExists();
     log('Leadler çekiliyor...','#60a5fa');
     var leads;
     try{
-      var r=await fetch(SB+'/rest/v1/customers?select=id,full_name,phone,status'
-        +'&status=in.('+st.join(',')+ ')&limit='+lim+'&order=created_at.asc',
-        {headers:{apikey:SK,'Authorization':'Bearer '+SK}});
+      // Bugün aranmış customer_id'leri çek
+      var today = new Date().toISOString().split('T')[0];
+      var calledTodayRes = await fetch(SB+'/rest/v1/calls?agent_name=eq.Ayse&select=customer_id&called_at=gte.'+today+'T00:00:00Z',{headers:{apikey:SK,'Authorization':'Bearer '+SK}});
+      var calledToday = await calledTodayRes.json();
+      var excludeIds = calledToday.map(function(c){return c.customer_id;}).filter(Boolean);
+      
+      var url = SB+'/rest/v1/customers?select=id,full_name,phone,status&status=in.('+st.join(',')+ ')&limit='+lim+'&order=created_at.asc';
+      if(excludeIds.length > 0) url += '&id=not.in.('+excludeIds.join(',')+')';
+      var r=await fetch(url,{headers:{apikey:SK,'Authorization':'Bearer '+SK}});
       leads=await r.json();
     }catch(e){log('Hata: '+e.message,'#ef4444');window._akRunning=false;return;}
     if(!Array.isArray(leads)||!leads.length){
