@@ -1549,6 +1549,42 @@ window.syncVapiAnalysis = async function(callback) {
 /* AYSE KAMPANYA MERKEZI v5.0 */
 (function(){
   var PH='97bf7ebd-d04c-4faa-b897-5ade6c02ea3a';
+  var VK2='74b7b21d-f286-4a56-b1ac-2bf37a91d088';
+  var AID2='133aa70c-db4b-4155-be6b-220450c0b21a';
+
+  // Kampanya baslamadan once guncelle
+  async function updateVapiWithPrices() {
+    try {
+      var tick=document.querySelector('.ticker')?.textContent||'';
+      var au=tick.match(/Altin[\s]+([\d,.]+)/)?.[1]||'4800';
+      var btc=tick.match(/Bitcoin[\s]+([\d,.]+)/)?.[1]||'74000';
+      var eur=tick.match(/EUR\/USD[\s]+([\d.]+)/)?.[1]||'1.17';
+      var d=new Date();
+      var gun=d.toLocaleDateString('tr-TR',{weekday:'long',day:'numeric',month:'long'});
+      var s=d.toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+      var p='Sen Ayse, Global Eksbina finansal danismanisin. Turkce konuşuyorsun.\n\n';
+      p+='CANLI PIYASA VERILERI ('+gun+' saat '+s+'):\n';
+      p+='Altin: '+au+' USD/ons\n';
+      p+='Bitcoin: '+btc+' USD\n';
+      p+='EUR/USD: '+eur+'\n';
+      p+='WTI Petrol: 82-84 USD\n\n';
+      p+='Bu verileri konusmada kullan. Mesela: Bugun altin '+au+' dolar seviyesinde.\n\n';
+      p+='SATIS ADIMLARI:\n';
+      p+='1. Baglanti: Merhaba [isim]! Bugun altin '+au+' dolar, sizi bilgilendirmek istedim.\n';
+      p+='2. Merak: Piyasalari takip ediyor musunuz? Altin son 3 ayda cok hareket etti.\n';
+      p+='3. Ihtiyac: Birikimlerinizi nerede degerlendiriyorsunuz?\n';
+      p+='4. Cozum: Global Eksbina - 100 USD'den altin/doviz/kripto islemi, 7/24 mobil\n';
+      p+='5. Itiraz yonet: Para yok->100 USD yeter | Risk->Altin guvenli | Dusuneyim->Grubu oner\n';
+      p+='6. GRUP: Her gorusmede sor - WA: https://chat.whatsapp.com/L0ThUZrubDkLM4EH4Q966p TG: https://t.me/+Pbiq-fHUVM4wMmJk\n';
+      p+='7. Randevu: 15 dk online gorusme ister misiniz?\n\n';
+      p+='Kural: 20 saniye konuş, sonra sor ve dinle. Grubu mutlaka oner.';
+      var fm='Merhaba! Ben Ayse, Global Eksbina. Bugun altin '+au+' dolar seviyesini gecti. Size ozel bir firsat var, 60 saniyeniz var mi?';
+      await fetch('https://api.vapi.ai/assistant/'+AID2,{
+        method:'PATCH',headers:{'Authorization':'Bearer '+VK2,'Content-Type':'application/json'},
+        body:JSON.stringify({model:{provider:'anthropic',model:'claude-3-5-sonnet-20241022',messages:[{role:'system',content:p}]},firstMessage:fm})
+      });
+    } catch(e){}
+  }
   var VK='74b7b21d-f286-4a56-b1ac-2bf37a91d088';
   var AID='133aa70c-db4b-4155-be6b-220450c0b21a';
   var SB='https://muwynsxukmxjquoqcbac.supabase.co';
@@ -1628,6 +1664,7 @@ window.syncVapiAnalysis = async function(callback) {
   }
 
   window.akBaslat=async function(){
+    await updateVapiWithPrices();
     if(window._akRunning){alert('Kampanya zaten çalışıyor!');return;}
     var st=document.getElementById('ak-st').value.split(',');
     var lim=parseInt(document.getElementById('ak-lim').value)||10;
