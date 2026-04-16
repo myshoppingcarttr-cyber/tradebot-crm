@@ -131,11 +131,15 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
 
     <!-- DASHBOARD -->
     <div id="pg-dash" class="page act">
-      <div class="metrics">
+      <div class="metrics" style="grid-template-columns:repeat(4,1fr)">
         <div class="metric"><div class="ml">Toplam Lead</div><div class="mv" id="m1" style="color:var(--blue)">-</div></div>
         <div class="metric"><div class="ml">Sıcak Lead</div><div class="mv" id="m2" style="color:var(--green)">-</div></div>
         <div class="metric"><div class="ml">Randevu</div><div class="mv" id="m3" style="color:var(--gold)">-</div></div>
         <div class="metric"><div class="ml">Satış</div><div class="mv" id="m4" style="color:var(--purple)">-</div></div>
+        <div class="metric"><div class="ml">İkna Oranı</div><div class="mv" id="m5" style="color:var(--orange)">-%</div></div>
+        <div class="metric"><div class="ml">Toplam Arama</div><div class="mv" id="m6" style="color:var(--blue)">-</div></div>
+        <div class="metric"><div class="ml">Ort. Skor</div><div class="mv" id="m7" style="color:var(--gold)">-</div></div>
+        <div class="metric" style="cursor:pointer" onclick="syncVapiAnalysis(loadDash)" title="Analizi Güncelle"><div class="ml">Analiz Sync</div><div class="mv" style="font-size:20px">🔄</div></div>
       </div>
       <div class="g2">
         <div class="panel"><div class="ph"><div class="pt">Son Aramalar</div></div><div id="d-calls"><div class="empty">Yükleniyor...</div></div></div>
@@ -179,7 +183,11 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
 
     <!-- ARAMALAR -->
     <div id="pg-calls" class="page">
-      <div class="sb" style="margin-bottom:10px"><div class="pt">Arama Geçmişi</div><button class="btn bg sm" onclick="openCallLog()">+ Arama Kaydet</button></div>
+      <div class="sb" style="margin-bottom:10px"><div class="pt">Arama Geçmişi</div>
+        <div style="display:flex;gap:6px">
+          <button class="btn bo sm" onclick="syncVapiAnalysis(loadCalls)">🔄 Analiz Güncelle</button>
+          <button class="btn bg sm" onclick="openCallLog()">+ Arama Kaydet</button>
+        </div></div>
       <div class="panel" style="padding:0"><div class="tw"><table>
         <thead><tr><th>Müşteri</th><th>Tip</th><th>Süre</th><th>Sonuç</th><th>Skor</th><th>İlgi</th><th>Özet</th><th>Personele Ata</th><th>🎙️</th><th>Tarih</th></tr></thead>
         <tbody id="ctb"><tr><td colspan="9" class="empty">Yükleniyor...</td></tr></tbody>
@@ -673,6 +681,19 @@ function loadDash() {
     document.getElementById('m3').textContent = a;
     document.getElementById('m4').textContent = s;
   }).catch(function(e) { notify(e.message, 'err'); });
+  // İkna oranı ve arama istatistikleri
+  sbGet('calls?agent_name=eq.Ayse&select=skor,ilgi_seviyesi,duration_seconds').then(function(cs) {
+    var total = cs.length;
+    var konustu = cs.filter(function(c){return (c.duration_seconds||0)>5;}).length;
+    var skorlu = cs.filter(function(c){return (c.skor||0)>0;});
+    var avgSkor = skorlu.length>0 ? (skorlu.reduce(function(a,c){return a+(c.skor||0);},0)/skorlu.length).toFixed(1) : '-';
+    var ikna = cs.filter(function(c){return c.ilgi_seviyesi==='yuksek'||c.ilgi_seviyesi==='orta'||(c.skor||0)>=5;}).length;
+    var iknaOran = konustu>0 ? Math.round(ikna/konustu*100) : 0;
+    var m5=document.getElementById('m5'), m6=document.getElementById('m6'), m7=document.getElementById('m7');
+    if(m5) m5.textContent = iknaOran+'%';
+    if(m6) m6.textContent = total;
+    if(m7) m7.textContent = avgSkor;
+  }).catch(function(){});
   var cf = CU.role === 'agent' ? '&agent_id=eq.' + CU.id : '';
   sbGet('calls?select=*,customers(full_name),users(full_name)&order=called_at.desc&limit=6' + cf).then(function(cs) {
     var oc = {interested:'Ilgilendi',not_interested:'Ilgilenmedi',callback:'Geri Arama',appointment:'Randevu',sold:'Satis',ai_warm:'AI Sicak'};
@@ -1476,6 +1497,53 @@ setInterval(function() {
 
 // Sayfa yüklenince Ayşe'yi oluştur
 createAyseIfNotExists();
+
+window.syncVapiAnalysis = async function(callback) {
+  var VK='74b7b21d-f286-4a56-b1ac-2bf37a91d088';
+  var SB='https://muwynsxukmxjquoqcbac.supabase.co';
+  var SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3luc3h1a214anF1b3FjYmFjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjExMzQwMCwiZXhwIjoyMDkxNjg5NDAwfQ.33AsVo1mIeNHznTKnr6IUjVTLP_puNeNFJMS8-GsO30';
+  var H={'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':'application/json'};
+  if(typeof notify==='function') notify('Analizler senkronize ediliyor...');
+  try {
+    var rows = await fetch(SB+'/rest/v1/calls?agent_name=eq.Ayse&select=id,vapi_call_id,customer_id,outcome,skor&order=created_at.desc&limit=100',{
+      headers:{'apikey':SK,'Authorization':'Bearer '+SK}
+    }).then(function(r){return r.json();});
+    var synced=0;
+    for(var i=0;i<rows.length;i++){
+      var row=rows[i];
+      if(!row.vapi_call_id||row.vapi_call_id.length<10||row.vapi_call_id.startsWith('test')) continue;
+      if(row.outcome!=='initiated'&&(row.skor||0)>0) continue;
+      try{
+        var call=await fetch('https://api.vapi.ai/call/'+row.vapi_call_id,{headers:{'Authorization':'Bearer '+VK}}).then(function(r){return r.json();});
+        if(call.status!=='ended') continue;
+        var sd=(call.analysis&&call.analysis.structuredData)||{};
+        var skor=sd.skor||0;
+        var ilgi=sd.ilgi_seviyesi||'cevap_vermedi';
+        var newStatus='cold';
+        if(ilgi==='yuksek'||skor>=7) newStatus='hot';
+        else if(ilgi==='orta'||skor>=4) newStatus='warm';
+        await fetch(SB+'/rest/v1/calls?id=eq.'+row.id,{method:'PATCH',headers:H,body:JSON.stringify({
+          outcome:call.endedReason||'ended',status:'completed',
+          duration_seconds:Math.round(call.duration||0),
+          summary:(call.analysis&&call.analysis.summary)||'',
+          skor:skor,ilgi_seviyesi:ilgi,
+          demo_kabul:sd.demo_kabul||false,
+          randevu_alindi:sd.randevu_alindi||false,
+          itiraz:sd.itiraz||'',takip_notu:sd.takip_notu||'',
+          called_at:call.startedAt||call.createdAt
+        })});
+        if(row.customer_id){
+          await fetch(SB+'/rest/v1/customers?id=eq.'+row.customer_id,{method:'PATCH',headers:H,
+            body:JSON.stringify({status:newStatus})});
+        }
+        synced++;
+      }catch(e2){}
+    }
+    if(typeof notify==='function') notify(synced+' analiz güncellendi ✅');
+  }catch(e){if(typeof notify==='function') notify('Sync hatası: '+e.message,'err');}
+  if(callback) callback();
+};
+
 </script>
 <script>
 /* AYSE KAMPANYA MERKEZI v5.0 */
@@ -1642,8 +1710,8 @@ createAyseIfNotExists();
     document.getElementById('ak-go').style.display='block';
     document.getElementById('ak-stp').style.display='none';
     document.getElementById('ak-cur').textContent='Tamamlandı! '+ok+'/'+total;
-    log('Kampanya bitti: '+ok+'/'+total,'#22c55e');
-    setTimeout(function(){window.akRapor();},500);
+    log('Kampanya bitti: '+ok+'/'+total+'. 30sn sonra analizler yüklenecek...','#22c55e');
+    setTimeout(function(){window.syncVapiAnalysis(function(){window.akRapor();});},30000);
   };
 
   window.akRapor=async function(){
