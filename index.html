@@ -1058,7 +1058,7 @@ function loadCalls() {
       }
       var custId = c.customers ? c.customers.id : null;
       var assignBtn = (isAI && custId)
-        ? '<button class="btn bb sm" onclick="openAssignFromCall('" + custId + "')">Ata</button>'
+        ? '<button class="btn bb sm" onclick="openAssignFromCall(\'' + custId + '\')">Ata</button>'
         : '---';
       var tip = isAI
         ? '<span class="tag tai">AI Ayşe</span>'
