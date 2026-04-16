@@ -1061,7 +1061,17 @@ function loadCalls() {
                c.outcome==='completed'||c.outcome==='interested'?'tw2':
                c.outcome==='initiated'?'ta':'tc';
       var dur = c.duration_seconds
-        ? (c.duration_seconds<60?c.duration_seconds+'sn':Math.floor(c.duration_seconds/60)+'dk '+(c.duration_seconds%60)+'sn') : '---';
+        ? (function(s,out){
+          if(s>0&&s<60) return s+'sn';
+          if(s>=60) return Math.floor(s/60)+'dk '+(s%60)+'sn';
+          // s=0: outcome'dan anla
+          if(!out) return '---';
+          if(out.indexOf('busy')>-1) return 'Mesgul';
+          if(out.indexOf('did-not-answer')>-1||out.indexOf('no-answer')>-1) return 'Acmadi';
+          if(out.indexOf('error')>-1||out.indexOf('failed')>-1) return 'Hata';
+          if(out.indexOf('ended')>-1) return '<5sn';
+          return '---';
+        })(c.duration_seconds,c.outcome) : '---';
       var skor = c.skor
         ? '<b style="color:'+(c.skor>=7?'var(--green)':c.skor>=4?'var(--gold)':'var(--t3)')+'">'+c.skor+'0%</b>'
         : '---';
