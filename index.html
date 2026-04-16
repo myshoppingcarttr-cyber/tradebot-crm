@@ -1061,9 +1061,9 @@ function loadCalls() {
                c.outcome==='completed'||c.outcome==='interested'?'tw2':
                c.outcome==='initiated'?'ta':'tc';
       var dur = c.duration_seconds
-        ? (function(s,o){if(s>0&&s<60)return s+'sn';if(s>=60)return Math.floor(s/60)+'dk '+(s%60)+'sn';if(!o)return '---';if(o.indexOf('busy')>-1)return 'Mesgul';if(o.indexOf('answer')>-1||o.indexOf('did-not')>-1)return 'Cevapsiz';if(o.indexOf('ended')>-1)return '<5sn';if(o.indexOf('error')>-1||o.indexOf('fail')>-1||o.indexOf('connect')>-1)return 'Baglanamadi';return '---';})(c.duration_seconds,c.outcome) : '---';
+        ? Math.floor(c.duration_seconds/60)+':'+('0'+c.duration_seconds%60).slice(-2) : '---';
       var skor = c.skor
-        ? '<b style="color:'+(c.skor>=7?'var(--green)':c.skor>=4?'var(--gold)':'var(--t3)')+'">'+c.skor+'0%</b>'
+        ? '<b style="color:'+(c.skor>=7?'var(--green)':c.skor>=4?'var(--gold)':'var(--t3)')+'">'+c.skor+'/10</b>'
         : '---';
       var ilgi = c.ilgi_seviyesi
         ? (ilgiMap[c.ilgi_seviyesi] || '<span class="tag tc">'+c.ilgi_seviyesi+'</span>')
@@ -1117,127 +1117,7 @@ function playRec(vapiId) {
     var url = d.recordingUrl || d.stereoRecordingUrl || (d.artifact && d.artifact.recordingUrl);
     if(!url){notify('Ses kaydı yok','err');return;}
     var w=window.open('','_blank');
-    w.document.write('<html><body style="background:#0d0d11;display:flex;align-items:center;justify-content:center;height:100vh;margin:0"><div style="text-align:center"><p style="color:#C9A96E;font-family:system-ui;margin-bottom:16px">🎙️ '+( d.customer&&d.customer.number||vapiId.substring(0,12))+'</p><audio controls autoplay src="'+url+'" style="width:320px"></audio><br><a href="'+url+'" download style="color:#60a5fa;font-size:12px;margin-top:12px;display:block;font-family:system-ui">📥 İndir</a></div>
-<script>
-(function(){
-var SBU="https://muwynsxukmxjquoqcbac.supabase.co";
-var SKK="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3luc3h1a214anF1b3FjYmFjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjExMzQwMCwiZXhwIjoyMDkxNjg5NDAwfQ.33AsVo1mIeNHznTKnr6IUjVTLP_puNeNFJMS8-GsO30";
-var HH={"apikey":SKK,"Authorization":"Bearer "+SKK};
-
-// ── ATA MODALI ────────────────────────────────────────────
-window.openAssignFromCall=async function(callId){
-  var old=document.getElementById("am");if(old)old.remove();
-  var ud=[];
-  try{ud=await fetch(SBU+"/rest/v1/users?select=id,full_name&order=full_name",{headers:HH}).then(function(r){return r.json();});}catch(e){}
-  var m=document.createElement("div");m.id="am";
-  m.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;display:flex;align-items:center;justify-content:center";
-  m.innerHTML='<div style="background:#1a1a24;border:1px solid rgba(201,169,110,.3);border-radius:14px;padding:28px;min-width:320px;max-width:400px">'
-    +'<div style="font-size:15px;font-weight:700;color:#f0ede8;margin-bottom:16px">Personele Ata</div>'
-    +'<select id="as" style="width:100%;background:#21212e;color:#f0ede8;border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:11px;font-size:13px;margin-bottom:16px"><option value="">-- Personel Sec --</option>'
-    +(ud||[]).map(function(u){return'<option value="'+u.id+'">'+u.full_name+'</option>';}).join('')
-    +'</select>'
-    +'<div style="display:flex;gap:10px;justify-content:flex-end">'
-    +'<button id="ac" style="background:rgba(255,255,255,.08);color:#a8a4b0;border:none;border-radius:8px;padding:9px 18px;cursor:pointer;font-size:13px">Iptal</button>'
-    +'<button id="ao" style="background:#C9A96E;color:#000;border:none;border-radius:8px;padding:9px 18px;font-weight:700;cursor:pointer;font-size:13px">Ata</button>'
-    +'</div></div>';
-  document.body.appendChild(m);
-  document.getElementById("ac").onclick=function(){m.remove();};
-  m.onclick=function(e){if(e.target===m)m.remove();};
-  document.getElementById("ao").onclick=async function(){
-    var uid=document.getElementById("as").value;
-    if(!uid){alert("Personel secin!");return;}
-    var uname=document.getElementById("as").selectedOptions[0].text||"";
-    await fetch(SBU+"/rest/v1/calls?id=eq."+callId,{
-      method:"PATCH",
-      headers:Object.assign({},HH,{"Content-Type":"application/json"}),
-      body:JSON.stringify({assigned_to:uid,assigned_name:uname})
-    });
-    m.remove();
-    if(typeof loadCalls==="function")loadCalls();
-    if(typeof notify==="function")notify(uname+" atandi","ok");
-  };
-};
-
-// ── DETAY PANELİ ─────────────────────────────────────────
-window.openCallDetail=function(callId,custName){
-  var old=document.getElementById("cdp");if(old){old.remove();return;}
-  var p=document.createElement("div");p.id="cdp";
-  p.style.cssText="position:fixed;right:0;top:0;width:420px;height:100vh;background:#13131a;border-left:1px solid rgba(255,255,255,.1);z-index:9998;display:flex;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.6);font-family:system-ui,sans-serif";
-  p.innerHTML='<div style="padding:14px 16px;background:#1a1a24;border-bottom:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;flex-shrink:0">'
-    +'<div style="font-size:15px;font-weight:700;color:#f0ede8">'+custName+'</div>'
-    +'<button onclick="document.getElementById('cdp').remove()" style="background:none;border:none;color:#5a566a;cursor:pointer;font-size:22px;line-height:1;padding:0 4px">x</button></div>'
-    +'<div id="cdp-b" style="flex:1;overflow-y:auto;padding:14px"><div style="color:#5a566a;text-align:center;padding:40px 0">Yukleniyor...</div></div>';
-  document.body.appendChild(p);
-
-  fetch(SBU+"/rest/v1/calls?id=eq."+callId+"&select=*,customers(full_name,phone)",{headers:HH})
-  .then(function(r){return r.json();})
-  .then(function(data){
-    var c=data&&data[0];
-    if(!c){
-      // isimle ara
-      return fetch(SBU+"/rest/v1/calls?agent_name=eq.Ayse&select=*,customers(full_name,phone)&order=created_at.desc&limit=100",{headers:HH})
-        .then(function(r){return r.json();})
-        .then(function(d){return d.find(function(x){return x.customers&&x.customers.full_name&&x.customers.full_name.substring(0,6).toLowerCase()===custName.substring(0,6).toLowerCase();});});
-    }
-    return c;
-  })
-  .then(function(c){
-    var body=document.getElementById("cdp-b");
-    if(!body)return;
-    if(!c){body.innerHTML='<div style="color:#ef4444;padding:20px;text-align:center">Veri bulunamadi</div>';return;}
-    var sk=c.skor||0,bp=sk>0?(sk*10)+"%":"---",bc=sk>=7?"#22c55e":sk>=4?"#C9A96E":"#ef4444";
-    var trans=(c.transcript||"").split("\n").map(function(l){
-      if(!l.trim())return "";
-      if(l.indexOf("AI:")===0)return'<div style="margin:3px 0;padding:6px 10px;background:rgba(201,169,110,.1);border-radius:6px;color:#C9A96E;font-size:12px;line-height:1.4"><b>Ayse:</b> '+l.slice(3).trim()+'</div>';
-      if(l.indexOf("User:")===0)return'<div style="margin:3px 0;padding:6px 10px;background:rgba(255,255,255,.05);border-radius:6px;color:#f0ede8;font-size:12px;line-height:1.4"><b>Musteri:</b> '+l.slice(5).trim()+'</div>';
-      return "";
-    }).join("");
-    body.innerHTML=
-      '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">'
-      +'<div style="background:#21212e;border-radius:10px;padding:10px;text-align:center"><div style="font-size:20px;font-weight:700;color:'+bc+'">'+bp+'</div><div style="font-size:9px;color:#5a566a;margin-top:3px;letter-spacing:.5px">BASARI</div></div>'
-      +'<div style="background:#21212e;border-radius:10px;padding:10px;text-align:center"><div style="font-size:12px;font-weight:600;color:#60a5fa;margin-top:4px">'+(c.ilgi_seviyesi||"-")+'</div><div style="font-size:9px;color:#5a566a;margin-top:3px;letter-spacing:.5px">ILGI</div></div>'
-      +'<div style="background:#21212e;border-radius:10px;padding:10px;text-align:center"><div style="font-size:10px;color:#f87171;margin-top:4px">'+(c.outcome||"-").substring(0,14)+'</div><div style="font-size:9px;color:#5a566a;margin-top:3px;letter-spacing:.5px">SONUC</div></div>'
-      +'</div>'
-      +(c.summary?'<div style="background:#21212e;border-radius:10px;padding:12px;margin-bottom:10px"><div style="font-size:10px;color:#a8a4b0;margin-bottom:6px;letter-spacing:.5px">OZET</div><div style="font-size:12px;color:#f0ede8;line-height:1.6">'+c.summary+'</div></div>':"")
-      +(c.itiraz&&c.itiraz!=="-"?'<div style="background:rgba(251,191,36,.08);border-radius:8px;padding:10px;margin-bottom:10px;font-size:12px;color:#fbbf24">&#9888; Itiraz: '+c.itiraz+'</div>':"")
-      +(c.takip_notu?'<div style="background:rgba(96,165,250,.08);border-radius:8px;padding:10px;margin-bottom:10px;font-size:12px;color:#60a5fa">&#128204; Takip: '+c.takip_notu+'</div>':"")
-      +'<div style="font-size:10px;color:#a8a4b0;margin-bottom:8px;letter-spacing:.5px">KONUSMA</div>'
-      +(trans||'<div style="color:#5a566a;font-size:12px;text-align:center;padding:20px">Transkript yok</div>');
-  })
-  .catch(function(e){
-    var body=document.getElementById("cdp-b");
-    if(body)body.innerHTML='<div style="color:#ef4444;padding:20px">Hata: '+e.message+'</div>';
-  });
-};
-
-// ── SATIR CLICK HANDLER ───────────────────────────────────
-function addRowHandlers(){
-  document.querySelectorAll("#ctb tr:not([data-rh])").forEach(function(row){
-    row.setAttribute("data-rh","1");
-    var td0=row.querySelector("td:first-child");
-    if(!td0)return;
-    td0.style.cursor="pointer";
-    td0.title="Detay icin tikla";
-    td0.addEventListener("click",function(e){
-      e.stopPropagation();
-      // isim = sadece text node (etiket spanları hariç)
-      var name="";
-      td0.childNodes.forEach(function(n){if(n.nodeType===3&&n.textContent.trim())name+=n.textContent.trim();});
-      if(!name)name=td0.firstChild&&td0.firstChild.textContent?td0.firstChild.textContent.trim():td0.textContent.split("\n")[0].trim();
-      // callId
-      var btn=row.querySelector("button");
-      var m2=btn?(btn.getAttribute("onclick")||"").match(/openAssignFromCall\(['"]([^'"]+)['"]/):null;
-      if(m2&&m2[1])window.openCallDetail(m2[1],name);
-    });
-  });
-}
-new MutationObserver(function(){addRowHandlers();}).observe(document.body,{childList:true,subtree:true});
-setInterval(addRowHandlers,1500);
-addRowHandlers();
-
-})();
-</script>
-</body></html>');
+    w.document.write('<html><body style="background:#0d0d11;display:flex;align-items:center;justify-content:center;height:100vh;margin:0"><div style="text-align:center"><p style="color:#C9A96E;font-family:system-ui;margin-bottom:16px">🎙️ '+( d.customer&&d.customer.number||vapiId.substring(0,12))+'</p><audio controls autoplay src="'+url+'" style="width:320px"></audio><br><a href="'+url+'" download style="color:#60a5fa;font-size:12px;margin-top:12px;display:block;font-family:system-ui">📥 İndir</a></div></body></html>');
   }).catch(function(){notify('Ses kaydı yüklenemedi','err');});
 }
 
@@ -1863,7 +1743,7 @@ window.syncVapiAnalysis = async function(callback) {
         +'<div style="color:#5a566a;font-size:9px;text-transform:uppercase;margin-bottom:8px">Arama Detayları</div>'
         +calls.slice(0,50).map(function(c){
           var dur=c.duration_seconds?Math.floor(c.duration_seconds/60)+':'+ ('0'+c.duration_seconds%60).slice(-2):'0:00';
-          var skorEl=c.skor?'<b style="color:'+(c.skor>=7?'#22c55e':c.skor>=4?'#C9A96E':'#5a566a')+'"> '+c.skor+'0%</b>':'';
+          var skorEl=c.skor?'<b style="color:'+(c.skor>=7?'#22c55e':c.skor>=4?'#C9A96E':'#5a566a')+'"> '+c.skor+'/10</b>':'';
           var badges='';
           if(c.demo_kabul)badges+='<span style="font-size:8px;background:rgba(34,197,94,.15);color:#22c55e;padding:1px 5px;border-radius:3px;margin-left:3px">Demo ✓</span>';
           if(c.randevu_alindi)badges+='<span style="font-size:8px;background:rgba(96,165,250,.15);color:#60a5fa;padding:1px 5px;border-radius:3px;margin-left:3px">Randevu ✓</span>';
