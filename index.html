@@ -1058,7 +1058,7 @@ function loadCalls() {
       }
       var custId = c.customers ? c.customers.id : null;
       var assignBtn = (isAI && custId)
-        ? '<button class="btn bb sm" onclick="openAssignFromCall(''+custId+'')">Ata</button>'
+        ? '<button class="btn bb sm" onclick="openAssignFromCall('" + custId + "')">Ata</button>'
         : '---';
       var tip = isAI
         ? '<span class="tag tai">AI Ayşe</span>'
@@ -1495,7 +1495,7 @@ createAyseIfNotExists();
       +'display:flex;justify-content:space-between;align-items:center;flex-shrink:0;background:#1a1a24">';
     h+='<div><div style="font-size:13px;font-weight:700;color:#C9A96E">Ayşe Kampanya Merkezi</div>';
     h+='<div style="font-size:9px;color:#22c55e;margin-top:2px">SIP: +90 212 822 04 16 Aktif</div></div>';
-    h+='<button onclick="document.getElementById('ayse-kp').remove()" '
+    h+='<button onclick="document.getElementById(\"ayse-kp\").remove()\" '
       +'style="background:none;border:none;color:#5a566a;cursor:pointer;font-size:20px">×</button></div>';
     // Body
     h+='<div style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px">';
