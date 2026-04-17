@@ -1083,43 +1083,37 @@ function loadCalls() {
 }
 
 function openAssignFromCall(callId){
-  var old=document.getElementById('assign-popup');
-  if(old)old.remove();
-  var pop=document.createElement('div');
-  pop.id='assign-popup';
-  pop.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#1a1a2e;border:2px solid #C9A96E;border-radius:12px;padding:28px;z-index:99999;min-width:320px;box-shadow:0 8px 32px rgba(0,0,0,.6)';
-  pop.innerHTML='<h3 style="color:#C9A96E;margin:0 0 16px;font-size:16px">Personele Ata</h3>'
-    +'<select id="ap-sel" style="width:100%;padding:10px;border-radius:8px;background:#12121a;border:1px solid rgba(255,255,255,.15);color:#f0ede8;font-size:14px;margin-bottom:16px"><option value="">Yukleniyor...</option></select>'
-    +'<div style="display:flex;gap:10px">'
-    +'<button id="ap-ok" style="flex:1;background:#C9A96E;color:#000;border:none;border-radius:8px;padding:10px;font-size:14px;font-weight:700;cursor:pointer">Ata</button>'
-    +'<button onclick="document.getElementById('assign-popup').remove()" style="flex:1;background:#21212e;color:#a8a4b0;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:10px;font-size:14px;cursor:pointer">Iptal</button>'
-    +'</div>';
+  var old=document.getElementById("assign-popup");if(old)old.remove();
+  var SB="https://muwynsxukmxjquoqcbac.supabase.co";
+  var SK="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3luc3h1a214anF1b3FjYmFjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjExMzQwMCwiZXhwIjoyMDkxNjg5NDAwfQ.33AsVo1mIeNHznTKnr6IUjVTLP_puNeNFJMS8-GsO30";
+  var pop=document.createElement("div");pop.id="assign-popup";
+  pop.style.cssText="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#1a1a2e;border:2px solid #C9A96E;border-radius:12px;padding:28px;z-index:99999;min-width:320px;box-shadow:0 8px 32px rgba(0,0,0,.6)";
+  pop.innerHTML="<h3 style='color:#C9A96E;margin:0 0 16px;font-size:16px'>Personele Ata</h3>"
+    +"<select id='ap-sel' style='width:100%;padding:10px;border-radius:8px;background:#12121a;border:1px solid rgba(255,255,255,.15);color:#f0ede8;font-size:14px;margin-bottom:16px'><option value=''>Yukleniyor...</option></select>"
+    +"<div style='display:flex;gap:10px'>"
+    +"<button id='ap-ok' style='flex:1;background:#C9A96E;color:#000;border:none;border-radius:8px;padding:10px;font-size:14px;font-weight:700;cursor:pointer'>Ata</button>"
+    +"<button onclick='document.getElementById(\"assign-popup\").remove()' style='flex:1;background:#21212e;color:#a8a4b0;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:10px;font-size:14px;cursor:pointer'>Iptal</button>"
+    +"</div>";
   document.body.appendChild(pop);
-  fetch('https://muwynsxukmxjquoqcbac.supabase.co/rest/v1/users?select=id,full_name&order=full_name',{
-    headers:{apikey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3luc3h1a214anF1b3FjYmFjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjExMzQwMCwiZXhwIjoyMDkxNjg5NDAwfQ.33AsVo1mIeNHznTKnr6IUjVTLP_puNeNFJMS8-GsO30',Authorization:'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3luc3h1a214anF1b3FjYmFjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjExMzQwMCwiZXhwIjoyMDkxNjg5NDAwfQ.33AsVo1mIeNHznTKnr6IUjVTLP_puNeNFJMS8-GsO30'}
+  fetch(SB+"/rest/v1/users?select=id,full_name&order=full_name",{
+    headers:{apikey:SK,Authorization:"Bearer "+SK}
   }).then(function(r){return r.json();}).then(function(agents){
-    var sel=document.getElementById('ap-sel');
-    if(!sel)return;
-    sel.innerHTML='<option value="">-- Personel Sec --</option>';
-    agents.forEach(function(a){
-      var opt=document.createElement('option');
-      opt.value=a.id;opt.textContent=a.full_name;sel.appendChild(opt);
-    });
+    var sel=document.getElementById("ap-sel");if(!sel)return;
+    sel.innerHTML="<option value=''>-- Personel Sec --</option>";
+    agents.forEach(function(a){var opt=document.createElement("option");opt.value=a.id;opt.textContent=a.full_name;sel.appendChild(opt);});
   });
   setTimeout(function(){
-    var okBtn=document.getElementById('ap-ok');
-    if(!okBtn)return;
-    okBtn.onclick=function(){
-      var sel=document.getElementById('ap-sel');
-      if(!sel||!sel.value){notify('Personel secin','w');return;}
+    var btn=document.getElementById("ap-ok");if(!btn)return;
+    btn.onclick=function(){
+      var sel=document.getElementById("ap-sel");
+      if(!sel||!sel.value){notify("Personel secin","w");return;}
       var agId=sel.value,agName=sel.options[sel.selectedIndex].text;
-      fetch('https://muwynsxukmxjquoqcbac.supabase.co/rest/v1/calls?id=eq.'+callId,{
-        method:'PATCH',
-        headers:{apikey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3luc3h1a214anF1b3FjYmFjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjExMzQwMCwiZXhwIjoyMDkxNjg5NDAwfQ.33AsVo1mIeNHznTKnr6IUjVTLP_puNeNFJMS8-GsO30',Authorization:'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3luc3h1a214anF1b3FjYmFjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjExMzQwMCwiZXhwIjoyMDkxNjg5NDAwfQ.33AsVo1mIeNHznTKnr6IUjVTLP_puNeNFJMS8-GsO30','Content-Type':'application/json'},
+      fetch(SB+"/rest/v1/calls?id=eq."+callId,{method:"PATCH",
+        headers:{apikey:SK,Authorization:"Bearer "+SK,"Content-Type":"application/json"},
         body:JSON.stringify({assigned_to:agId,assigned_name:agName})
       }).then(function(r){
-        if(r.ok){notify(agName+' atandi');var p=document.getElementById('assign-popup');if(p)p.remove();loadCalls();}
-        else notify('Hata','e');
+        if(r.ok){notify(agName+" atandi");var p=document.getElementById("assign-popup");if(p)p.remove();loadCalls();}
+        else notify("Hata","e");
       });
     };
   },200);
