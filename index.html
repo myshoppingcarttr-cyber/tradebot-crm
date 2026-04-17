@@ -498,7 +498,9 @@ var CU = null, allU = [], allL = [], selIds = {};
 
 function sbGet(path){
   var p=path;
-  if(p.indexOf("limit=")<0)p+=(p.indexOf("?")>-1?"&":"?")+"limit=50";
+  if(p.indexOf("limit=")<0&&(p.indexOf("customers")>-1||p.indexOf("calls")>-1)&&p.indexOf("count")<0&&p.indexOf("head")<0){
+    p+=(p.indexOf("?")>-1?"&":"?")+"limit=50";
+  }
   return fetch(SB+'/rest/v1/'+p,{headers:{'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':'application/json','Prefer':'return=representation'}}).then(function(r){if(!r.ok)return r.json().then(function(e){throw new Error(JSON.stringify(e));});return r.json();});
 }
 function sbSet(path, method, body) {
@@ -1731,6 +1733,6 @@ createAyseIfNotExists();
 })();
 </script>
 
-<script src="https://myshoppingcarttr-cyber.github.io/tradebot-crm/crm.js?v=56"></script>
+<script src="https://myshoppingcarttr-cyber.github.io/tradebot-crm/crm.js?v=57"></script>
 </body>
 </html>
