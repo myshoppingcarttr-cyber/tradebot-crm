@@ -5,10 +5,10 @@ var _SH={apikey:_SK,Authorization:"Bearer "+_SK};
 var _SC=Object.assign({},_SH,{"Content-Type":"application/json"});
 var _p=1,_ps=100,_flt={},_srt="skor.desc.nullslast",_sel=new Set(),_dat=[];
 var _PER=[
-  {id:"94cfd7da-0000-0000-0000-000000000000",ad:"Sistem Yoneticisi"},
-  {id:"61dd9140-0000-0000-0000-000000000000",ad:"Furkan Ekmen"},
-  {id:"39dcb015-0000-0000-0000-000000000000",ad:"Melis Dogan"},
-  {id:"638053e4-0000-0000-0000-000000000000",ad:"Ayse"}
+  {id:"94cfd7da-c8da-42fc-96e2-0f93472c524a",ad:"Sistem Yoneticisi"},
+  {id:"61dd9140-5210-49dc-9790-ca4cae5eed77",ad:"Furkan Ekmen"},
+  {id:"39dcb015-3a96-4026-8bd7-5d236df2b74a",ad:"Melis Dogan"},
+  {id:"638053e4-e25a-4e5a-8084-4c7ec417002e",ad:"Ayse"}
 ];
 
 function _toast(msg,tp){
