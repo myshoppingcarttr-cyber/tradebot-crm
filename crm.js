@@ -280,7 +280,7 @@ function _kaydet(id){
 }
 
 function showAramaMerkezi(){
-  var main=document.getElementById("main-content");
+  var main=document.querySelector(".main")||document.getElementById("main-content");
   if(!main)return;
   _p=1;_sel.clear();_flt={};
   main.innerHTML="<div style='padding:20px'>"
@@ -329,7 +329,7 @@ function showAramaMerkezi(){
 }
 
 function showSatisTakip(){
-  var main=document.getElementById("main-content");
+  var main=document.querySelector(".main")||document.getElementById("main-content");
   if(!main)return;
   var perOpts=_PER.map(function(p){
     return"<option value='"+p.id+"'>"+p.ad+"</option>";
@@ -388,7 +388,7 @@ function _loadST(){
 
 function _crmInit(){
   if(document.getElementById("am-btn"))return;
-  var nav=document.querySelector(".nav-links")||document.querySelector("nav ul")||document.querySelector(".sidebar");
+  var nav=document.querySelector(".tnav")||document.querySelector(".nav-links")||document.querySelector("nav ul")||document.querySelector(".sidebar");
   if(!nav){
     var btns=document.querySelectorAll("button");
     for(var i=0;i<btns.length;i++){
