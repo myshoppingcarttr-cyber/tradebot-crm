@@ -518,7 +518,7 @@ function doLogin(){
       return;
     }
     _cu=rows[0];
-    document.getElementById("loginOverlay").style.display="none";
+    document.getElementById("login").style.display="none";
     document.getElementById("app").classList.add("on");
     buildNav();
     loadPage("calls");
@@ -527,7 +527,7 @@ function doLogin(){
 function doLogout(){
   _cu=null;
   document.getElementById("app").classList.remove("on");
-  document.getElementById("loginOverlay").style.display="flex";
+  document.getElementById("login").style.display="flex";
   document.getElementById("lu").value="";
   document.getElementById("lp").value="";
   document.getElementById("lerr").textContent="";
