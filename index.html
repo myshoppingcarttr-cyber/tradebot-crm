@@ -1017,7 +1017,7 @@ function saveAgent() {
 // ARAMALAR
 function loadCalls() {
   var f = CU.role === 'agent' ? '&agent_id=eq.' + CU.id : '';
-  sbGet('calls?select=*,customers(id,full_name),users(full_name,role)&order=called_at.desc&limit=200' + f).then(function(cs) {
+  sbGet('calls?select=*,customers(id,full_name),users(full_name,role)&order=called_at.desc&limit=50' + f).then(function(cs) {
     var oc = {
       interested:'İlgilendi', not_interested:'İlgilenmedi', callback:'Geri Arama',
       appointment:'Randevu', sold:'Satış', initiated:'Başladı',
