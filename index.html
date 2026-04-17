@@ -601,7 +601,7 @@ function loadCalls(){
       var ilL=il==="yuksek"?"Yüksek":il==="orta"?"Orta":il==="dusuk"?"Düşük":"";
       var sdM={yeni:"Yeni",araniyor:"Aranıyor",ilgileniyor:"İlgileniyor",teklif:"Teklif",satildi:"SATİLDİ",vazgecti:"Vazgeçti"};
       var sd=sdM[row.satis_durumu||"yeni"]||"Yeni";
-      h+="<tr style='border-bottom:1px solid rgba(255,255,255,.04)' onmouseover="this.style.background='rgba(255,255,255,.025)'" onmouseout="this.style.background=''">";
+      h+="<tr style='border-bottom:1px solid rgba(255,255,255,.04)'>";
       h+="<td style='padding:8px 10px;color:#f0ede8;font-weight:600'>"+nm+"</td>";
       h+="<td style='padding:8px 10px;font-size:11px;color:#5a566a'>"+(ph||"—")+"</td>";
       h+="<td style='padding:8px;text-align:center;font-weight:700;color:"+bc+"'>"+(sk>0?(sk*10)+"%":"—")+"</td>";
