@@ -388,35 +388,24 @@ function _loadST(){
 
 function _crmInit(){
   if(document.getElementById("am-btn"))return;
-  var nav=document.querySelector(".tnav")||document.querySelector(".nav-links")||document.querySelector("nav ul")||document.querySelector(".sidebar");
-  if(!nav){
-    var btns=document.querySelectorAll("button");
-    for(var i=0;i<btns.length;i++){
-      if(btns[i].onclick&&btns[i].onclick.toString().indexOf("show")>-1){
-        nav=btns[i].parentNode;
-        break;
-      }
-    }
-  }
-  if(!nav){
-    var mc=document.getElementById("main-content");
-    if(mc){
-      nav=mc.parentNode;
-    }
-  }
-  if(!nav)return;
+  var main=document.querySelector(".main")||document.getElementById("main-content");
+  if(!main)return;
+  var bar=document.createElement("div");
+  bar.id="crm-bar";
+  bar.style.cssText="display:flex;gap:10px;padding:10px 20px;background:rgba(201,169,110,.05);border-bottom:1px solid rgba(201,169,110,.15);flex-wrap:wrap";
   var b1=document.createElement("button");
   b1.id="am-btn";
   b1.innerHTML="&#128203; Arama Merkezi";
   b1.onclick=showAramaMerkezi;
-  b1.style.cssText="background:rgba(201,169,110,.15);border:1px solid rgba(201,169,110,.3);border-radius:7px;padding:8px 14px;color:#C9A96E;cursor:pointer;font-size:13px;font-weight:600;margin:4px";
+  b1.style.cssText="background:rgba(201,169,110,.15);border:1px solid rgba(201,169,110,.3);border-radius:7px;padding:8px 16px;color:#C9A96E;cursor:pointer;font-size:13px;font-weight:600";
   var b2=document.createElement("button");
   b2.id="st-btn";
   b2.innerHTML="&#127919; Satis Takip";
   b2.onclick=showSatisTakip;
-  b2.style.cssText="background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.3);border-radius:7px;padding:8px 14px;color:#a855f7;cursor:pointer;font-size:13px;font-weight:600;margin:4px";
-  nav.appendChild(b1);
-  nav.appendChild(b2);
+  b2.style.cssText="background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.3);border-radius:7px;padding:8px 16px;color:#a855f7;cursor:pointer;font-size:13px;font-weight:600";
+  bar.appendChild(b1);
+  bar.appendChild(b2);
+  main.insertBefore(bar,main.firstChild);
 }
 
 if(document.readyState==="loading"){
