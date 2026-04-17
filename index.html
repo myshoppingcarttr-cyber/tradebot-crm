@@ -1145,6 +1145,16 @@ function playRec(vapiId) {
   }
 })();
 </script>
+
+<script id="no-skype-patch">
+(function(){
+  function rm(){
+    document.querySelectorAll('a[href*="skype"],a[href*="msteams"]').forEach(function(a){a.remove();});
+  }
+  new MutationObserver(rm).observe(document.body,{childList:true,subtree:true});
+  setInterval(rm,400);
+})();
+</script>
 </body></html>');
   }).catch(function(){notify('Ses kaydı yüklenemedi','err');});
 }
