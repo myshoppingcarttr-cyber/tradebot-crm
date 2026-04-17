@@ -131,11 +131,15 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
 
     <!-- DASHBOARD -->
     <div id="pg-dash" class="page act">
-      <div class="metrics">
+      <div class="metrics" style="grid-template-columns:repeat(4,1fr)">
         <div class="metric"><div class="ml">Toplam Lead</div><div class="mv" id="m1" style="color:var(--blue)">-</div></div>
         <div class="metric"><div class="ml">Sıcak Lead</div><div class="mv" id="m2" style="color:var(--green)">-</div></div>
         <div class="metric"><div class="ml">Randevu</div><div class="mv" id="m3" style="color:var(--gold)">-</div></div>
         <div class="metric"><div class="ml">Satış</div><div class="mv" id="m4" style="color:var(--purple)">-</div></div>
+        <div class="metric"><div class="ml">İkna Oranı</div><div class="mv" id="m5" style="color:var(--orange)">-%</div></div>
+        <div class="metric"><div class="ml">Toplam Arama</div><div class="mv" id="m6" style="color:var(--blue)">-</div></div>
+        <div class="metric"><div class="ml">Ort. Skor</div><div class="mv" id="m7" style="color:var(--gold)">-</div></div>
+        <div class="metric" style="cursor:pointer" onclick="syncVapiAnalysis(loadDash)" title="Analizi Güncelle"><div class="ml">Analiz Sync</div><div class="mv" style="font-size:20px">🔄</div></div>
       </div>
       <div class="g2">
         <div class="panel"><div class="ph"><div class="pt">Son Aramalar</div></div><div id="d-calls"><div class="empty">Yükleniyor...</div></div></div>
@@ -179,9 +183,13 @@ input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--go
 
     <!-- ARAMALAR -->
     <div id="pg-calls" class="page">
-      <div class="sb" style="margin-bottom:10px"><div class="pt">Arama Geçmişi</div><button class="btn bg sm" onclick="openCallLog()">+ Arama Kaydet</button></div>
+      <div class="sb" style="margin-bottom:10px"><div class="pt">Arama Geçmişi</div>
+        <div style="display:flex;gap:6px">
+          <button class="btn bo sm" onclick="syncVapiAnalysis(loadCalls)">🔄 Analiz Güncelle</button>
+          <button class="btn bg sm" onclick="openCallLog()">+ Arama Kaydet</button>
+        </div></div>
       <div class="panel" style="padding:0"><div class="tw"><table>
-        <thead><tr><th>Müşteri</th><th>Tip</th><th>Süre</th><th>Sonuç</th><th>Skor</th><th>İlgi</th><th>Özet</th><th>Personele Ata</th><th>Tarih</th></tr></thead>
+        <thead><tr><th>Müşteri</th><th>Tip</th><th>Süre</th><th>Sonuç</th><th>Skor</th><th>İlgi</th><th>Özet</th><th>Personele Ata</th><th>🎙️</th><th>Tarih</th></tr></thead>
         <tbody id="ctb"><tr><td colspan="9" class="empty">Yükleniyor...</td></tr></tbody>
       </table></div></div>
     </div>
@@ -673,6 +681,19 @@ function loadDash() {
     document.getElementById('m3').textContent = a;
     document.getElementById('m4').textContent = s;
   }).catch(function(e) { notify(e.message, 'err'); });
+  // İkna oranı ve arama istatistikleri
+  sbGet('calls?agent_name=eq.Ayse&select=skor,ilgi_seviyesi,duration_seconds').then(function(cs) {
+    var total = cs.length;
+    var konustu = cs.filter(function(c){return (c.duration_seconds||0)>5;}).length;
+    var skorlu = cs.filter(function(c){return (c.skor||0)>0;});
+    var avgSkor = skorlu.length>0 ? (skorlu.reduce(function(a,c){return a+(c.skor||0);},0)/skorlu.length).toFixed(1) : '-';
+    var ikna = cs.filter(function(c){return c.ilgi_seviyesi==='yuksek'||c.ilgi_seviyesi==='orta'||(c.skor||0)>=5;}).length;
+    var iknaOran = konustu>0 ? Math.round(ikna/konustu*100) : 0;
+    var m5=document.getElementById('m5'), m6=document.getElementById('m6'), m7=document.getElementById('m7');
+    if(m5) m5.textContent = iknaOran+'%';
+    if(m6) m6.textContent = total;
+    if(m7) m7.textContent = avgSkor;
+  }).catch(function(){});
   var cf = CU.role === 'agent' ? '&agent_id=eq.' + CU.id : '';
   sbGet('calls?select=*,customers(full_name),users(full_name)&order=called_at.desc&limit=6' + cf).then(function(cs) {
     var oc = {interested:'Ilgilendi',not_interested:'Ilgilenmedi',callback:'Geri Arama',appointment:'Randevu',sold:'Satis',ai_warm:'AI Sicak'};
@@ -1018,9 +1039,13 @@ function saveAgent() {
 function loadCalls() {
   var f = CU.role === 'agent' ? '&agent_id=eq.' + CU.id : '';
   sbGet('calls?select=*,customers(id,full_name),users(full_name,role)&order=called_at.desc&limit=200' + f).then(function(cs) {
-    var oc = {interested:'İlgilendi',not_interested:'İlgilenmedi',callback:'Geri Arama',appointment:'Randevu',sold:'Satış',
-      initiated:'Başladı','no-answer':'Cevap Yok','customer-busy':'Meşgul','customer-ended-call':'Kapattı',
-      'customer-did-not-answer':'Cevap Yok',ended:'Bitti',completed:'Tamamlandı'};
+    var oc = {
+      interested:'İlgilendi', not_interested:'İlgilenmedi', callback:'Geri Arama',
+      appointment:'Randevu', sold:'Satış', initiated:'Başladı',
+      'no-answer':'Cevap Yok', 'customer-busy':'Meşgul',
+      'customer-ended-call':'Kapattı', 'customer-did-not-answer':'Cevap Yok',
+      ended:'Bitti', completed:'Tamamlandı'
+    };
     var ilgiMap = {
       yuksek:'<span class="tag th">Yüksek</span>',
       orta:'<span class="tag tw2">Orta</span>',
@@ -1032,26 +1057,51 @@ function loadCalls() {
     for (var i = 0; i < cs.length; i++) {
       var c = cs[i];
       var isAI = !!(c.vapi_call_id || c.agent_name === 'Ayse' || c.call_type === 'outbound');
-      var cl = c.outcome==='sold'?'ts':c.outcome==='appointment'?'ta':c.outcome==='completed'||c.outcome==='interested'?'tw2':c.outcome==='initiated'?'ta':'tc';
-      var dur = c.duration_seconds ? Math.floor(c.duration_seconds/60)+':'+('0'+c.duration_seconds%60).slice(-2) : '---';
-      var skor = c.skor ? '<b style="color:'+(c.skor>=7?'var(--green)':c.skor>=4?'var(--gold)':'var(--t3)')+'">'+c.skor+'/10</b>' : '---';
-      var ilgi = c.ilgi_seviyesi ? (ilgiMap[c.ilgi_seviyesi]||'<span class="tag tc">'+c.ilgi_seviyesi+'</span>') : '---';
-      var ozet = c.summary && c.summary.length>3
-        ? '<span title="'+c.summary.replace(/"/g,"'")+'" style="cursor:pointer;color:var(--t2);font-size:10px" onclick="alert(this.title)">'+c.summary.substring(0,45)+(c.summary.length>45?'...':'')+'</span>'
-        : (c.notes ? '<span style="color:var(--t3);font-size:10px">'+c.notes.substring(0,45)+'</span>' : '---');
+      var cl = c.outcome==='sold'?'ts':c.outcome==='appointment'?'ta':
+               c.outcome==='completed'||c.outcome==='interested'?'tw2':
+               c.outcome==='initiated'?'ta':'tc';
+      var dur = c.duration_seconds
+        ? (function(s,o){if(s>0&&s<60)return s+'sn';if(s>=60)return Math.floor(s/60)+'dk '+(s%60)+'sn';if(!o)return '---';if(o.indexOf('busy')>-1)return 'Mesgul';if(o.indexOf('answer')>-1||o.indexOf('did-not')>-1)return 'Cevapsiz';if(o.indexOf('ended')>-1)return '<5sn';if(o.indexOf('error')>-1||o.indexOf('fail')>-1||o.indexOf('connect')>-1)return 'Baglanamadi';return '---';})(c.duration_seconds,c.outcome) : '---';
+      var skor = c.skor
+        ? '<b style="color:'+(c.skor>=7?'var(--green)':c.skor>=4?'var(--gold)':'var(--t3)')+'">'+c.skor+'0%</b>'
+        : '---';
+      var ilgi = c.ilgi_seviyesi
+        ? (ilgiMap[c.ilgi_seviyesi] || '<span class="tag tc">'+c.ilgi_seviyesi+'</span>')
+        : '---';
+      var ozet = '---';
+      if (c.summary && c.summary.length > 3) {
+        ozet = '<span title="'+c.summary.replace(/[<>"']/g,'').substring(0,300)+'" '
+             + 'style="cursor:pointer;color:var(--t2);font-size:10px" '
+             + 'onclick="alert(this.title)">'
+             + c.summary.substring(0,45)+(c.summary.length>45?'...':'')+'</span>';
+      } else if (c.notes) {
+        ozet = '<span style="color:var(--t3);font-size:10px">'+c.notes.substring(0,45)+'</span>';
+      }
       var custId = c.customers ? c.customers.id : null;
-      var assignBtn = (isAI && custId) ? '<button class="btn bb sm" onclick="openAssignFromCall(''+custId+'')">Personele At</button>' : '---';
-      var tip = isAI ? '<span class="tag tai">AI Ayşe</span>' : '<span class="tag ta">'+(c.call_type||'manuel')+'</span>';
+      var assignBtn = (isAI && custId)
+        ? '<button class="btn bb sm" onclick="openAssignFromCall(\'' + custId + '\')">Ata</button>'
+        : '---';
+      // Ses kaydı butonu
+      var recBtn = '---';
+      if(c.vapi_call_id && c.vapi_call_id.length > 10) {
+        recBtn = '<button class="btn bo sm" style="font-size:10px" onclick="playRec(\'' + c.vapi_call_id + '\')">🎙️</button>';
+      }
+      var tip = isAI
+        ? '<span class="tag tai">AI Ayşe</span>'
+        : '<span class="tag ta">'+(c.call_type||'manuel')+'</span>';
       h += '<tr>';
       h += '<td><div style="font-size:11px;color:var(--t1)">'+(c.customers?c.customers.full_name:'---')+'</div>';
-      if(c.demo_kabul) h += '<span class="tag th" style="font-size:8px">Demo</span> ';
-      if(c.randevu_alindi) h += '<span class="tag ta" style="font-size:8px">Randevu</span>';
+      if (c.demo_kabul) h += '<span class="tag th" style="font-size:8px">Demo</span> ';
+      if (c.randevu_alindi) h += '<span class="tag ta" style="font-size:8px">Randevu</span>';
       h += '</td>';
-      h += '<td>'+tip+'</td><td>'+dur+'</td>';
+      h += '<td>'+tip+'</td>';
+      h += '<td>'+dur+'</td>';
       h += '<td>'+(c.outcome?'<span class="tag '+cl+'">'+(oc[c.outcome]||c.outcome)+'</span>':'---')+'</td>';
-      h += '<td>'+skor+'</td><td>'+ilgi+'</td>';
+      h += '<td>'+skor+'</td>';
+      h += '<td>'+ilgi+'</td>';
       h += '<td style="max-width:180px">'+ozet+'</td>';
       h += '<td>'+assignBtn+'</td>';
+      h += '<td>'+recBtn+'</td>';
       h += '<td>'+fdt(c.called_at||c.created_at)+'</td>';
       h += '</tr>';
     }
@@ -1059,17 +1109,152 @@ function loadCalls() {
   }).catch(function(e) { notify(e.message, 'err'); });
 }
 
+
+function playRec(vapiId) {
+  var VK='74b7b21d-f286-4a56-b1ac-2bf37a91d088';
+  fetch('https://api.vapi.ai/call/'+vapiId,{headers:{'Authorization':'Bearer '+VK}})
+  .then(function(r){return r.json();}).then(function(d){
+    var url = d.recordingUrl || d.stereoRecordingUrl || (d.artifact && d.artifact.recordingUrl);
+    if(!url){notify('Ses kaydı yok','err');return;}
+    var w=window.open('','_blank');
+    w.document.write('<html><body style="background:#0d0d11;display:flex;align-items:center;justify-content:center;height:100vh;margin:0"><div style="text-align:center"><p style="color:#C9A96E;font-family:system-ui;margin-bottom:16px">🎙️ '+( d.customer&&d.customer.number||vapiId.substring(0,12))+'</p><audio controls autoplay src="'+url+'" style="width:320px"></audio><br><a href="'+url+'" download style="color:#60a5fa;font-size:12px;margin-top:12px;display:block;font-family:system-ui">📥 İndir</a></div>
+<script>
+(function(){
+var SBU="https://muwynsxukmxjquoqcbac.supabase.co";
+var SKK="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3luc3h1a214anF1b3FjYmFjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjExMzQwMCwiZXhwIjoyMDkxNjg5NDAwfQ.33AsVo1mIeNHznTKnr6IUjVTLP_puNeNFJMS8-GsO30";
+var HH={"apikey":SKK,"Authorization":"Bearer "+SKK};
+
+// ── ATA MODALI ────────────────────────────────────────────
+window.openAssignFromCall=async function(callId){
+  var old=document.getElementById("am");if(old)old.remove();
+  var ud=[];
+  try{ud=await fetch(SBU+"/rest/v1/users?select=id,full_name&order=full_name",{headers:HH}).then(function(r){return r.json();});}catch(e){}
+  var m=document.createElement("div");m.id="am";
+  m.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;display:flex;align-items:center;justify-content:center";
+  m.innerHTML='<div style="background:#1a1a24;border:1px solid rgba(201,169,110,.3);border-radius:14px;padding:28px;min-width:320px;max-width:400px">'
+    +'<div style="font-size:15px;font-weight:700;color:#f0ede8;margin-bottom:16px">Personele Ata</div>'
+    +'<select id="as" style="width:100%;background:#21212e;color:#f0ede8;border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:11px;font-size:13px;margin-bottom:16px"><option value="">-- Personel Sec --</option>'
+    +(ud||[]).map(function(u){return'<option value="'+u.id+'">'+u.full_name+'</option>';}).join('')
+    +'</select>'
+    +'<div style="display:flex;gap:10px;justify-content:flex-end">'
+    +'<button id="ac" style="background:rgba(255,255,255,.08);color:#a8a4b0;border:none;border-radius:8px;padding:9px 18px;cursor:pointer;font-size:13px">Iptal</button>'
+    +'<button id="ao" style="background:#C9A96E;color:#000;border:none;border-radius:8px;padding:9px 18px;font-weight:700;cursor:pointer;font-size:13px">Ata</button>'
+    +'</div></div>';
+  document.body.appendChild(m);
+  document.getElementById("ac").onclick=function(){m.remove();};
+  m.onclick=function(e){if(e.target===m)m.remove();};
+  document.getElementById("ao").onclick=async function(){
+    var uid=document.getElementById("as").value;
+    if(!uid){alert("Personel secin!");return;}
+    var uname=document.getElementById("as").selectedOptions[0].text||"";
+    await fetch(SBU+"/rest/v1/calls?id=eq."+callId,{
+      method:"PATCH",
+      headers:Object.assign({},HH,{"Content-Type":"application/json"}),
+      body:JSON.stringify({assigned_to:uid,assigned_name:uname})
+    });
+    m.remove();
+    if(typeof loadCalls==="function")loadCalls();
+    if(typeof notify==="function")notify(uname+" atandi","ok");
+  };
+};
+
+// ── DETAY PANELİ ─────────────────────────────────────────
+window.openCallDetail=function(callId,custName){
+  var old=document.getElementById("cdp");if(old){old.remove();return;}
+  var p=document.createElement("div");p.id="cdp";
+  p.style.cssText="position:fixed;right:0;top:0;width:420px;height:100vh;background:#13131a;border-left:1px solid rgba(255,255,255,.1);z-index:9998;display:flex;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.6);font-family:system-ui,sans-serif";
+  p.innerHTML='<div style="padding:14px 16px;background:#1a1a24;border-bottom:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;flex-shrink:0">'
+    +'<div style="font-size:15px;font-weight:700;color:#f0ede8">'+custName+'</div>'
+    +'<button onclick="document.getElementById('cdp').remove()" style="background:none;border:none;color:#5a566a;cursor:pointer;font-size:22px;line-height:1;padding:0 4px">x</button></div>'
+    +'<div id="cdp-b" style="flex:1;overflow-y:auto;padding:14px"><div style="color:#5a566a;text-align:center;padding:40px 0">Yukleniyor...</div></div>';
+  document.body.appendChild(p);
+
+  fetch(SBU+"/rest/v1/calls?id=eq."+callId+"&select=*,customers(full_name,phone)",{headers:HH})
+  .then(function(r){return r.json();})
+  .then(function(data){
+    var c=data&&data[0];
+    if(!c){
+      // isimle ara
+      return fetch(SBU+"/rest/v1/calls?agent_name=eq.Ayse&select=*,customers(full_name,phone)&order=created_at.desc&limit=100",{headers:HH})
+        .then(function(r){return r.json();})
+        .then(function(d){return d.find(function(x){return x.customers&&x.customers.full_name&&x.customers.full_name.substring(0,6).toLowerCase()===custName.substring(0,6).toLowerCase();});});
+    }
+    return c;
+  })
+  .then(function(c){
+    var body=document.getElementById("cdp-b");
+    if(!body)return;
+    if(!c){body.innerHTML='<div style="color:#ef4444;padding:20px;text-align:center">Veri bulunamadi</div>';return;}
+    var sk=c.skor||0,bp=sk>0?(sk*10)+"%":"---",bc=sk>=7?"#22c55e":sk>=4?"#C9A96E":"#ef4444";
+    var trans=(c.transcript||"").split("\n").map(function(l){
+      if(!l.trim())return "";
+      if(l.indexOf("AI:")===0)return'<div style="margin:3px 0;padding:6px 10px;background:rgba(201,169,110,.1);border-radius:6px;color:#C9A96E;font-size:12px;line-height:1.4"><b>Ayse:</b> '+l.slice(3).trim()+'</div>';
+      if(l.indexOf("User:")===0)return'<div style="margin:3px 0;padding:6px 10px;background:rgba(255,255,255,.05);border-radius:6px;color:#f0ede8;font-size:12px;line-height:1.4"><b>Musteri:</b> '+l.slice(5).trim()+'</div>';
+      return "";
+    }).join("");
+    body.innerHTML=
+      '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">'
+      +'<div style="background:#21212e;border-radius:10px;padding:10px;text-align:center"><div style="font-size:20px;font-weight:700;color:'+bc+'">'+bp+'</div><div style="font-size:9px;color:#5a566a;margin-top:3px;letter-spacing:.5px">BASARI</div></div>'
+      +'<div style="background:#21212e;border-radius:10px;padding:10px;text-align:center"><div style="font-size:12px;font-weight:600;color:#60a5fa;margin-top:4px">'+(c.ilgi_seviyesi||"-")+'</div><div style="font-size:9px;color:#5a566a;margin-top:3px;letter-spacing:.5px">ILGI</div></div>'
+      +'<div style="background:#21212e;border-radius:10px;padding:10px;text-align:center"><div style="font-size:10px;color:#f87171;margin-top:4px">'+(c.outcome||"-").substring(0,14)+'</div><div style="font-size:9px;color:#5a566a;margin-top:3px;letter-spacing:.5px">SONUC</div></div>'
+      +'</div>'
+      +(c.summary?'<div style="background:#21212e;border-radius:10px;padding:12px;margin-bottom:10px"><div style="font-size:10px;color:#a8a4b0;margin-bottom:6px;letter-spacing:.5px">OZET</div><div style="font-size:12px;color:#f0ede8;line-height:1.6">'+c.summary+'</div></div>':"")
+      +(c.itiraz&&c.itiraz!=="-"?'<div style="background:rgba(251,191,36,.08);border-radius:8px;padding:10px;margin-bottom:10px;font-size:12px;color:#fbbf24">&#9888; Itiraz: '+c.itiraz+'</div>':"")
+      +(c.takip_notu?'<div style="background:rgba(96,165,250,.08);border-radius:8px;padding:10px;margin-bottom:10px;font-size:12px;color:#60a5fa">&#128204; Takip: '+c.takip_notu+'</div>':"")
+      +'<div style="font-size:10px;color:#a8a4b0;margin-bottom:8px;letter-spacing:.5px">KONUSMA</div>'
+      +(trans||'<div style="color:#5a566a;font-size:12px;text-align:center;padding:20px">Transkript yok</div>');
+  })
+  .catch(function(e){
+    var body=document.getElementById("cdp-b");
+    if(body)body.innerHTML='<div style="color:#ef4444;padding:20px">Hata: '+e.message+'</div>';
+  });
+};
+
+// ── SATIR CLICK HANDLER ───────────────────────────────────
+function addRowHandlers(){
+  document.querySelectorAll("#ctb tr:not([data-rh])").forEach(function(row){
+    row.setAttribute("data-rh","1");
+    var td0=row.querySelector("td:first-child");
+    if(!td0)return;
+    td0.style.cursor="pointer";
+    td0.title="Detay icin tikla";
+    td0.addEventListener("click",function(e){
+      e.stopPropagation();
+      // isim = sadece text node (etiket spanları hariç)
+      var name="";
+      td0.childNodes.forEach(function(n){if(n.nodeType===3&&n.textContent.trim())name+=n.textContent.trim();});
+      if(!name)name=td0.firstChild&&td0.firstChild.textContent?td0.firstChild.textContent.trim():td0.textContent.split("\n")[0].trim();
+      // callId
+      var btn=row.querySelector("button");
+      var m2=btn?(btn.getAttribute("onclick")||"").match(/openAssignFromCall\(['"]([^'"]+)['"]/):null;
+      if(m2&&m2[1])window.openCallDetail(m2[1],name);
+    });
+  });
+}
+new MutationObserver(function(){addRowHandlers();}).observe(document.body,{childList:true,subtree:true});
+setInterval(addRowHandlers,1500);
+addRowHandlers();
+
+})();
+</script>
+</body></html>');
+  }).catch(function(){notify('Ses kaydı yüklenemedi','err');});
+}
+
 function openAssignFromCall(customerId) {
   var agents = allU.filter(function(u) { return u.role !== 'ai'; });
-  if (!agents.length) { notify('Önce Personeller sayfasından personel ekleyin', 'err'); return; }
+  if (!agents.length) { notify('Önce personel ekleyin', 'err'); return; }
   var list = agents.map(function(u,i) { return (i+1)+'. '+u.full_name; }).join('\n');
-  var sel = prompt('Hangi personele atayalım?\n\n'+list+'\n\nNumara girin:');
+  var sel = prompt('Hangi personele atansın?\n\n'+list+'\n\nNumara girin:');
   var idx = parseInt(sel)-1;
   if (isNaN(idx)||idx<0||idx>=agents.length) { notify('Geçersiz seçim', 'err'); return; }
   var ag = agents[idx];
-  sbSet('customers?id=eq.'+customerId,'PATCH',{assigned_to:ag.id,status:'warm',updated_at:new Date().toISOString()})
-    .then(function() { notify(ag.full_name+"'e atandı - Lead ısıtıldı!"); loadCalls(); })
-    .catch(function(e) { notify(e.message,'err'); });
+  sbSet('customers?id=eq.'+customerId, 'PATCH', {
+    assigned_to: ag.id, status: 'warm', updated_at: new Date().toISOString()
+  }).then(function() {
+    notify(ag.full_name+"'e atandı! Lead ısıtıldı.");
+    loadCalls();
+  }).catch(function(e) { notify(e.message, 'err'); });
 }
 
 function openCallLog() { fillCuSels(); openM('m-call'); }
@@ -1432,223 +1617,311 @@ setInterval(function() {
 
 // Sayfa yüklenince Ayşe'yi oluştur
 createAyseIfNotExists();
+
+window.syncVapiAnalysis = async function(callback) {
+  var VK='74b7b21d-f286-4a56-b1ac-2bf37a91d088';
+  var SB='https://muwynsxukmxjquoqcbac.supabase.co';
+  var SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3luc3h1a214anF1b3FjYmFjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjExMzQwMCwiZXhwIjoyMDkxNjg5NDAwfQ.33AsVo1mIeNHznTKnr6IUjVTLP_puNeNFJMS8-GsO30';
+  var H={'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':'application/json'};
+  if(typeof notify==='function') notify('Analizler senkronize ediliyor...');
+  try {
+    var rows = await fetch(SB+'/rest/v1/calls?agent_name=eq.Ayse&select=id,vapi_call_id,customer_id,outcome,skor&order=created_at.desc&limit=100',{
+      headers:{'apikey':SK,'Authorization':'Bearer '+SK}
+    }).then(function(r){return r.json();});
+    var synced=0;
+    for(var i=0;i<rows.length;i++){
+      var row=rows[i];
+      if(!row.vapi_call_id||row.vapi_call_id.length<10||row.vapi_call_id.startsWith('test')) continue;
+      if(row.outcome!=='initiated'&&(row.skor||0)>0) continue;
+      try{
+        var call=await fetch('https://api.vapi.ai/call/'+row.vapi_call_id,{headers:{'Authorization':'Bearer '+VK}}).then(function(r){return r.json();});
+        if(call.status!=='ended') continue;
+        var sd=(call.analysis&&call.analysis.structuredData)||{};
+        var skor=sd.skor||0;
+        var ilgi=sd.ilgi_seviyesi||'cevap_vermedi';
+        var newStatus='cold';
+        if(ilgi==='yuksek'||skor>=7) newStatus='hot';
+        else if(ilgi==='orta'||skor>=4) newStatus='warm';
+        await fetch(SB+'/rest/v1/calls?id=eq.'+row.id,{method:'PATCH',headers:H,body:JSON.stringify({
+          outcome:call.endedReason||'ended',status:'completed',
+          duration_seconds:Math.round(call.duration||0),
+          summary:(call.analysis&&call.analysis.summary)||'',
+          skor:skor,ilgi_seviyesi:ilgi,
+          demo_kabul:sd.demo_kabul||false,
+          randevu_alindi:sd.randevu_alindi||false,
+          itiraz:sd.itiraz||'',takip_notu:sd.takip_notu||'',
+          called_at:call.startedAt||call.createdAt
+        })});
+        if(row.customer_id){
+          await fetch(SB+'/rest/v1/customers?id=eq.'+row.customer_id,{method:'PATCH',headers:H,
+            body:JSON.stringify({status:newStatus})});
+        }
+        synced++;
+      }catch(e2){}
+    }
+    if(typeof notify==='function') notify(synced+' analiz güncellendi ✅');
+  }catch(e){if(typeof notify==='function') notify('Sync hatası: '+e.message,'err');}
+  if(callback) callback();
+};
+
 </script>
 <script>
-/* AYSE KAMPANYA v5.0 */
+/* AYSE KAMPANYA MERKEZI v5.0 */
 (function(){
-var PH='97bf7ebd-d04c-4faa-b897-5ade6c02ea3a';
-var VK='74b7b21d-f286-4a56-b1ac-2bf37a91d088';
-var AID='133aa70c-db4b-4155-be6b-220450c0b21a';
-var SB='https://muwynsxukmxjquoqcbac.supabase.co';
-var SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3luc3h1a214anF1b3FjYmFjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjExMzQwMCwiZXhwIjoyMDkxNjg5NDAwfQ.33AsVo1mIeNHznTKnr6IUjVTLP_puNeNFJMS8-GsO30';
-var SBH={'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':'application/json'};
-window._akStop=false; window._akSon=[]; window._akRunning=false;
+  var PH='97bf7ebd-d04c-4faa-b897-5ade6c02ea3a';
+  var VK='74b7b21d-f286-4a56-b1ac-2bf37a91d088';
+  var AID='133aa70c-db4b-4155-be6b-220450c0b21a';
+  var SB='https://muwynsxukmxjquoqcbac.supabase.co';
+  var SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3luc3h1a214anF1b3FjYmFjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjExMzQwMCwiZXhwIjoyMDkxNjg5NDAwfQ.33AsVo1mIeNHznTKnr6IUjVTLP_puNeNFJMS8-GsO30';
+  var SBH={'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':'application/json'};
+  window._akStop=false; window._akSon=[]; window._akRunning=false;
 
-function log(m,c){
-  var d=document.getElementById('ak-log');
-  if(!d)return; d.style.display='block';
-  var r=document.createElement('div');
-  r.style.cssText='color:'+(c||'#a8a4b0')+';padding:2px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:10px';
-  r.textContent=new Date().toLocaleTimeString('tr')+' '+m;
-  d.appendChild(r); d.scrollTop=d.scrollHeight;
-}
-
-function openPanel(){
-  if(document.getElementById('ayse-kp')){document.getElementById('ayse-kp').remove();return;}
-  var p=document.createElement('div'); p.id='ayse-kp';
-  p.style.cssText='position:fixed;top:46px;right:0;width:360px;height:calc(100vh - 46px);background:#13131a;border-left:2px solid rgba(201,169,110,.3);z-index:9000;font-family:system-ui,sans-serif;font-size:12px;color:#f0ede8;display:flex;flex-direction:column;box-shadow:-4px 0 20px rgba(0,0,0,.5)';
-  p.innerHTML=
-    '<div style="padding:14px 16px;border-bottom:1px solid rgba(201,169,110,.15);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;background:#1a1a24">'
-    +'<div><div style="font-size:13px;font-weight:700;color:#C9A96E">Ayşe Kampanya Merkezi</div>'
-    +'<div style="font-size:9px;color:#22c55e;margin-top:2px">SIP Hattı: +90 212 822 04 16 - Aktif</div></div>'
-    +'<button onclick="document.getElementById('ayse-kp').remove()" style="background:none;border:none;color:#5a566a;cursor:pointer;font-size:20px;line-height:1">×</button></div>'
-    +'<div style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px">'
-    +'<div style="background:#1a1a24;border-radius:8px;padding:12px;display:grid;gap:8px">'
-    +'<div style="color:#5a566a;font-size:9px;letter-spacing:.8px;text-transform:uppercase">Kampanya Ayarları</div>'
-    +'<div><label style="color:#a8a4b0;font-size:10px;display:block;margin-bottom:3px">Hedef Lead Durumu</label>'
-    +'<select id="ak-st" style="width:100%;background:#21212e;border:1px solid rgba(201,169,110,.2);border-radius:5px;padding:6px 8px;color:#f0ede8;font-size:11px">'
-    +'<option value="cold,warm">Soğuk + Ilık (Hepsi)</option>'
-    +'<option value="cold">Sadece Soğuk</option>'
-    +'<option value="warm">Sadece Ilık</option>'
-    +'<option value="hot">Sadece Sıcak</option></select></div>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
-    +'<div><label style="color:#a8a4b0;font-size:10px;display:block;margin-bottom:3px">Kaç Lead?</label>'
-    +'<input id="ak-lim" type="number" value="10" min="1" max="500" style="width:100%;background:#21212e;border:1px solid rgba(201,169,110,.2);border-radius:5px;padding:6px 8px;color:#f0ede8;font-size:11px;box-sizing:border-box"></div>'
-    +'<div><label style="color:#a8a4b0;font-size:10px;display:block;margin-bottom:3px">Bekleme (sn)</label>'
-    +'<input id="ak-del" type="number" value="60" min="10" max="600" style="width:100%;background:#21212e;border:1px solid rgba(201,169,110,.2);border-radius:5px;padding:6px 8px;color:#f0ede8;font-size:11px;box-sizing:border-box"></div></div></div>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
-    +'<button id="ak-go" onclick="window.akBaslat()" style="background:#C9A96E;color:#000;border:none;border-radius:7px;padding:12px;font-size:12px;font-weight:700;cursor:pointer">🚀 Başlat</button>'
-    +'<button onclick="window.akRapor()" style="background:rgba(96,165,250,.1);color:#60a5fa;border:1px solid rgba(96,165,250,.2);border-radius:7px;padding:12px;font-size:11px;font-weight:600;cursor:pointer">📊 Rapor</button></div>'
-    +'<button id="ak-stp" onclick="window._akStop=true" style="display:none;width:100%;background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.3);border-radius:7px;padding:10px;font-size:12px;font-weight:700;cursor:pointer">⏹ Durdur</button>'
-    +'<div id="ak-prg" style="display:none;background:#1a1a24;border-radius:8px;padding:10px">'
-    +'<div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:#a8a4b0;font-size:11px">İlerleme</span><span id="ak-pct" style="color:#C9A96E;font-size:11px;font-weight:700">0/0</span></div>'
-    +'<div style="background:#2a2a3a;border-radius:3px;height:8px;overflow:hidden;margin-bottom:6px"><div id="ak-bar" style="height:100%;background:linear-gradient(90deg,#C9A96E,#f0c88a);width:0%;transition:width .4s;border-radius:3px"></div></div>'
-    +'<div id="ak-cur" style="color:#60a5fa;font-size:10px;min-height:16px"></div></div>'
-    +'<div id="ak-log" style="display:none;background:#0d0d11;border-radius:8px;padding:8px;max-height:200px;overflow-y:auto">'
-    +'<div style="color:#5a566a;font-size:9px;text-transform:uppercase;margin-bottom:4px">Arama Logu</div></div>'
-    +'<div id="ak-rep" style="display:none">'
-    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">'
-    +'<span style="color:#C9A96E;font-size:12px;font-weight:700">📊 Kampanya Raporu</span>'
-    +'<button onclick="window.akCSV()" style="background:rgba(34,197,94,.1);color:#22c55e;border:1px solid rgba(34,197,94,.2);border-radius:5px;padding:4px 12px;font-size:10px;cursor:pointer;font-weight:600">📥 CSV İndir</button></div>'
-    +'<div id="ak-rep-ic"></div></div>'
-    +'</div>';
-  document.body.appendChild(p);
-}
-
-window.akBaslat=async function(){
-  if(window._akRunning){alert('Kampanya zaten çalışıyor!');return;}
-  var st=document.getElementById('ak-st').value.split(',');
-  var lim=parseInt(document.getElementById('ak-lim').value)||10;
-  var del=parseInt(document.getElementById('ak-del').value)||60;
-  document.getElementById('ak-go').style.display='none';
-  document.getElementById('ak-stp').style.display='block';
-  document.getElementById('ak-prg').style.display='block';
-  document.getElementById('ak-rep').style.display='none';
-  window._akStop=false; window._akSon=[]; window._akRunning=true;
-  log('Supabase'den leadler çekiliyor...','#60a5fa');
-  var leads;
-  try{
-    var r=await fetch(SB+'/rest/v1/customers?select=id,full_name,phone,status&status=in.('+st.join(',')+ ')&limit='+lim+'&order=created_at.asc',{headers:{apikey:SK,'Authorization':'Bearer '+SK}});
-    leads=await r.json();
-  }catch(e){log('Hata: '+e.message,'#ef4444');window._akRunning=false;return;}
-  if(!Array.isArray(leads)||!leads.length){
-    log('Uygun lead bulunamadı! ('+st.join(',')+ ')','#ef4444');
-    document.getElementById('ak-go').style.display='block';
-    document.getElementById('ak-stp').style.display='none';
-    window._akRunning=false; return;
+  function log(m,c){
+    var d=document.getElementById('ak-log');
+    if(!d)return; d.style.display='block';
+    var r=document.createElement('div');
+    r.style.cssText='color:'+(c||'#a8a4b0')+';padding:2px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:10px';
+    r.textContent=new Date().toLocaleTimeString('tr')+' '+m;
+    d.appendChild(r); d.scrollTop=d.scrollHeight;
   }
-  log(leads.length+' lead bulundu. Aramalar başlıyor...','#22c55e');
-  var total=leads.length,done=0,ok=0,fail=0;
-  for(var i=0;i<leads.length;i++){
-    if(window._akStop){log('Kampanya durduruldu.','#f97316');break;}
-    var lead=leads[i];
-    var fn=(lead.full_name||'').split(' ')[0]||'Sayın';
-    document.getElementById('ak-cur').textContent=lead.full_name+' - '+lead.phone;
-    log(lead.full_name+' ('+lead.phone+')','#C9A96E');
+
+  function openPanel(){
+    if(document.getElementById('ayse-kp')){
+      document.getElementById('ayse-kp').remove(); return;
+    }
+    var p=document.createElement('div'); p.id='ayse-kp';
+    p.style.cssText='position:fixed;top:46px;right:0;width:360px;height:calc(100vh - 46px);'
+      +'background:#13131a;border-left:2px solid rgba(201,169,110,.3);z-index:9000;'
+      +'font-family:system-ui,sans-serif;font-size:12px;color:#f0ede8;'
+      +'display:flex;flex-direction:column;box-shadow:-4px 0 20px rgba(0,0,0,.5)';
+
+    var h='';
+    // Header
+    h+='<div style="padding:14px 16px;border-bottom:1px solid rgba(201,169,110,.15);'
+      +'display:flex;justify-content:space-between;align-items:center;flex-shrink:0;background:#1a1a24">';
+    h+='<div><div style="font-size:13px;font-weight:700;color:#C9A96E">Ayşe Kampanya Merkezi</div>';
+    h+='<div style="font-size:9px;color:#22c55e;margin-top:2px">SIP: +90 212 822 04 16 Aktif</div></div>';
+    h+='<button onclick="document.getElementById(\"ayse-kp\").remove()\" '
+      +'style="background:none;border:none;color:#5a566a;cursor:pointer;font-size:20px">×</button></div>';
+    // Body
+    h+='<div style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px">';
+    // Ayarlar
+    h+='<div style="background:#1a1a24;border-radius:8px;padding:12px;display:grid;gap:8px">';
+    h+='<div style="color:#5a566a;font-size:9px;letter-spacing:.8px;text-transform:uppercase">Kampanya Ayarları</div>';
+    h+='<label style="color:#a8a4b0;font-size:10px">Hedef Lead Durumu</label>';
+    h+='<select id="ak-st" style="width:100%;background:#21212e;border:1px solid rgba(201,169,110,.2);border-radius:5px;padding:6px 8px;color:#f0ede8;font-size:11px">';
+    h+='<option value="cold,warm">Soğuk + Ilık (Hepsi)</option>';
+    h+='<option value="cold">Sadece Soğuk</option>';
+    h+='<option value="warm">Sadece Ilık</option>';
+    h+='<option value="hot">Sadece Sıcak</option></select>';
+    h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
+    h+='<div><label style="color:#a8a4b0;font-size:10px;display:block;margin-bottom:3px">Kaç Lead?</label>';
+    h+='<input id="ak-lim" type="number" value="10" min="1" max="500" style="width:100%;background:#21212e;border:1px solid rgba(201,169,110,.2);border-radius:5px;padding:6px 8px;color:#f0ede8;font-size:11px;box-sizing:border-box"></div>';
+    h+='<div><label style="color:#a8a4b0;font-size:10px;display:block;margin-bottom:3px">Bekleme (sn)</label>';
+    h+='<input id="ak-del" type="number" value="60" min="10" max="600" style="width:100%;background:#21212e;border:1px solid rgba(201,169,110,.2);border-radius:5px;padding:6px 8px;color:#f0ede8;font-size:11px;box-sizing:border-box"></div></div></div>';
+    // Butonlar
+    h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
+    h+='<button id="ak-go" onclick="window.akBaslat()" style="background:#C9A96E;color:#000;border:none;border-radius:7px;padding:12px;font-size:12px;font-weight:700;cursor:pointer">🚀 Başlat</button>';
+    h+='<button onclick="window.akRapor()" style="background:rgba(96,165,250,.1);color:#60a5fa;border:1px solid rgba(96,165,250,.2);border-radius:7px;padding:12px;font-size:11px;font-weight:600;cursor:pointer">📊 Rapor</button></div>';
+    h+='<button id="ak-stp" onclick="window._akStop=true" style="display:none;width:100%;background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.3);border-radius:7px;padding:10px;font-size:12px;font-weight:700;cursor:pointer">⏹ Durdur</button>';
+    // Progress
+    h+='<div id="ak-prg" style="display:none;background:#1a1a24;border-radius:8px;padding:10px">';
+    h+='<div style="display:flex;justify-content:space-between;margin-bottom:6px">';
+    h+='<span style="color:#a8a4b0;font-size:11px">İlerleme</span>';
+    h+='<span id="ak-pct" style="color:#C9A96E;font-size:11px;font-weight:700">0/0</span></div>';
+    h+='<div style="background:#2a2a3a;border-radius:3px;height:8px;overflow:hidden;margin-bottom:6px">';
+    h+='<div id="ak-bar" style="height:100%;background:linear-gradient(90deg,#C9A96E,#f0c88a);width:0%;transition:width .4s;border-radius:3px"></div></div>';
+    h+='<div id="ak-cur" style="color:#60a5fa;font-size:10px;min-height:16px"></div></div>';
+    // Log
+    h+='<div id="ak-log" style="display:none;background:#0d0d11;border-radius:8px;padding:8px;max-height:200px;overflow-y:auto">';
+    h+='<div style="color:#5a566a;font-size:9px;text-transform:uppercase;margin-bottom:4px">Arama Logu</div></div>';
+    // Rapor
+    h+='<div id="ak-rep" style="display:none">';
+    h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">';
+    h+='<span style="color:#C9A96E;font-size:12px;font-weight:700">📊 Kampanya Raporu</span>';
+    h+='<button onclick="window.akCSV()" style="background:rgba(34,197,94,.1);color:#22c55e;border:1px solid rgba(34,197,94,.2);border-radius:5px;padding:4px 12px;font-size:10px;cursor:pointer;font-weight:600">📥 CSV</button></div>';
+    h+='<div id="ak-rep-ic"></div></div>';
+    h+='</div>';
+
+    p.innerHTML=h;
+    document.body.appendChild(p);
+  }
+
+  window.akBaslat=async function(){
+    if(window._akRunning){alert('Kampanya zaten çalışıyor!');return;}
+    var st=document.getElementById('ak-st').value.split(',');
+    var lim=parseInt(document.getElementById('ak-lim').value)||10;
+    var del=parseInt(document.getElementById('ak-del').value)||60;
+    document.getElementById('ak-go').style.display='none';
+    document.getElementById('ak-stp').style.display='block';
+    document.getElementById('ak-prg').style.display='block';
+    document.getElementById('ak-rep').style.display='none';
+    window._akStop=false; window._akSon=[]; window._akRunning=true;
+    log('Leadler çekiliyor...','#60a5fa');
+    var leads;
     try{
-      var rr=await fetch('https://api.vapi.ai/call/phone',{
-        method:'POST',
-        headers:{'Authorization':'Bearer '+VK,'Content-Type':'application/json'},
-        body:JSON.stringify({
-          assistantId:AID,phoneNumberId:PH,
-          customer:{number:lead.phone,name:lead.full_name},
-          assistantOverrides:{firstMessage:'Merhaba '+fn+', ben Ayşe, Global Eksbina finansal danışmanınız. Bugün altın rekor kırdı, altmış saniyeniz var mı?'}
-        })
-      });
-      var d=await rr.json();
-      if(d.id){
-        ok++; log('  ✅ Arama başladı - '+d.id.substring(0,8),'#22c55e');
-        try{
-          await fetch(SB+'/rest/v1/calls',{method:'POST',headers:SBH,body:JSON.stringify({
-            customer_id:lead.id,agent_name:'Ayse',call_type:'outbound',
-            vapi_call_id:d.id,outcome:'initiated',status:'active',
-            notes:'AI Kampanya - '+new Date().toLocaleString('tr')
-          })});
-          await fetch(SB+'/rest/v1/customers?id=eq.'+lead.id,{method:'PATCH',headers:SBH,
-            body:JSON.stringify({status:'warm',notes:'Ayşe aradı: '+new Date().toLocaleString('tr')})});
-        }catch(e2){}
-        window._akSon.push({isim:lead.full_name,tel:lead.phone,durum:'OK',callId:d.id,zaman:new Date().toLocaleString('tr')});
-      }else{
-        fail++;
-        var hata=(d.message||JSON.stringify(d)).substring(0,80);
-        log('  ❌ Hata: '+hata,'#ef4444');
-        window._akSon.push({isim:lead.full_name,tel:lead.phone,durum:'Hata',hata:hata,zaman:new Date().toLocaleString('tr')});
-      }
-    }catch(e){fail++;log('  ❌ '+e.message,'#ef4444');}
-    done++;
-    document.getElementById('ak-bar').style.width=Math.round(done/total*100)+'%';
-    document.getElementById('ak-pct').textContent=done+'/'+total+' ('+ok+' OK, '+fail+' hata)';
-    if(done<total&&!window._akStop){
-      for(var s=del;s>0;s--){
-        if(window._akStop)break;
-        document.getElementById('ak-cur').textContent='Sonraki arama: '+s+' saniye | '+ok+' başarılı';
-        await new Promise(function(res){setTimeout(res,1000);});
+      // Bugün aranmış customer_id'leri çek
+      var today = new Date().toISOString().split('T')[0];
+      var calledTodayRes = await fetch(SB+'/rest/v1/calls?agent_name=eq.Ayse&select=customer_id&called_at=gte.'+today+'T00:00:00Z',{headers:{apikey:SK,'Authorization':'Bearer '+SK}});
+      var calledToday = await calledTodayRes.json();
+      var excludeIds = calledToday.map(function(c){return c.customer_id;}).filter(Boolean);
+      
+      var url = SB+'/rest/v1/customers?select=id,full_name,phone,status&status=in.('+st.join(',')+ ')&limit='+lim+'&order=created_at.asc';
+      if(excludeIds.length > 0) url += '&id=not.in.('+excludeIds.join(',')+')';
+      var r=await fetch(url,{headers:{apikey:SK,'Authorization':'Bearer '+SK}});
+      leads=await r.json();
+    }catch(e){log('Hata: '+e.message,'#ef4444');window._akRunning=false;return;}
+    if(!Array.isArray(leads)||!leads.length){
+      log('Lead bulunamadı! ('+st.join(',')+ ')','#ef4444');
+      document.getElementById('ak-go').style.display='block';
+      document.getElementById('ak-stp').style.display='none';
+      window._akRunning=false; return;
+    }
+    log(leads.length+' lead bulundu. Aramalar başlıyor...','#22c55e');
+    var total=leads.length,done=0,ok=0,fail=0;
+    for(var i=0;i<leads.length;i++){
+      if(window._akStop){log('Durduruldu.','#f97316');break;}
+      var lead=leads[i];
+      var fn=(lead.full_name||'').split(' ')[0]||'Sayın';
+      document.getElementById('ak-cur').textContent=lead.full_name+' - '+lead.phone;
+      log(lead.full_name+' ('+lead.phone+')','#C9A96E');
+      try{
+        var rr=await fetch('https://api.vapi.ai/call/phone',{
+          method:'POST',
+          headers:{'Authorization':'Bearer '+VK,'Content-Type':'application/json'},
+          body:JSON.stringify({
+            assistantId:AID, phoneNumberId:PH,
+            customer:{number:lead.phone,name:lead.full_name},
+            assistantOverrides:{firstMessage:'Merhaba '+fn+', ben Ayşe, Global Eksbina finansal danışmanınız. Bugün altın rekor kırdı, altmış saniyeniz var mı?'}
+          })
+        });
+        var d=await rr.json();
+        if(d.id){
+          ok++; log('  ✅ '+d.id.substring(0,8),'#22c55e');
+          try{
+            await fetch(SB+'/rest/v1/calls',{method:'POST',headers:SBH,body:JSON.stringify({
+              customer_id:lead.id,agent_name:'Ayse',call_type:'outbound',
+              vapi_call_id:d.id,outcome:'initiated',status:'active',
+              notes:'AI Kampanya - '+new Date().toLocaleString('tr')
+            })});
+            await fetch(SB+'/rest/v1/customers?id=eq.'+lead.id,{method:'PATCH',headers:SBH,
+              body:JSON.stringify({status:'warm',notes:'Ayşe aradı: '+new Date().toLocaleString('tr')})});
+          }catch(e2){}
+          window._akSon.push({isim:lead.full_name,tel:lead.phone,durum:'OK',callId:d.id,zaman:new Date().toLocaleString('tr')});
+        }else{
+          fail++;
+          var hata=(d.message||JSON.stringify(d)).substring(0,80);
+          log('  ❌ '+hata,'#ef4444');
+          window._akSon.push({isim:lead.full_name,tel:lead.phone,durum:'Hata',hata:hata,zaman:new Date().toLocaleString('tr')});
+        }
+      }catch(e){fail++;log('  ❌ '+e.message,'#ef4444');}
+      done++;
+      document.getElementById('ak-bar').style.width=Math.round(done/total*100)+'%';
+      document.getElementById('ak-pct').textContent=done+'/'+total+' ('+ok+' OK, '+fail+' hata)';
+      if(done<total&&!window._akStop){
+        for(var s=del;s>0;s--){
+          if(window._akStop)break;
+          document.getElementById('ak-cur').textContent='Sonraki: '+s+'sn | '+ok+' başarılı';
+          await new Promise(function(res){setTimeout(res,1000);});
+        }
       }
     }
+    window._akRunning=false; window._akStop=false;
+    document.getElementById('ak-go').style.display='block';
+    document.getElementById('ak-stp').style.display='none';
+    document.getElementById('ak-cur').textContent='Tamamlandı! '+ok+'/'+total;
+    log('Kampanya bitti: '+ok+'/'+total+'. 30sn sonra analizler yüklenecek...','#22c55e');
+    setTimeout(function(){window.syncVapiAnalysis(function(){window.akRapor();});},30000);
+  };
+
+  window.akRapor=async function(){
+    var rep=document.getElementById('ak-rep'),ic=document.getElementById('ak-rep-ic');
+    if(!rep||!ic)return; rep.style.display='block';
+    log('Rapor yükleniyor...','#60a5fa');
+    try{
+      var r=await fetch(SB+'/rest/v1/calls?select=*,customers(full_name,phone,status)'
+        +'&agent_name=eq.Ayse&order=created_at.desc&limit=500',
+        {headers:{apikey:SK,'Authorization':'Bearer '+SK}});
+      var calls=await r.json();
+      window._akSon=calls;
+      var t=calls.length;
+      var konustu=calls.filter(function(c){return(c.duration_seconds||0)>5;}).length;
+      var demoOk=calls.filter(function(c){return c.demo_kabul;}).length;
+      var randevu=calls.filter(function(c){return c.randevu_alindi;}).length;
+      var skorlar=calls.filter(function(c){return(c.skor||0)>0;});
+      var avgSkor=skorlar.length>0?(skorlar.reduce(function(a,c){return a+(c.skor||0);},0)/skorlar.length).toFixed(1):'--';
+      ic.innerHTML=
+        '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px">'
+        +'<div style="background:#1a1a24;border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:700;color:#60a5fa">'+t+'</div><div style="font-size:9px;color:#5a566a;margin-top:2px">TOPLAM</div></div>'
+        +'<div style="background:#1a1a24;border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:700;color:#22c55e">'+konustu+'</div><div style="font-size:9px;color:#5a566a;margin-top:2px">KONUŞTU</div></div>'
+        +'<div style="background:#1a1a24;border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:700;color:#ef4444">'+(t-konustu)+'</div><div style="font-size:9px;color:#5a566a;margin-top:2px">CEVAP YOK</div></div>'
+        +'<div style="background:#1a1a24;border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:700;color:#C9A96E">'+avgSkor+'</div><div style="font-size:9px;color:#5a566a;margin-top:2px">ORT SKOR</div></div>'
+        +'<div style="background:#1a1a24;border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:700;color:#a78bfa">'+demoOk+'</div><div style="font-size:9px;color:#5a566a;margin-top:2px">DEMO</div></div>'
+        +'<div style="background:#1a1a24;border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:700;color:#f97316">'+randevu+'</div><div style="font-size:9px;color:#5a566a;margin-top:2px">RANDEVU</div></div>'
+        +'</div>'
+        +'<div style="background:#1a1a24;border-radius:6px;padding:10px;max-height:280px;overflow-y:auto">'
+        +'<div style="color:#5a566a;font-size:9px;text-transform:uppercase;margin-bottom:8px">Arama Detayları</div>'
+        +calls.slice(0,50).map(function(c){
+          var dur=c.duration_seconds?Math.floor(c.duration_seconds/60)+':'+ ('0'+c.duration_seconds%60).slice(-2):'0:00';
+          var skorEl=c.skor?'<b style="color:'+(c.skor>=7?'#22c55e':c.skor>=4?'#C9A96E':'#5a566a')+'"> '+c.skor+'0%</b>':'';
+          var badges='';
+          if(c.demo_kabul)badges+='<span style="font-size:8px;background:rgba(34,197,94,.15);color:#22c55e;padding:1px 5px;border-radius:3px;margin-left:3px">Demo ✓</span>';
+          if(c.randevu_alindi)badges+='<span style="font-size:8px;background:rgba(96,165,250,.15);color:#60a5fa;padding:1px 5px;border-radius:3px;margin-left:3px">Randevu ✓</span>';
+          return '<div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)">'
+            +'<div style="display:flex;justify-content:space-between;align-items:center">'
+            +'<div><span style="color:#f0ede8;font-size:11px">'+(c.customers&&c.customers.full_name||'?')+'</span>'+badges+'</div>'
+            +'<div style="display:flex;gap:6px;align-items:center;flex-shrink:0">'
+            +'<span style="color:#5a566a;font-size:10px">'+dur+'</span>'+skorEl+'</div></div>'
+            +(c.summary?'<div style="color:#a8a4b0;font-size:10px;margin-top:3px">'+c.summary.substring(0,100)+'</div>':'')
+            +(c.itiraz?'<div style="color:#f97316;font-size:9px;margin-top:1px">İtiraz: '+c.itiraz+'</div>':'')
+            +(c.takip_notu?'<div style="color:#C9A96E;font-size:9px;margin-top:1px">Takip: '+c.takip_notu+'</div>':'')
+            +'</div>';
+        }).join('')+'</div>';
+      log('Rapor hazır: '+t+' arama, '+konustu+' konuşma','#22c55e');
+    }catch(e){log('Rapor hatası: '+e.message,'#ef4444');}
+  };
+
+  window.akCSV=function(){
+    var calls=window._akSon||[];
+    var rows=[['İsim','Telefon','Durum','Süre','Sonuç','Skor','İlgi','Demo','Randevu','Özet','İtiraz','Takip Notu','Tarih']];
+    calls.forEach(function(c){
+      var dur=c.duration_seconds?Math.floor(c.duration_seconds/60)+':'+ ('0'+c.duration_seconds%60).slice(-2):'';
+      rows.push([
+        (c.customers&&c.customers.full_name)||c.isim||'',
+        (c.customers&&c.customers.phone)||c.tel||'',
+        (c.customers&&c.customers.status)||'',
+        dur, c.outcome||c.durum||'', c.skor||'', c.ilgi_seviyesi||'',
+        c.demo_kabul?'EVET':'', c.randevu_alindi?'EVET':'',
+        (c.summary||'').replace(/[\n\r,]/g,' '),
+        (c.itiraz||'').replace(/,/g,';'),
+        (c.takip_notu||'').replace(/,/g,';'),
+        c.created_at||c.zaman||''
+      ]);
+    });
+    var csv=rows.map(function(r){
+      return r.map(function(v){return '"'+String(v||'').replace(/"/g,'""')+'"';}).join(',');
+    }).join('\n');
+    var blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='ayse_raporu_'+new Date().toISOString().split('T')[0]+'.csv';
+    a.click();
+  };
+
+  function addBtn(){
+    if(document.getElementById('ak-nav-btn'))return;
+    var tr=document.querySelector('.tright');
+    if(!tr)return;
+    var b=document.createElement('button');
+    b.id='ak-nav-btn'; b.textContent='🤖 Kampanya';
+    b.style.cssText='padding:5px 12px;border-radius:5px;font-size:11px;font-weight:600;'
+      +'cursor:pointer;border:1px solid rgba(201,169,110,.4);background:rgba(201,169,110,.12);'
+      +'color:#C9A96E;white-space:nowrap;margin-right:4px';
+    b.onclick=openPanel;
+    tr.insertBefore(b,tr.firstChild);
   }
-  window._akRunning=false; window._akStop=false;
-  document.getElementById('ak-go').style.display='block';
-  document.getElementById('ak-stp').style.display='none';
-  document.getElementById('ak-cur').textContent='Tamamlandı! '+ok+'/'+total+' başarılı';
-  log('Kampanya tamamlandı: '+ok+'/'+total,'#22c55e');
-  setTimeout(function(){window.akRapor();},500);
-};
-
-window.akRapor=async function(){
-  var rep=document.getElementById('ak-rep'),ic=document.getElementById('ak-rep-ic');
-  if(!rep||!ic)return; rep.style.display='block';
-  log('Rapor yükleniyor...','#60a5fa');
-  try{
-    var r=await fetch(SB+'/rest/v1/calls?select=*,customers(full_name,phone,status)&agent_name=eq.Ayse&order=created_at.desc&limit=500',{headers:{apikey:SK,'Authorization':'Bearer '+SK}});
-    var calls=await r.json();
-    window._akSon=calls;
-    var t=calls.length;
-    var konustu=calls.filter(function(c){return(c.duration_seconds||0)>5;}).length;
-    var demoOk=calls.filter(function(c){return c.demo_kabul;}).length;
-    var randevu=calls.filter(function(c){return c.randevu_alindi;}).length;
-    var cevapYok=t-konustu;
-    var skorlar=calls.filter(function(c){return(c.skor||0)>0;});
-    var avgSkor=skorlar.length>0?(skorlar.reduce(function(a,c){return a+(c.skor||0);},0)/skorlar.length).toFixed(1):'--';
-    ic.innerHTML=
-      '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px">'
-      +'<div style="background:#1a1a24;border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:700;color:#60a5fa">'+t+'</div><div style="font-size:9px;color:#5a566a;margin-top:2px">TOPLAM</div></div>'
-      +'<div style="background:#1a1a24;border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:700;color:#22c55e">'+konustu+'</div><div style="font-size:9px;color:#5a566a;margin-top:2px">KONUŞTU</div></div>'
-      +'<div style="background:#1a1a24;border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:700;color:#ef4444">'+cevapYok+'</div><div style="font-size:9px;color:#5a566a;margin-top:2px">CEVAP YOK</div></div>'
-      +'<div style="background:#1a1a24;border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:700;color:#C9A96E">'+avgSkor+'</div><div style="font-size:9px;color:#5a566a;margin-top:2px">ORT SKOR</div></div>'
-      +'<div style="background:#1a1a24;border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:700;color:#a78bfa">'+demoOk+'</div><div style="font-size:9px;color:#5a566a;margin-top:2px">DEMO</div></div>'
-      +'<div style="background:#1a1a24;border-radius:6px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:700;color:#f97316">'+randevu+'</div><div style="font-size:9px;color:#5a566a;margin-top:2px">RANDEVU</div></div>'
-      +'</div>'
-      +'<div style="background:#1a1a24;border-radius:6px;padding:10px;max-height:280px;overflow-y:auto">'
-      +'<div style="color:#5a566a;font-size:9px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Arama Detayları</div>'
-      +calls.slice(0,50).map(function(c){
-        var dur=c.duration_seconds?Math.floor(c.duration_seconds/60)+':'+ ('0'+c.duration_seconds%60).slice(-2):'0:00';
-        var skorEl=c.skor?'<b style="color:'+(c.skor>=7?'#22c55e':c.skor>=4?'#C9A96E':'#5a566a')+'"> '+c.skor+'/10</b>':'';
-        var badges='';
-        if(c.demo_kabul)badges+='<span style="font-size:8px;background:rgba(34,197,94,.15);color:#22c55e;padding:1px 5px;border-radius:3px;margin-left:3px">Demo ✓</span>';
-        if(c.randevu_alindi)badges+='<span style="font-size:8px;background:rgba(96,165,250,.15);color:#60a5fa;padding:1px 5px;border-radius:3px;margin-left:3px">Randevu ✓</span>';
-        return '<div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)">'
-          +'<div style="display:flex;justify-content:space-between;align-items:start">'
-          +'<div><span style="color:#f0ede8;font-size:11px">'+(c.customers&&c.customers.full_name||'?')+'</span>'+badges+'</div>'
-          +'<div style="display:flex;gap:6px;align-items:center;flex-shrink:0"><span style="color:#5a566a;font-size:10px">'+dur+'</span>'+skorEl+'</div></div>'
-          +(c.summary?'<div style="color:#a8a4b0;font-size:10px;margin-top:3px">'+c.summary.substring(0,100)+'</div>':'')
-          +(c.itiraz?'<div style="color:#f97316;font-size:9px;margin-top:1px">İtiraz: '+c.itiraz+'</div>':'')
-          +(c.takip_notu?'<div style="color:#C9A96E;font-size:9px;margin-top:1px">Takip: '+c.takip_notu+'</div>':'')
-          +'</div>';
-      }).join('')+'</div>';
-    log('Rapor hazır: '+t+' arama, '+konustu+' konuşma','#22c55e');
-  }catch(e){log('Rapor hatası: '+e.message,'#ef4444');}
-};
-
-window.akCSV=function(){
-  var calls=window._akSon||[];
-  var rows=[['İsim','Telefon','Durum','Süre','Sonuç','Skor','İlgi','Demo','Randevu','Özet','İtiraz','Takip Notu','Tarih']];
-  calls.forEach(function(c){
-    var dur=c.duration_seconds?Math.floor(c.duration_seconds/60)+':'+ ('0'+c.duration_seconds%60).slice(-2):'';
-    rows.push([(c.customers&&c.customers.full_name)||c.isim||'',(c.customers&&c.customers.phone)||c.tel||'',
-      (c.customers&&c.customers.status)||'',dur,c.outcome||c.durum||'',c.skor||'',c.ilgi_seviyesi||'',
-      c.demo_kabul?'EVET':'',c.randevu_alindi?'EVET':'',(c.summary||'').replace(/[
-,]/g,' '),
-      (c.itiraz||'').replace(/,/g,';'),(c.takip_notu||'').replace(/,/g,';'),c.created_at||c.zaman||'']);
-  });
-  var csv='﻿'+rows.map(function(r){return r.map(function(v){return '"'+String(v||'').replace(/"/g,'""')+'"';}).join(',');}).join('
-');
-  var blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
-  var a=document.createElement('a');a.href=URL.createObjectURL(blob);
-  a.download='ayse_raporu_'+new Date().toISOString().split('T')[0]+'.csv';a.click();
-};
-
-function addBtn(){
-  if(document.getElementById('ak-nav-btn'))return;
-  var tr=document.querySelector('.tright');
-  if(!tr)return;
-  var b=document.createElement('button');
-  b.id='ak-nav-btn'; b.textContent='🤖 Kampanya';
-  b.style.cssText='padding:5px 12px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(201,169,110,.4);background:rgba(201,169,110,.12);color:#C9A96E;white-space:nowrap;margin-right:4px';
-  b.onclick=openPanel;
-  tr.insertBefore(b,tr.firstChild);
-}
-[200,500,1000,2000,3000].forEach(function(t){setTimeout(addBtn,t);});
-new MutationObserver(function(){addBtn();}).observe(document.body,{childList:true,subtree:true});
+  [200,500,1000,2000,3000].forEach(function(t){setTimeout(addBtn,t);});
+  new MutationObserver(function(){addBtn();}).observe(document.body,{childList:true,subtree:true});
 })();
 </script>
 </body>
