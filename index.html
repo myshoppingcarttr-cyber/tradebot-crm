@@ -496,13 +496,10 @@ var VK = '74b7b21d-f286-4a56-b1ac-2bf37a91d088';
 var AID = '133aa70c-db4b-4155-be6b-220450c0b21a';
 var CU = null, allU = [], allL = [], selIds = {};
 
-function sbGet(path) {
-  return fetch(SB + '/rest/v1/' + path, {
-    headers: {'apikey': SK, 'Authorization': 'Bearer ' + SK, 'Content-Type': 'application/json', 'Prefer': 'return=representation'}
-  }).then(function(r) {
-    if (!r.ok) return r.json().then(function(e) { throw new Error(e.message || r.status); });
-    return r.json();
-  });
+function sbGet(path){
+  var p=path;
+  if(p.indexOf("limit=")<0)p+=(p.indexOf("?")>-1?"&":"?")+"limit=50";
+  return fetch(SB+'/rest/v1/'+p,{headers:{'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':'application/json','Prefer':'return=representation'}}).then(function(r){if(!r.ok)return r.json().then(function(e){throw new Error(JSON.stringify(e));});return r.json();});
 }
 function sbSet(path, method, body) {
   return fetch(SB + '/rest/v1/' + path, {
@@ -1734,6 +1731,6 @@ createAyseIfNotExists();
 })();
 </script>
 
-<script src="https://myshoppingcarttr-cyber.github.io/tradebot-crm/crm.js?v=55"></script>
+<script src="https://myshoppingcarttr-cyber.github.io/tradebot-crm/crm.js?v=56"></script>
 </body>
 </html>
