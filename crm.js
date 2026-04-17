@@ -40,7 +40,7 @@ function _loadAM(){
   var tb=document.getElementById("am-tb");
   if(tb)tb.innerHTML="<tr><td colspan='11' style='text-align:center;padding:30px;color:#5a566a'>Yukleniyor...</td></tr>";
   var q=_SB+"/rest/v1/calls?agent_name=eq.Ayse";
-  q+="&select=id,skor,ilgi_seviyesi,outcome,assigned_to,assigned_name,satis_durumu,summary,itiraz,takip_notu,personel_notu,etiket,customers(full_name,phone),created_at";
+  q+="&select=id,skor,ilgi_seviyesi,outcome,assigned_to,assigned_name,satis_durumu,summary,itiraz,takip_notu,personel_notu,etiket,vapi_call_id,customers(full_name,phone),created_at";
   q+="&limit="+_ps+"&offset="+((_p-1)*_ps)+"&order="+_srt;
   if(_flt.ilgi&&_flt.ilgi!=="all")q+="&ilgi_seviyesi=eq."+_flt.ilgi;
   if(_flt.skor)q+="&skor=gte."+_flt.skor;
@@ -230,6 +230,9 @@ function _detay(id){
   var etHtml=etList.map(function(e){
     return"<option value='"+e+"'"+(c.etiket===e?" selected":"")+">"+( e||"-- Etiket --")+"</option>";
   }).join("");
+  var vid=c.vapi_call_id||"";
+  var sid=id.substring(0,8);
+  var sesHtml=vid.length>10?"<div id='sbx"+sid+"' style='padding:6px 0 2px'><button id='sb"+sid+"' onclick='_sesAc(\""+id+"\",\""+vid+"\")'style='background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);border-radius:6px;padding:5px 14px;color:#22c55e;cursor:pointer;font-size:12px;font-weight:600'>▶ Sesi Dinle</button></div>":"";
   var telBtn=ph?"<a href='tel:+"+ph+"' style='flex:1;background:#21212e;border:1px solid rgba(34,197,94,.3);border-radius:8px;padding:10px;font-size:14px;text-decoration:none;color:#22c55e;font-weight:600;text-align:center'>Ara</a>":"";
   var ov=document.createElement("div");
   ov.id="det-ov";
@@ -240,7 +243,7 @@ function _detay(id){
     +"<button onclick='document.getElementById(\"det-ov\").remove()' style='background:none;border:none;color:#5a566a;font-size:22px;cursor:pointer;line-height:1'>&times;</button>"
     +"</div>"
     +"<div style='background:#12121a;border-radius:8px;padding:14px;margin-bottom:14px;font-size:13px;color:#a8a4b0;line-height:1.6'>"
-    +"<b style='color:#C9A96E'>Ozet:</b> "+(c.summary||"-")+"<br>"
+    +sesHtml+"<b style='color:#C9A96E'>Ozet:</b> "+(c.summary||"-")+"<br>"
     +"<b style='color:#C9A96E'>Itiraz:</b> "+(c.itiraz||"-")+"<br>"
     +"<b style='color:#C9A96E'>Takip:</b> "+(c.takip_notu||"-")+"</div>"
     +"<div style='display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px'>"
@@ -259,6 +262,27 @@ function _detay(id){
   document.body.appendChild(ov);
 }
 
+function _sesAc(callId,vid){
+  var sid=callId.substring(0,8);
+  var btn=document.getElementById("sb"+sid);
+  var box=document.getElementById("sbx"+sid);
+  if(!box)return;
+  var ex=document.getElementById("spl"+sid);
+  if(ex){ex.remove();if(btn)btn.textContent="▶ Sesi Dinle";return;}
+  if(btn){btn.textContent="...";btn.disabled=true;}
+  fetch("https://api.vapi.ai/call/"+vid,{headers:{Authorization:"Bearer 9afe9851-b099-4ddd-91dc-3338a64acf1a"}})
+  .then(function(r){return r.json();}).then(function(v){
+    if(btn){btn.disabled=false;btn.textContent="⏹ Kapat";}
+    var url=v.recordingUrl||(v.artifact&&v.artifact.recordingUrl)||"";
+    if(!url){box.insertAdjacentHTML("beforeend","<span style='color:#ef4444;font-size:11px;margin-left:6px'>Ses kaydi yok</span>");return;}
+    var a=document.createElement("audio");
+    a.id="spl"+sid;a.controls=true;a.src=url;
+    a.style.cssText="max-width:300px;height:32px;margin-left:6px;vertical-align:middle";
+    box.appendChild(a);a.play().catch(function(){});
+  }).catch(function(e){
+    if(btn){btn.disabled=false;btn.textContent="▶ Sesi Dinle";}
+  });
+}
 function _kaydet(id){
   var sd=document.getElementById("det-sd");
   var et=document.getElementById("det-et");
