@@ -387,7 +387,7 @@ function _loadST(){
 }
 
 function _crmInit(){
-  if(document.getElementById("am-btn")return;
+  if(document.getElementById("am-btn"))return;
   var nav=document.querySelector(".nav-links")||document.querySelector("nav ul")||document.querySelector(".sidebar");
   if(!nav){
     var btns=document.querySelectorAll("button");
