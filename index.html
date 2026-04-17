@@ -1117,7 +1117,35 @@ function playRec(vapiId) {
     var url = d.recordingUrl || d.stereoRecordingUrl || (d.artifact && d.artifact.recordingUrl);
     if(!url){notify('Ses kaydı yok','err');return;}
     var w=window.open('','_blank');
-    w.document.write('<html><body style="background:#0d0d11;display:flex;align-items:center;justify-content:center;height:100vh;margin:0"><div style="text-align:center"><p style="color:#C9A96E;font-family:system-ui;margin-bottom:16px">🎙️ '+( d.customer&&d.customer.number||vapiId.substring(0,12))+'</p><audio controls autoplay src="'+url+'" style="width:320px"></audio><br><a href="'+url+'" download style="color:#60a5fa;font-size:12px;margin-top:12px;display:block;font-family:system-ui">📥 İndir</a></div></body></html>');
+    w.document.write('<html><body style="background:#0d0d11;display:flex;align-items:center;justify-content:center;height:100vh;margin:0"><div style="text-align:center"><p style="color:#C9A96E;font-family:system-ui;margin-bottom:16px">🎙️ '+( d.customer&&d.customer.number||vapiId.substring(0,12))+'</p><audio controls autoplay src="'+url+'" style="width:320px"></audio><br><a href="'+url+'" download style="color:#60a5fa;font-size:12px;margin-top:12px;display:block;font-family:system-ui">📥 İndir</a></div>
+<script id="no-teams-patch">
+(function(){
+  // Tablo render olduktan sonra Teams butonlarını kaldır
+  function fixBtns(){
+    document.querySelectorAll('#am-tb tr').forEach(function(row){
+      var cell=row.querySelector('td:nth-child(10)');
+      if(!cell)return;
+      // Teams butonunu kaldır (🎯 icon)
+      cell.querySelectorAll('a[href*="msteams"]').forEach(function(a){a.remove();});
+    });
+  }
+  new MutationObserver(function(){fixBtns();}).observe(document.body,{childList:true,subtree:true});
+  setInterval(fixBtns,500);
+
+  // Detay paneli — Teams butonunu kaldır
+  var origDetail=window._amDetail;
+  if(origDetail){
+    window._amDetail=async function(cid,cn,el){
+      await origDetail(cid,cn,el);
+      setTimeout(function(){
+        var dp=document.getElementById('am-dpb');
+        if(dp) dp.querySelectorAll('a[href*="msteams"]').forEach(function(a){a.remove();});
+      },300);
+    };
+  }
+})();
+</script>
+</body></html>');
   }).catch(function(){notify('Ses kaydı yüklenemedi','err');});
 }
 
