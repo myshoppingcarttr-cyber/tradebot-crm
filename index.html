@@ -656,7 +656,7 @@ function loadTicker() {
 // DASHBOARD
 function loadDash() {
   var f = CU.role === 'agent' ? '&assigned_to=eq.' + CU.id : '';
-  sbGet('customers?select=status' + f).then(function(ls) {
+  sbGet('customers?select=id,status' + f).then(function(ls) {
     var h = 0, a = 0, s = 0;
     for (var i = 0; i < ls.length; i++) {
       if (ls[i].status === 'hot') h++;
@@ -1729,6 +1729,6 @@ createAyseIfNotExists();
 })();
 </script>
 
-<script src="https://myshoppingcarttr-cyber.github.io/tradebot-crm/crm.js?v=58"></script>
+<script src="https://myshoppingcarttr-cyber.github.io/tradebot-crm/crm.js?v=59"></script>
 </body>
 </html>
