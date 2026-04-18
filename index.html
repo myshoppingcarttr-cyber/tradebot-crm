@@ -732,7 +732,7 @@ function renderL(ls) {
   var tb = document.getElementById('ltb');
   if (!ls.length) { tb.innerHTML = '<tr><td colspan="10" class="empty">Lead bulunamadi</td></tr>'; return; }
   var h = '';
-  for (var i = 0; i < ls.length; i++) {
+  for (var i = 0; i < Math.min(ls.length,50); i++) {
     var l = ls[i];
     var iS = selIds[l.id] ? true : false;
     var sc = l.score || 0;
@@ -1729,6 +1729,6 @@ createAyseIfNotExists();
 })();
 </script>
 
-<script src="https://myshoppingcarttr-cyber.github.io/tradebot-crm/crm.js?v=59"></script>
+<script src="https://myshoppingcarttr-cyber.github.io/tradebot-crm/crm.js?v=60"></script>
 </body>
 </html>
