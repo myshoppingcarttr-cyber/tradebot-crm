@@ -270,7 +270,7 @@ function _sesAc(callId,vid){
   var ex=document.getElementById("spl"+sid);
   if(ex){ex.remove();if(btn)btn.textContent="▶ Sesi Dinle";return;}
   if(btn){btn.textContent="...";btn.disabled=true;}
-  fetch("https://api.vapi.ai/call/"+vid,{headers:{Authorization:"Bearer 9afe9851-b099-4ddd-91dc-3338a64acf1a"}})
+  fetch("https://api.vapi.ai/call/"+vid,{headers:{Authorization:"Bearer 74b7b21d-f286-4a56-b1ac-2bf37a91d088"}})
   .then(function(r){return r.json();}).then(function(v){
     if(btn){btn.disabled=false;btn.textContent="⏹ Kapat";}
     var url=v.recordingUrl||(v.artifact&&v.artifact.recordingUrl)||"";
