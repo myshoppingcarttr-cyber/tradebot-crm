@@ -436,6 +436,9 @@ function _crmInit(){
   main.insertBefore(bar,main.firstChild);
   var _origLP2=window.loadPage;
   window.loadPage=function(pg){
+    // AM/ST icerigi temizle
+    var _main=document.querySelector(".main");if(_main)_main.innerHTML="";
+    // pg- sayfalarini geri goster
     document.querySelectorAll('[id^="pg-"]').forEach(function(p){p.style.display="";});
     if(_origLP2)_origLP2(pg);
   };
