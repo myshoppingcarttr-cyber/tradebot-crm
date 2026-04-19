@@ -40,7 +40,7 @@ function _loadAM(){
   var tb=document.getElementById("am-tb");
   if(tb)tb.innerHTML="<tr><td colspan='11' style='text-align:center;padding:30px;color:#5a566a'>Yukleniyor...</td></tr>";
   var q=_SB+"/rest/v1/calls?agent_name=eq.Ayse";
-  q+="&select=id,skor,ilgi_seviyesi,outcome,assigned_to,assigned_name,satis_durumu,summary,itiraz,takip_notu,personel_notu,etiket,vapi_call_id,customers(full_name,phone),created_at";
+  q+="&select=id,skor,ilgi_seviyesi,outcome,assigned_to,assigned_name,satis_durumu,summary,itiraz,takip_notu,personel_notu,etiket,vapi_call_id,duration_seconds,customers(full_name,phone),created_at";
   q+="&limit="+_ps+"&offset="+((_p-1)*_ps)+"&order="+_srt;
   if(_flt.ilgi&&_flt.ilgi!=="all")q+="&ilgi_seviyesi=eq."+_flt.ilgi;
   if(_flt.skor)q+="&skor=gte."+_flt.skor;
@@ -304,6 +304,8 @@ function _kaydet(id){
 }
 
 function showAramaMerkezi(){
+  document.querySelectorAll('[id^="pg-"]').forEach(function(p){p.style.display="none";});
+
   var main=document.querySelector(".main")||document.getElementById("main-content");
   if(!main)return;
   _p=1;_sel.clear();_flt={};
@@ -353,6 +355,8 @@ function showAramaMerkezi(){
 }
 
 function showSatisTakip(){
+  document.querySelectorAll('[id^="pg-"]').forEach(function(p){p.style.display="none";});
+
   var main=document.querySelector(".main")||document.getElementById("main-content");
   if(!main)return;
   var perOpts=_PER.map(function(p){
@@ -430,6 +434,11 @@ function _crmInit(){
   bar.appendChild(b1);
   bar.appendChild(b2);
   main.insertBefore(bar,main.firstChild);
+  var _origLP2=window.loadPage;
+  window.loadPage=function(pg){
+    document.querySelectorAll('[id^="pg-"]').forEach(function(p){p.style.display="";});
+    if(_origLP2)_origLP2(pg);
+  };
 }
 
 if(document.readyState==="loading"){
