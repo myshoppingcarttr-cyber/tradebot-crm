@@ -308,10 +308,7 @@ function showAramaMerkezi(){
   var main=document.querySelector(".main")||document.getElementById("main-content");
   if(!main)return;
   _p=1;_sel.clear();_flt={};
-  document.querySelectorAll('[id^="pg-"]').forEach(function(p){p.style.display="none";});
-  var _oldAM=document.querySelector('[data-am-view]');if(_oldAM)_oldAM.remove();
-  var _amV=document.createElement("div");_amV.setAttribute("data-am-view","1");main.appendChild(_amV);
-  _amV.innerHTML="<div style='padding:20px'>"
+  main.innerHTML="<div style='padding:20px'>"
     +"<div style='display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:20px'>"
     +"<h2 style='color:#C9A96E;margin:0;font-size:18px'>Arama Merkezi</h2>"
     +"<div style='display:flex;flex-wrap:wrap;gap:8px'>"
@@ -364,10 +361,7 @@ function showSatisTakip(){
   var perOpts=_PER.map(function(p){
     return"<option value='"+p.id+"'>"+p.ad+"</option>";
   }).join("");
-  document.querySelectorAll('[id^="pg-"]').forEach(function(p){p.style.display="none";});
-  var _oldST=document.querySelector('[data-am-view]');if(_oldST)_oldST.remove();
-  var _stV=document.createElement("div");_stV.setAttribute("data-am-view","1");main.appendChild(_stV);
-  _stV.innerHTML="<div style='padding:20px'>"
+  main.innerHTML="<div style='padding:20px'>"
     +"<div style='display:flex;justify-content:space-between;align-items:center;margin-bottom:20px'>"
     +"<h2 style='color:#C9A96E;margin:0;font-size:18px'>Satis Takip</h2>"
     +"<select id='st-per' onchange='_loadST()' style='background:#21212e;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:8px 12px;color:#a8a4b0;font-size:13px'>"
@@ -441,8 +435,12 @@ function _crmInit(){
   main.insertBefore(bar,main.firstChild);
   var _origLP2=window.loadPage;
   window.loadPage=function(pg){
+    // AM/ST özel div'leri sil
+    var _av=document.querySelector('[data-am-view]');if(_av)_av.remove();
+    // pg-* inline style temizle
+    document.querySelectorAll('[id^="pg-"]').forEach(function(p){p.style.display='';});
+    // Orijinal loadPage
     if(_origLP2)_origLP2(pg);
-    var _m=document.querySelector(".main");if(_m)_m.innerHTML="";
   };
 }
 
