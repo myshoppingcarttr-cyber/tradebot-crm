@@ -309,7 +309,7 @@ function showAramaMerkezi(){
   if(!main)return;
   _p=1;_sel.clear();_flt={};
   document.querySelectorAll('[id^="pg-"]').forEach(function(p){p.style.display="none";});
-  var _oldV=document.querySelector('[data-am-view]');if(_oldV)_oldV.remove();
+  var _ov=document.querySelector('[data-am-view]');if(_ov)_ov.remove();
   var _v=document.createElement("div");_v.setAttribute("data-am-view","1");main.appendChild(_v);
   _v.innerHTML="<div style='padding:20px'>"
     +"<div style='display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:20px'>"
@@ -365,7 +365,7 @@ function showSatisTakip(){
     return"<option value='"+p.id+"'>"+p.ad+"</option>";
   }).join("");
   document.querySelectorAll('[id^="pg-"]').forEach(function(p){p.style.display="none";});
-  var _oldV2=document.querySelector('[data-am-view]');if(_oldV2)_oldV2.remove();
+  var _ov2=document.querySelector('[data-am-view]');if(_ov2)_ov2.remove();
   var _v2=document.createElement("div");_v2.setAttribute("data-am-view","1");main.appendChild(_v2);
   _v2.innerHTML="<div style='padding:20px'>"
     +"<div style='display:flex;justify-content:space-between;align-items:center;margin-bottom:20px'>"
