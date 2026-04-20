@@ -304,7 +304,6 @@ function _kaydet(id){
 }
 
 function showAramaMerkezi(){
-  document.querySelectorAll('[id^="pg-"]').forEach(function(p){p.style.display="none";});
 
   var main=document.querySelector(".main")||document.getElementById("main-content");
   if(!main)return;
@@ -436,9 +435,8 @@ function _crmInit(){
   main.insertBefore(bar,main.firstChild);
   var _origLP2=window.loadPage;
   window.loadPage=function(pg){
-    document.querySelectorAll('[id^="pg-"]').forEach(function(p){p.style.display="";});
     if(_origLP2)_origLP2(pg);
-    setTimeout(function(){var _m=document.querySelector(".main");if(_m&&_m.querySelector("table,h2.am-title"))_m.innerHTML="";},150);
+    var _m=document.querySelector(".main");if(_m)_m.innerHTML="";
   };
 }
 
