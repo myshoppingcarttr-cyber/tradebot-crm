@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Toplu Arama Paneli — Global Eksbina</title>
+<title>Toplu Arama Paneli â Global Eksbina</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#0a0a0f 0%,#181418 100%);color:#DCE1E5;min-height:100vh;padding:20px}
@@ -52,34 +52,40 @@ button.danger{background:linear-gradient(135deg,#F46A76,#D15560);color:#fff}
 <body>
 <div class="c">
   <div class="hdr">
-    <h1>GLOBAL EKSBİNA</h1>
-    <div class="sub">TOPLU ARAMA PANELİ — AYŞE AI</div>
+    <h1>GLOBAL EKSBÄ°NA</h1>
+    <div class="sub">TOPLU ARAMA PANELÄ° â AYÅE AI</div>
   </div>
   
+  <div style="display:flex;gap:10px;justify-content:center;margin:15px 0;flex-wrap:wrap">
+    <a href="bulk-call.html" style="padding:10px 20px;background:#C9A96E;color:#181418;text-decoration:none;border-radius:6px;font-weight:600;font-size:13px">📞 Toplu Arama</a>
+    <a href="calls-log.html" style="padding:10px 20px;background:rgba(86,172,237,0.2);color:#56ACED;text-decoration:none;border-radius:6px;font-weight:600;font-size:13px;border:1px solid #56ACED">🎙️ Arama Geçmişi</a>
+    <a href="ayse-test.html" style="padding:10px 20px;background:rgba(123,110,168,0.2);color:#7B6EA8;text-decoration:none;border-radius:6px;font-weight:600;font-size:13px;border:1px solid #7B6EA8">🧪 Web Test</a>
+    <a href="?v=70" style="padding:10px 20px;background:rgba(140,152,158,0.2);color:#8C989E;text-decoration:none;border-radius:6px;font-weight:600;font-size:13px;border:1px solid #8C989E">🏠 CRM</a>
+  </div>
   <div class="stats" id="stats">
-    <div class="stat"><div class="n" id="s_cold">—</div><div class="l">Cold Leads</div></div>
-    <div class="stat"><div class="n" id="s_hot">—</div><div class="l">Hot Leads</div></div>
-    <div class="stat"><div class="n" id="s_ilg">—</div><div class="l">İlgilenmedi</div></div>
-    <div class="stat"><div class="n" id="s_total">—</div><div class="l">Toplam Müşteri</div></div>
+    <div class="stat"><div class="n" id="s_cold">â</div><div class="l">Cold Leads</div></div>
+    <div class="stat"><div class="n" id="s_hot">â</div><div class="l">Hot Leads</div></div>
+    <div class="stat"><div class="n" id="s_ilg">â</div><div class="l">Ä°lgilenmedi</div></div>
+    <div class="stat"><div class="n" id="s_total">â</div><div class="l">Toplam MÃ¼Återi</div></div>
   </div>
   
   <div class="grid">
     <div class="panel">
-      <h2>🎯 Filtre ve Başlat</h2>
+      <h2>ð¯ Filtre ve BaÅlat</h2>
       
-      <label>Müşteri Statüsü</label>
+      <label>MÃ¼Återi StatÃ¼sÃ¼</label>
       <select id="status">
-        <option value="cold">Cold (Hiç aranmamış)</option>
-        <option value="ilgilenmedi">İlgilenmedi (2. tur)</option>
+        <option value="cold">Cold (HiÃ§ aranmamÄ±Å)</option>
+        <option value="ilgilenmedi">Ä°lgilenmedi (2. tur)</option>
         <option value="warm">Warm</option>
         <option value="hot">Hot</option>
-        <option value="">Tümü (filtre yok)</option>
+        <option value="">TÃ¼mÃ¼ (filtre yok)</option>
       </select>
       
       <label>Adet</label>
       <select id="limit">
         <option value="1">1 (tek test)</option>
-        <option value="3">3 (kısa test)</option>
+        <option value="3">3 (kÄ±sa test)</option>
         <option value="5" selected>5 (test turu)</option>
         <option value="10">10</option>
         <option value="25">25</option>
@@ -87,31 +93,31 @@ button.danger{background:linear-gradient(135deg,#F46A76,#D15560);color:#fff}
         <option value="100">100 (tam kampanya)</option>
       </select>
       
-      <label>Eş Zamanlı Arama</label>
+      <label>EÅ ZamanlÄ± Arama</label>
       <select id="concurrent">
-        <option value="1" selected>1 (seri, en güvenli)</option>
-        <option value="2">2 (hızlı)</option>
-        <option value="3">3 (daha hızlı)</option>
+        <option value="1" selected>1 (seri, en gÃ¼venli)</option>
+        <option value="2">2 (hÄ±zlÄ±)</option>
+        <option value="3">3 (daha hÄ±zlÄ±)</option>
       </select>
       
-      <button id="preview">👁 ÖNİZLE (Aramaz)</button>
-      <button id="start">📞 TOPLU ARAMAYI BAŞLAT</button>
+      <button id="preview">ð ÃNÄ°ZLE (Aramaz)</button>
+      <button id="start">ð TOPLU ARAMAYI BAÅLAT</button>
       
       <div class="warn">
-        <b>⚠️ Dikkat:</b> Başlatınca durdurulamaz. Her arama VAPI'de ~$0.10. 100 arama = ~$10-15. Ayşe v3 prompt kullanır, Eksibina telaffuzu düzeltilmiş.
+        <b>â ï¸ Dikkat:</b> BaÅlatÄ±nca durdurulamaz. Her arama VAPI'de ~$0.10. 100 arama = ~$10-15. AyÅe v3 prompt kullanÄ±r, Eksibina telaffuzu dÃ¼zeltilmiÅ.
       </div>
     </div>
     
     <div class="panel">
-      <h2>👤 Tek Müşteri Arama</h2>
-      <label>Telefon Numarası (test için)</label>
+      <h2>ð¤ Tek MÃ¼Återi Arama</h2>
+      <label>Telefon NumarasÄ± (test iÃ§in)</label>
       <input id="single_phone" placeholder="+905321234567 veya 5321234567" />
-      <label>İsim (opsiyonel)</label>
-      <input id="single_name" placeholder="Ahmet Yılmaz" />
-      <button class="single" id="single_btn">📞 BU NUMARAYI ARA</button>
+      <label>Ä°sim (opsiyonel)</label>
+      <input id="single_name" placeholder="Ahmet YÄ±lmaz" />
+      <button class="single" id="single_btn">ð BU NUMARAYI ARA</button>
       
-      <h2 style="margin-top:30px">📋 Önizleme ve Durum</h2>
-      <div class="status info" id="status_line">Hazır. Önizle ya da başlat.</div>
+      <h2 style="margin-top:30px">ð Ãnizleme ve Durum</h2>
+      <div class="status info" id="status_line">HazÄ±r. Ãnizle ya da baÅlat.</div>
       <div class="preview" id="preview_list"></div>
       <div class="log" id="log"></div>
     </div>
@@ -127,7 +133,7 @@ const $=id=>document.getElementById(id);
 function log(msg,cls=''){
   const d=document.createElement('div');
   d.className='e '+cls;
-  d.textContent=new Date().toLocaleTimeString('tr')+' — '+msg;
+  d.textContent=new Date().toLocaleTimeString('tr')+' â '+msg;
   $('log').appendChild(d);
   $('log').scrollTop=$('log').scrollHeight;
 }
@@ -153,7 +159,7 @@ async function loadStats(){
 $('preview').onclick=async()=>{
   const status=$('status').value;
   const limit=$('limit').value;
-  log('Önizleme: status='+(status||'tümü')+' limit='+limit,'info');
+  log('Ãnizleme: status='+(status||'tÃ¼mÃ¼')+' limit='+limit,'info');
   try{
     let q='/rest/v1/customers?select=id,full_name,phone,status&limit='+limit+'&order=created_at.desc';
     if(status)q+='&status=eq.'+status;
@@ -162,12 +168,12 @@ $('preview').onclick=async()=>{
     const pl=$('preview_list');pl.innerHTML='';
     list.forEach(c=>{
       const row=document.createElement('div');row.className='row';
-      row.innerHTML='<span class="name">'+(c.full_name||'—')+'</span><span class="phone">'+(c.phone||'—')+'</span><span class="sta '+(c.status||'')+'">'+(c.status||'')+'</span>';
+      row.innerHTML='<span class="name">'+(c.full_name||'â')+'</span><span class="phone">'+(c.phone||'â')+'</span><span class="sta '+(c.status||'')+'">'+(c.status||'')+'</span>';
       pl.appendChild(row);
     });
-    setStatus('✓ '+list.length+' müşteri önizleniyor. Aramak için "BAŞLAT"ı kullan.','ok');
-    log('Önizleme tamam: '+list.length+' satır','ok');
-  }catch(e){setStatus('Önizleme hatası: '+e.message,'err');log('ERR: '+e.message,'err');}
+    setStatus('â '+list.length+' mÃ¼Återi Ã¶nizleniyor. Aramak iÃ§in "BAÅLAT"Ä± kullan.','ok');
+    log('Ãnizleme tamam: '+list.length+' satÄ±r','ok');
+  }catch(e){setStatus('Ãnizleme hatasÄ±: '+e.message,'err');log('ERR: '+e.message,'err');}
 };
 
 $('start').onclick=async()=>{
@@ -175,10 +181,10 @@ $('start').onclick=async()=>{
   const limit=parseInt($('limit').value);
   const concurrent=parseInt($('concurrent').value);
   
-  if(!confirm('⚠️ '+limit+' müşteriye ARAMA başlatılacak!\n\nFiltre: status='+(status||'tümü')+'\nEş zamanlı: '+concurrent+'\n\nDevam?'))return;
+  if(!confirm('â ï¸ '+limit+' mÃ¼Återiye ARAMA baÅlatÄ±lacak!\n\nFiltre: status='+(status||'tÃ¼mÃ¼')+'\nEÅ zamanlÄ±: '+concurrent+'\n\nDevam?'))return;
   
   $('start').disabled=true;
-  setStatus('📞 Toplu arama başlatılıyor...','info');
+  setStatus('ð Toplu arama baÅlatÄ±lÄ±yor...','info');
   log('Bulk-call request: '+limit+' numara','info');
   
   try{
@@ -193,9 +199,9 @@ $('start').onclick=async()=>{
       })
     });
     const d=await r.json();
-    setStatus('✅ Toplu arama kuyruğa alındı! '+limit+' kişi aranacak.','ok');
+    setStatus('â Toplu arama kuyruÄa alÄ±ndÄ±! '+limit+' kiÅi aranacak.','ok');
     log('Server response: '+JSON.stringify(d),'ok');
-    log('Aramalar 5 saniye aralıklı başlayacak. Render log\'larını izle.','info');
+    log('Aramalar 5 saniye aralÄ±klÄ± baÅlayacak. Render log\'larÄ±nÄ± izle.','info');
   }catch(e){
     setStatus('HATA: '+e.message,'err');
     log('ERR: '+e.message,'err');
@@ -207,12 +213,12 @@ $('start').onclick=async()=>{
 $('single_btn').onclick=async()=>{
   const phone=$('single_phone').value.trim();
   const name=$('single_name').value.trim();
-  if(!phone){setStatus('Telefon numarası gerekli','err');return;}
+  if(!phone){setStatus('Telefon numarasÄ± gerekli','err');return;}
   
-  if(!confirm('📞 '+phone+' numarasına Ayşe arayacak. Onay?'))return;
+  if(!confirm('ð '+phone+' numarasÄ±na AyÅe arayacak. Onay?'))return;
   
   $('single_btn').disabled=true;
-  setStatus('Arama başlatılıyor...','info');
+  setStatus('Arama baÅlatÄ±lÄ±yor...','info');
   log('Tek arama: '+phone+(name?' ('+name+')':''),'info');
   
   try{
@@ -223,7 +229,7 @@ $('single_btn').onclick=async()=>{
     });
     const d=await r.json();
     if(d.ok){
-      setStatus('✅ Arama başladı! Call ID: '+d.call_id?.substring(0,16),'ok');
+      setStatus('â Arama baÅladÄ±! Call ID: '+d.call_id?.substring(0,16),'ok');
       log('VAPI call: '+d.call_id,'ok');
     }else{
       setStatus('HATA: '+(d.error||JSON.stringify(d)),'err');
@@ -238,7 +244,7 @@ $('single_btn').onclick=async()=>{
 };
 
 loadStats();
-log('Panel v1 yüklendi. API: '+API,'info');
+log('Panel v1 yÃ¼klendi. API: '+API,'info');
 </script>
 </body>
 </html>
