@@ -308,7 +308,10 @@ function showAramaMerkezi(){
   var main=document.querySelector(".main")||document.getElementById("main-content");
   if(!main)return;
   _p=1;_sel.clear();_flt={};
-  main.innerHTML="<div style='padding:20px'>"
+  document.querySelectorAll('[id^="pg-"]').forEach(function(p){p.style.display="none";});
+  var _oldV=document.querySelector('[data-am-view]');if(_oldV)_oldV.remove();
+  var _v=document.createElement("div");_v.setAttribute("data-am-view","1");main.appendChild(_v);
+  _v.innerHTML="<div style='padding:20px'>"
     +"<div style='display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:20px'>"
     +"<h2 style='color:#C9A96E;margin:0;font-size:18px'>Arama Merkezi</h2>"
     +"<div style='display:flex;flex-wrap:wrap;gap:8px'>"
@@ -361,7 +364,10 @@ function showSatisTakip(){
   var perOpts=_PER.map(function(p){
     return"<option value='"+p.id+"'>"+p.ad+"</option>";
   }).join("");
-  main.innerHTML="<div style='padding:20px'>"
+  document.querySelectorAll('[id^="pg-"]').forEach(function(p){p.style.display="none";});
+  var _oldV2=document.querySelector('[data-am-view]');if(_oldV2)_oldV2.remove();
+  var _v2=document.createElement("div");_v2.setAttribute("data-am-view","1");main.appendChild(_v2);
+  _v2.innerHTML="<div style='padding:20px'>"
     +"<div style='display:flex;justify-content:space-between;align-items:center;margin-bottom:20px'>"
     +"<h2 style='color:#C9A96E;margin:0;font-size:18px'>Satis Takip</h2>"
     +"<select id='st-per' onchange='_loadST()' style='background:#21212e;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:8px 12px;color:#a8a4b0;font-size:13px'>"
