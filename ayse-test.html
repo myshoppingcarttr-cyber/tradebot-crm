@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Ayşe AI Test — Global Exbina</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#0a0a0f 0%,#181418 100%);color:#DCE1E5;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.box{max-width:500px;width:100%;background:rgba(42,37,32,0.8);border:1px solid rgba(201,169,110,0.3);border-radius:16px;padding:40px;text-align:center}
+h1{color:#C9A96E;font-size:28px;margin-bottom:6px;letter-spacing:2px}
+.sub{color:#7B6EA8;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:30px}
+button{background:linear-gradient(135deg,#C9A96E 0%,#B89556 100%);color:#181418;border:none;padding:18px 32px;font-size:16px;font-weight:700;border-radius:12px;cursor:pointer;width:100%;letter-spacing:1px;transition:all 0.2s;margin:6px 0}
+button:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 20px rgba(201,169,110,0.3)}
+button:disabled{opacity:0.5;cursor:not-allowed}
+button.stop{background:linear-gradient(135deg,#F46A76 0%,#D15560 100%);color:white}
+.status{margin:20px 0;padding:16px;border-radius:8px;background:rgba(24,20,18,0.6);font-size:14px;text-align:left}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#6A6470;margin-right:8px;vertical-align:middle}
+.dot.active{background:#74D672;box-shadow:0 0 10px #74D672;animation:pulse 1.5s infinite}
+.dot.speak{background:#C9A96E;box-shadow:0 0 12px #C9A96E;animation:pulse 0.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.log{margin-top:20px;background:#0a0a0f;border-radius:8px;padding:16px;max-height:280px;overflow-y:auto;font-family:'Consolas',monospace;font-size:12px;text-align:left;color:#8C989E}
+.log .entry{padding:5px 0;border-bottom:1px solid rgba(201,169,110,0.08);line-height:1.4}
+.log .u{color:#C9A96E}
+.log .a{color:#74D672}
+.log .info{color:#56ACED}
+.log .err{color:#F46A76}
+.hint{font-size:11px;color:#6A6470;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>GLOBAL EXBİNA</h1>
+  <div class="sub">AYŞE AI — TEST ARAMA</div>
+  <button id="startBtn" disabled>🎤 AYŞE İLE KONUŞ</button>
+  <button id="stopBtn" class="stop" disabled>⏹ ARAMAYI BİTİR</button>
+  <div class="status">
+    <span class="dot" id="dot"></span><span id="statusText">SDK yükleniyor...</span>
+  </div>
+  <div class="log" id="log"></div>
+  <div class="hint">Mikrofon izni vermen gerekecek. Konuşma VAPI'de kaydedilir.</div>
+</div>
+
+<script type="module">
+const PUBLIC_KEY = 'dc27d818-f510-49e2-aeb4-b5f51fce5fa0';
+const ASSISTANT_ID = '133aa70c-db4b-4155-be6b-220450c0b21a';
+
+const logEl = document.getElementById('log');
+const statusEl = document.getElementById('statusText');
+const dotEl = document.getElementById('dot');
+const startBtn = document.getElementById('startBtn');
+const stopBtn = document.getElementById('stopBtn');
+
+function log(msg, cls='info'){
+  const e = document.createElement('div');
+  e.className = 'entry ' + cls;
+  e.textContent = new Date().toLocaleTimeString('tr') + ' — ' + msg;
+  logEl.appendChild(e);
+  logEl.scrollTop = logEl.scrollHeight;
+}
+function setStatus(text, dotCls=''){
+  statusEl.textContent = text;
+  dotEl.className = 'dot ' + dotCls;
+}
+
+let vapi = null;
+try {
+  const mod = await import('https://esm.sh/@vapi-ai/web@2.3.8');
+  const Vapi = mod.default || mod.Vapi;
+  vapi = new Vapi(PUBLIC_KEY);
+  log('✓ VAPI SDK yüklendi', 'info');
+  setStatus('Hazır — butona bas', '');
+  startBtn.disabled = false;
+  
+  vapi.on('call-start', () => {
+    log('📞 Arama başladı — mikrofon aktif', 'info');
+    setStatus('Aktif arama', 'active');
+    startBtn.disabled = true;
+    stopBtn.disabled = false;
+  });
+  vapi.on('call-end', () => {
+    log('📴 Arama bitti', 'info');
+    setStatus('Arama sonlandı', '');
+    startBtn.disabled = false;
+    stopBtn.disabled = true;
+  });
+  vapi.on('speech-start', () => { setStatus('Ayşe konuşuyor...', 'speak'); });
+  vapi.on('speech-end', () => { setStatus('Senin sıran — konuş', 'active'); });
+  vapi.on('message', (m) => {
+    if (m.type === 'transcript' && m.transcriptType === 'final'){
+      const who = m.role === 'user' ? 'Sen' : 'Ayşe';
+      const cls = m.role === 'user' ? 'u' : 'a';
+      log(who + ': ' + m.transcript, cls);
+    }
+  });
+  vapi.on('error', (err) => {
+    log('HATA: ' + (err.message || JSON.stringify(err).substring(0, 100)), 'err');
+  });
+} catch(e) {
+  log('SDK yüklenemedi: ' + e.message, 'err');
+  setStatus('SDK hatası', '');
+}
+
+startBtn.onclick = async () => {
+  if (!vapi) return;
+  try {
+    log('Bağlanıyor...', 'info');
+    await vapi.start(ASSISTANT_ID);
+  } catch(e) {
+    log('Başlatma hatası: ' + e.message, 'err');
+  }
+};
+stopBtn.onclick = () => {
+  if (vapi) vapi.stop();
+};
+</script>
+</body>
+</html>
