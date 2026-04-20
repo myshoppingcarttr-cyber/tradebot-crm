@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Arama Geçmişi — Global Eksbina</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#0a0a0f 0%,#181418 100%);color:#DCE1E5;min-height:100vh;padding:20px}
+.c{max-width:1200px;margin:0 auto}
+.hdr{text-align:center;padding:20px 0 30px}
+h1{color:#C9A96E;font-size:28px;letter-spacing:2px}
+.sub{color:#7B6EA8;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-top:6px}
+.filter-bar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center}
+.filter-bar select, .filter-bar input{background:rgba(24,20,18,0.8);border:1px solid rgba(201,169,110,0.2);color:#DCE1E5;padding:10px 14px;border-radius:8px;font-size:13px}
+.filter-bar button{background:#C9A96E;color:#181418;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-weight:600}
+.call-card{background:rgba(42,37,32,0.8);border:1px solid rgba(201,169,110,0.2);border-radius:12px;padding:20px;margin-bottom:16px}
+.call-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+.call-meta{font-size:13px;color:#8C989E;display:flex;gap:16px;flex-wrap:wrap}
+.call-meta b{color:#DCE1E5}
+.badge{padding:4px 10px;border-radius:4px;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:600}
+.b-booked{background:rgba(116,214,118,0.2);color:#74D672}
+.b-rejected{background:rgba(244,106,118,0.2);color:#F46A76}
+.b-other{background:rgba(140,152,158,0.2);color:#8C989E}
+.audio-player{width:100%;margin:14px 0;background:#0a0a0f;border-radius:8px;padding:10px}
+audio{width:100%}
+.transcript-toggle{background:transparent;border:1px solid rgba(201,169,110,0.3);color:#C9A96E;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:12px;margin-top:10px}
+.transcript{margin-top:12px;padding:14px;background:#0a0a0f;border-radius:8px;font-size:13px;line-height:1.7;white-space:pre-wrap;max-height:300px;overflow-y:auto;display:none}
+.transcript.open{display:block}
+.summary{margin-top:10px;padding:12px 16px;background:rgba(123,110,168,0.1);border-left:3px solid #7B6EA8;border-radius:4px;font-size:13px;color:#C8C4D0;font-style:italic}
+.download-btn{display:inline-block;background:transparent;border:1px solid #56ACED;color:#56ACED;padding:6px 14px;border-radius:6px;text-decoration:none;font-size:12px;margin-top:8px}
+.empty{text-align:center;padding:60px;color:#8C989E}
+.loading{text-align:center;padding:40px;color:#C9A96E}
+</style>
+</head>
+<body>
+<div class="c">
+  <div class="hdr">
+    <h1>GLOBAL EKSBİNA</h1>
+    <div class="sub">ARAMA GEÇMİŞİ — KAYITLAR VE TRANSKRİPT</div>
+  </div>
+  
+  <div class="filter-bar">
+    <select id="outcome">
+      <option value="">Tüm sonuçlar</option>
+      <option value="appointment_booked">✅ Randevu alındı</option>
+      <option value="rejected">❌ Reddedildi</option>
+    </select>
+    <select id="limit">
+      <option value="20" selected>Son 20</option>
+      <option value="50">Son 50</option>
+      <option value="100">Son 100</option>
+    </select>
+    <input id="search" placeholder="Müşteri adı / telefon ara..." />
+    <button onclick="loadCalls()">🔄 YENİLE</button>
+  </div>
+  
+  <div id="calls-list"><div class="loading">Yükleniyor...</div></div>
+</div>
+
+<script>
+const SB='https://muwynsxukmxjquoqcbac.supabase.co';
+const SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3luc3h1a214anF1b3FjYmFjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjExMzQwMCwiZXhwIjoyMDkxNjg5NDAwfQ.33AsVo1mIeNHznTKnr6IUjVTLP_puNeNFJMS8-GsO30';
+
+async function loadCalls(){
+  const outcome=document.getElementById('outcome').value;
+  const limit=document.getElementById('limit').value;
+  const search=document.getElementById('search').value.trim().toLowerCase();
+  
+  const list=document.getElementById('calls-list');
+  list.innerHTML='<div class="loading">Yükleniyor...</div>';
+  
+  try{
+    let q='/rest/v1/calls?select=*,customers(full_name,phone)&order=created_at.desc&limit='+limit;
+    if(outcome)q+='&outcome=eq.'+outcome;
+    
+    const r=await fetch(SB+q,{headers:{'apikey':SK,'Authorization':'Bearer '+SK}});
+    let calls=await r.json();
+    
+    if(search){
+      calls=calls.filter(c=>{
+        const name=(c.customers?.full_name||'').toLowerCase();
+        const phone=(c.customers?.phone||'').toLowerCase();
+        return name.includes(search)||phone.includes(search);
+      });
+    }
+    
+    if(!calls.length){
+      list.innerHTML='<div class="empty">Kayıt bulunamadı</div>';
+      return;
+    }
+    
+    list.innerHTML=calls.map(c=>{
+      const customer=c.customers||{};
+      const outcomeBadge=c.outcome==='appointment_booked'?'<span class="badge b-booked">✅ Randevu</span>':
+                        c.outcome==='rejected'?'<span class="badge b-rejected">❌ Red</span>':
+                        '<span class="badge b-other">'+(c.outcome||c.status||'—')+'</span>';
+      const date=new Date(c.created_at).toLocaleString('tr-TR');
+      const dur=c.duration_seconds?Math.floor(c.duration_seconds/60)+':'+String(c.duration_seconds%60).padStart(2,'0'):'—';
+      
+      const audioHtml=c.recording_url?
+        '<div class="audio-player"><audio controls src="'+c.recording_url+'"></audio><a href="'+c.recording_url+'" download class="download-btn">⬇ İNDİR (.wav)</a></div>':
+        '<div style="color:#8C989E;font-size:13px;padding:10px 0">🎙️ Ses kaydı yok (çağrı tamamlanmamış veya kayıt yapılmamış)</div>';
+      
+      const transcriptHtml=c.transcript?
+        '<button class="transcript-toggle" onclick="this.nextElementSibling.classList.toggle(\'open\');this.textContent=this.nextElementSibling.classList.contains(\'open\')?\'▲ TRANSKRİPT GİZLE\':\'▼ TRANSKRİPT GÖR\'">▼ TRANSKRİPT GÖR</button><div class="transcript">'+c.transcript.replace(/</g,'&lt;')+'</div>':
+        '';
+      
+      const summaryHtml=c.summary?'<div class="summary">📝 '+c.summary+'</div>':'';
+      
+      return '<div class="call-card">'+
+        '<div class="call-header">'+
+          '<div><b style="color:#C9A96E;font-size:16px">'+(customer.full_name||'Bilinmeyen')+'</b><br>'+
+          '<span style="color:#8C989E;font-size:13px">'+(customer.phone||'—')+'</span></div>'+
+          outcomeBadge+
+        '</div>'+
+        '<div class="call-meta">'+
+          '<span>📅 <b>'+date+'</b></span>'+
+          '<span>⏱️ <b>'+dur+'</b></span>'+
+          '<span>🏷️ '+(c.etiket||'—')+'</span>'+
+          (c.ilgi_seviyesi?'<span>🔥 İlgi: <b>'+c.ilgi_seviyesi+'</b></span>':'')+
+          (c.itiraz?'<span>⚠️ İtiraz: <b>'+c.itiraz+'</b></span>':'')+
+        '</div>'+
+        audioHtml+
+        summaryHtml+
+        transcriptHtml+
+      '</div>';
+    }).join('');
+  }catch(e){
+    list.innerHTML='<div class="empty">Hata: '+e.message+'</div>';
+  }
+}
+
+loadCalls();
+</script>
+</body>
+</html>
