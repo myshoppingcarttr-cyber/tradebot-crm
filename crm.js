@@ -435,9 +435,13 @@ function _crmInit(){
   main.insertBefore(bar,main.firstChild);
   var _origLP2=window.loadPage;
   window.loadPage=function(pg){
+    // AM/ST eklenen ozel divleri sil (pg-* korunur)
+    var _am=document.querySelector('#am-container, .am-wrap, [data-am-view]');if(_am)_am.remove();
+    var _st=document.querySelector('#st-container, .st-wrap, [data-st-view]');if(_st)_st.remove();
+    // Inline style temizle
     document.querySelectorAll('[id^="pg-"]').forEach(function(p){p.style.display='';});
+    // Orijinal loadPage
     if(_origLP2)_origLP2(pg);
-    var _m=document.querySelector(".main");if(_m)_m.innerHTML="";
   };
 }
 
