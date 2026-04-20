@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Toplu Arama Paneli — Global Eksbina</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#0a0a0f 0%,#181418 100%);color:#DCE1E5;min-height:100vh;padding:20px}
+.c{max-width:1200px;margin:0 auto}
+.hdr{text-align:center;padding:20px 0 30px}
+h1{color:#C9A96E;font-size:30px;letter-spacing:2px;margin-bottom:6px}
+.sub{color:#7B6EA8;font-size:12px;letter-spacing:3px;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:1fr 2fr;gap:20px}
+.panel{background:rgba(42,37,32,0.8);border:1px solid rgba(201,169,110,0.3);border-radius:14px;padding:24px}
+.panel h2{color:#C9A96E;font-size:16px;margin-bottom:16px;letter-spacing:1px}
+label{display:block;color:#8C989E;font-size:12px;text-transform:uppercase;letter-spacing:1.5px;margin:14px 0 6px}
+select,input{width:100%;background:rgba(24,20,18,0.8);border:1px solid rgba(201,169,110,0.2);color:#DCE1E5;padding:12px 14px;border-radius:8px;font-size:14px;font-family:inherit}
+select:focus,input:focus{outline:none;border-color:#C9A96E}
+button{background:linear-gradient(135deg,#C9A96E 0%,#B89556 100%);color:#181418;border:none;padding:16px 24px;font-size:15px;font-weight:700;border-radius:10px;cursor:pointer;letter-spacing:1px;width:100%;margin-top:18px;transition:all 0.2s}
+button:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 20px rgba(201,169,110,0.3)}
+button:disabled{opacity:0.5;cursor:not-allowed}
+button.single{background:#56ACED;color:#fff;margin-top:8px;padding:12px}
+button.danger{background:linear-gradient(135deg,#F46A76,#D15560);color:#fff}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.stat{background:rgba(24,20,18,0.6);padding:14px;border-radius:8px;text-align:center}
+.stat .n{color:#C9A96E;font-size:24px;font-weight:700}
+.stat .l{color:#8C989E;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;margin-top:4px}
+.preview{max-height:400px;overflow-y:auto;background:#0a0a0f;border-radius:8px;padding:10px}
+.row{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid rgba(201,169,110,0.08);font-size:13px}
+.row:last-child{border:none}
+.row .name{color:#DCE1E5;flex:1}
+.row .phone{color:#8C989E;font-family:Consolas,monospace;font-size:12px}
+.row .sta{padding:3px 8px;border-radius:4px;font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-left:10px}
+.sta.cold{background:rgba(86,172,237,0.2);color:#56ACED}
+.sta.hot{background:rgba(244,106,118,0.2);color:#F46A76}
+.sta.ilgilenmedi{background:rgba(140,152,158,0.2);color:#8C989E}
+.log{background:#0a0a0f;border-radius:8px;padding:12px;max-height:300px;overflow-y:auto;font-family:Consolas,monospace;font-size:12px;margin-top:16px}
+.log .e{padding:4px 0;border-bottom:1px solid rgba(201,169,110,0.08);color:#8C989E}
+.log .e.ok{color:#74D672}
+.log .e.err{color:#F46A76}
+.log .e.info{color:#56ACED}
+.status{padding:14px 16px;border-radius:8px;background:rgba(24,20,18,0.6);font-size:14px;margin:12px 0}
+.status.ok{background:rgba(116,214,118,0.15);border-left:3px solid #74D672}
+.status.err{background:rgba(244,106,118,0.15);border-left:3px solid #F46A76}
+.status.info{background:rgba(86,172,237,0.15);border-left:3px solid #56ACED}
+.warn{background:rgba(201,169,110,0.15);border-left:3px solid #C9A96E;padding:14px;border-radius:8px;font-size:13px;line-height:1.6;margin:14px 0}
+.warn b{color:#C9A96E}
+@media (max-width:768px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="c">
+  <div class="hdr">
+    <h1>GLOBAL EKSBİNA</h1>
+    <div class="sub">TOPLU ARAMA PANELİ — AYŞE AI</div>
+  </div>
+  
+  <div class="stats" id="stats">
+    <div class="stat"><div class="n" id="s_cold">—</div><div class="l">Cold Leads</div></div>
+    <div class="stat"><div class="n" id="s_hot">—</div><div class="l">Hot Leads</div></div>
+    <div class="stat"><div class="n" id="s_ilg">—</div><div class="l">İlgilenmedi</div></div>
+    <div class="stat"><div class="n" id="s_total">—</div><div class="l">Toplam Müşteri</div></div>
+  </div>
+  
+  <div class="grid">
+    <div class="panel">
+      <h2>🎯 Filtre ve Başlat</h2>
+      
+      <label>Müşteri Statüsü</label>
+      <select id="status">
+        <option value="cold">Cold (Hiç aranmamış)</option>
+        <option value="ilgilenmedi">İlgilenmedi (2. tur)</option>
+        <option value="warm">Warm</option>
+        <option value="hot">Hot</option>
+        <option value="">Tümü (filtre yok)</option>
+      </select>
+      
+      <label>Adet</label>
+      <select id="limit">
+        <option value="1">1 (tek test)</option>
+        <option value="3">3 (kısa test)</option>
+        <option value="5" selected>5 (test turu)</option>
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100 (tam kampanya)</option>
+      </select>
+      
+      <label>Eş Zamanlı Arama</label>
+      <select id="concurrent">
+        <option value="1" selected>1 (seri, en güvenli)</option>
+        <option value="2">2 (hızlı)</option>
+        <option value="3">3 (daha hızlı)</option>
+      </select>
+      
+      <button id="preview">👁 ÖNİZLE (Aramaz)</button>
+      <button id="start">📞 TOPLU ARAMAYI BAŞLAT</button>
+      
+      <div class="warn">
+        <b>⚠️ Dikkat:</b> Başlatınca durdurulamaz. Her arama VAPI'de ~$0.10. 100 arama = ~$10-15. Ayşe v3 prompt kullanır, Eksibina telaffuzu düzeltilmiş.
+      </div>
+    </div>
+    
+    <div class="panel">
+      <h2>👤 Tek Müşteri Arama</h2>
+      <label>Telefon Numarası (test için)</label>
+      <input id="single_phone" placeholder="+905321234567 veya 5321234567" />
+      <label>İsim (opsiyonel)</label>
+      <input id="single_name" placeholder="Ahmet Yılmaz" />
+      <button class="single" id="single_btn">📞 BU NUMARAYI ARA</button>
+      
+      <h2 style="margin-top:30px">📋 Önizleme ve Durum</h2>
+      <div class="status info" id="status_line">Hazır. Önizle ya da başlat.</div>
+      <div class="preview" id="preview_list"></div>
+      <div class="log" id="log"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = 'https://ayse-whatsapp-server-enzt.onrender.com';
+const SB = 'https://muwynsxukmxjquoqcbac.supabase.co';
+const SK = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3luc3h1a214anF1b3FjYmFjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjExMzQwMCwiZXhwIjoyMDkxNjg5NDAwfQ.33AsVo1mIeNHznTKnr6IUjVTLP_puNeNFJMS8-GsO30';
+
+const $=id=>document.getElementById(id);
+function log(msg,cls=''){
+  const d=document.createElement('div');
+  d.className='e '+cls;
+  d.textContent=new Date().toLocaleTimeString('tr')+' — '+msg;
+  $('log').appendChild(d);
+  $('log').scrollTop=$('log').scrollHeight;
+}
+function setStatus(t,cls='info'){$('status_line').textContent=t;$('status_line').className='status '+cls;}
+
+async function loadStats(){
+  try{
+    const statuses=['cold','hot','ilgilenmedi'];
+    for(const s of statuses){
+      const r=await fetch(SB+'/rest/v1/customers?select=id&status=eq.'+s,{
+        headers:{'apikey':SK,'Authorization':'Bearer '+SK,'Prefer':'count=exact'}
+      });
+      const count=r.headers.get('content-range')?.split('/')[1]||'0';
+      $('s_'+(s==='ilgilenmedi'?'ilg':s)).textContent=count;
+    }
+    const t=await fetch(SB+'/rest/v1/customers?select=id',{
+      headers:{'apikey':SK,'Authorization':'Bearer '+SK,'Prefer':'count=exact'}
+    });
+    $('s_total').textContent=t.headers.get('content-range')?.split('/')[1]||'0';
+  }catch(e){log('Stats err: '+e.message,'err');}
+}
+
+$('preview').onclick=async()=>{
+  const status=$('status').value;
+  const limit=$('limit').value;
+  log('Önizleme: status='+(status||'tümü')+' limit='+limit,'info');
+  try{
+    let q='/rest/v1/customers?select=id,full_name,phone,status&limit='+limit+'&order=created_at.desc';
+    if(status)q+='&status=eq.'+status;
+    const r=await fetch(SB+q,{headers:{'apikey':SK,'Authorization':'Bearer '+SK}});
+    const list=await r.json();
+    const pl=$('preview_list');pl.innerHTML='';
+    list.forEach(c=>{
+      const row=document.createElement('div');row.className='row';
+      row.innerHTML='<span class="name">'+(c.full_name||'—')+'</span><span class="phone">'+(c.phone||'—')+'</span><span class="sta '+(c.status||'')+'">'+(c.status||'')+'</span>';
+      pl.appendChild(row);
+    });
+    setStatus('✓ '+list.length+' müşteri önizleniyor. Aramak için "BAŞLAT"ı kullan.','ok');
+    log('Önizleme tamam: '+list.length+' satır','ok');
+  }catch(e){setStatus('Önizleme hatası: '+e.message,'err');log('ERR: '+e.message,'err');}
+};
+
+$('start').onclick=async()=>{
+  const status=$('status').value;
+  const limit=parseInt($('limit').value);
+  const concurrent=parseInt($('concurrent').value);
+  
+  if(!confirm('⚠️ '+limit+' müşteriye ARAMA başlatılacak!\n\nFiltre: status='+(status||'tümü')+'\nEş zamanlı: '+concurrent+'\n\nDevam?'))return;
+  
+  $('start').disabled=true;
+  setStatus('📞 Toplu arama başlatılıyor...','info');
+  log('Bulk-call request: '+limit+' numara','info');
+  
+  try{
+    const r=await fetch(API+'/bulk-call',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        filter:status?{status}:{},
+        limit,
+        concurrent,
+        delay_ms:5000
+      })
+    });
+    const d=await r.json();
+    setStatus('✅ Toplu arama kuyruğa alındı! '+limit+' kişi aranacak.','ok');
+    log('Server response: '+JSON.stringify(d),'ok');
+    log('Aramalar 5 saniye aralıklı başlayacak. Render log\'larını izle.','info');
+  }catch(e){
+    setStatus('HATA: '+e.message,'err');
+    log('ERR: '+e.message,'err');
+  }
+  
+  setTimeout(()=>{$('start').disabled=false;loadStats();},10000);
+};
+
+$('single_btn').onclick=async()=>{
+  const phone=$('single_phone').value.trim();
+  const name=$('single_name').value.trim();
+  if(!phone){setStatus('Telefon numarası gerekli','err');return;}
+  
+  if(!confirm('📞 '+phone+' numarasına Ayşe arayacak. Onay?'))return;
+  
+  $('single_btn').disabled=true;
+  setStatus('Arama başlatılıyor...','info');
+  log('Tek arama: '+phone+(name?' ('+name+')':''),'info');
+  
+  try{
+    const r=await fetch(API+'/make-call',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({phone,customer_id:null})
+    });
+    const d=await r.json();
+    if(d.ok){
+      setStatus('✅ Arama başladı! Call ID: '+d.call_id?.substring(0,16),'ok');
+      log('VAPI call: '+d.call_id,'ok');
+    }else{
+      setStatus('HATA: '+(d.error||JSON.stringify(d)),'err');
+      log('ERR: '+JSON.stringify(d),'err');
+    }
+  }catch(e){
+    setStatus('HATA: '+e.message,'err');
+    log('ERR: '+e.message,'err');
+  }
+  
+  setTimeout(()=>$('single_btn').disabled=false,3000);
+};
+
+loadStats();
+log('Panel v1 yüklendi. API: '+API,'info');
+</script>
+</body>
+</html>
