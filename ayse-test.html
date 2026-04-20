@@ -2,6 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Ayşe AI Test — Global Exbina</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -12,18 +13,25 @@ h1{color:#C9A96E;font-size:32px;letter-spacing:2px;margin-bottom:6px}
 .sub{color:#7B6EA8;font-size:12px;letter-spacing:3px;text-transform:uppercase}
 .panel{background:rgba(42,37,32,0.8);border:1px solid rgba(201,169,110,0.3);border-radius:16px;padding:30px;margin-bottom:20px}
 .panel h2{color:#C9A96E;font-size:18px;margin-bottom:16px;letter-spacing:1px}
-button{background:linear-gradient(135deg,#C9A96E 0%,#B89556 100%);color:#181418;border:none;padding:16px 28px;font-size:15px;font-weight:700;border-radius:10px;cursor:pointer;letter-spacing:1px;transition:all 0.2s}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap}
+button{background:linear-gradient(135deg,#C9A96E 0%,#B89556 100%);color:#181418;border:none;padding:16px 28px;font-size:15px;font-weight:700;border-radius:10px;cursor:pointer;letter-spacing:1px;transition:all 0.2s;flex:1;min-width:200px}
 button:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 20px rgba(201,169,110,0.3)}
-button:disabled{opacity:0.5;cursor:not-allowed}
+button:disabled{opacity:0.4;cursor:not-allowed}
+button.stop{background:linear-gradient(135deg,#F46A76 0%,#D15560 100%);color:white}
 .status{padding:14px 16px;border-radius:8px;background:rgba(24,20,18,0.6);font-size:14px;margin:16px 0}
 .status.ok{background:rgba(116,214,118,0.1);border-left:3px solid #74D672;color:#74D672}
 .status.err{background:rgba(244,106,118,0.1);border-left:3px solid #F46A76;color:#F46A76}
-.info{color:#8C989E;font-size:13px;line-height:1.7;margin-top:12px}
-.info b{color:#C9A96E}
-#callFrame{width:100%;height:600px;border:none;border-radius:12px;background:#000;display:none;margin-top:16px}
+.status.info{background:rgba(86,172,237,0.1);border-left:3px solid #56ACED;color:#56ACED}
+#callContainer{margin-top:16px;display:none}
+#callFrame{width:100%;height:600px;border:none;border-radius:12px;background:#000}
 .steps{padding:16px 24px;background:rgba(123,110,168,0.08);border-radius:10px;font-size:13px;line-height:1.8;color:#C8C4D0;margin-top:12px}
 .steps ol{margin-left:20px}
 .steps b{color:#C9A96E}
+.logs{margin-top:16px;padding:12px;background:#0a0a0f;border-radius:8px;max-height:200px;overflow-y:auto;font-family:Consolas,monospace;font-size:12px;color:#8C989E;display:none}
+.logs.visible{display:block}
+.logs .entry{padding:4px 0;border-bottom:1px solid rgba(201,169,110,0.08)}
+.logs .ok{color:#74D672}
+.logs .err{color:#F46A76}
 </style>
 </head>
 <body>
@@ -34,74 +42,130 @@ button:disabled{opacity:0.5;cursor:not-allowed}
   </div>
   
   <div class="panel">
-    <h2>🎤 Yeni test araması başlat</h2>
-    <button id="startBtn">AYŞE'Yİ ARA</button>
+    <h2>🎤 Test araması</h2>
+    <div class="btn-row">
+      <button id="startBtn">AYŞE'Yİ ARA</button>
+      <button id="stopBtn" class="stop" disabled>⏹ ARAMAYI BİTİR</button>
+    </div>
     <div class="status" id="status">Hazır — butona bas, Ayşe seni arasın.</div>
     <div class="steps">
-      <b>Nasıl çalışıyor:</b>
+      <b>Nasıl çalışır:</b>
       <ol>
-        <li>Butona basınca VAPI size bir Daily.co görüşme odası açacak</li>
-        <li>Odaya katılmak için "Join call" butonuna tıkla</li>
-        <li>Mikrofon izni ver, Ayşe hemen konuşmaya başlayacak</li>
-        <li>Bitirmek için tarayıcıdan odayı kapat ya da "Leave" de</li>
+        <li>Butona basınca YENİ bir Daily.co görüşme odası açılır</li>
+        <li>Mikrofon izni "Allow" de</li>
+        <li>Ayşe direkt konuşmaya başlar</li>
+        <li>Bitirmek için kırmızı "ARAMAYI BİTİR" butonu</li>
       </ol>
-      Konuşma VAPI tarafında otomatik kaydedilir. Kayda dashboard'dan ulaşırsın.
+      <b>Not:</b> Her arama yeni oda olur. Önceki oda ölse de etkilenmez.
     </div>
-    <iframe id="callFrame" allow="microphone; camera; autoplay" allowfullscreen></iframe>
+    <div id="callContainer">
+      <iframe id="callFrame" allow="microphone; camera; autoplay; display-capture" allowfullscreen></iframe>
+    </div>
+    <div class="logs" id="logs"></div>
   </div>
 </div>
 
 <script>
-const startBtn = document.getElementById('startBtn');
-const statusEl = document.getElementById('status');
-const frame = document.getElementById('callFrame');
+const startBtn=document.getElementById('startBtn');
+const stopBtn=document.getElementById('stopBtn');
+const statusEl=document.getElementById('status');
+const container=document.getElementById('callContainer');
+const frame=document.getElementById('callFrame');
+const logs=document.getElementById('logs');
 
-function setStatus(text, cls=''){
-  statusEl.textContent = text;
-  statusEl.className = 'status ' + cls;
+let currentCallId=null;
+
+function setStatus(text,cls=''){statusEl.textContent=text;statusEl.className='status '+cls;}
+function log(msg,cls=''){
+  logs.classList.add('visible');
+  const d=document.createElement('div');
+  d.className='entry '+cls;
+  d.textContent=new Date().toLocaleTimeString('tr')+' — '+msg;
+  logs.appendChild(d);
+  logs.scrollTop=logs.scrollHeight;
 }
 
-startBtn.onclick = async () => {
-  startBtn.disabled = true;
-  setStatus('Bağlanıyor... VAPI odayı açıyor...');
+function resetCallFrame(){
+  // iframe tamamen yeniden oluştur (eski "removed from call" hatasını temizler)
+  container.style.display='none';
+  frame.src='about:blank';
+  // yeni iframe oluştur
+  const newFrame=frame.cloneNode(false);
+  newFrame.id='callFrame';
+  frame.parentNode.replaceChild(newFrame,frame);
+}
+
+startBtn.onclick=async()=>{
+  startBtn.disabled=true;
+  stopBtn.disabled=true;
+  resetCallFrame();
+  setStatus('Yeni oda oluşturuluyor...','info');
+  log('VAPI API: call/web POST başladı');
   
-  try {
-    const r = await fetch('https://api.vapi.ai/call/web', {
-      method: 'POST',
-      headers: {
-        'Authorization': 'Bearer dc27d818-f510-49e2-aeb4-b5f51fce5fa0',
-        'Content-Type': 'application/json'
+  try{
+    const r=await fetch('https://api.vapi.ai/call/web',{
+      method:'POST',
+      headers:{
+        'Authorization':'Bearer dc27d818-f510-49e2-aeb4-b5f51fce5fa0',
+        'Content-Type':'application/json'
       },
-      body: JSON.stringify({
-        assistantId: '133aa70c-db4b-4155-be6b-220450c0b21a'
-      })
+      body:JSON.stringify({assistantId:'133aa70c-db4b-4155-be6b-220450c0b21a'})
     });
+    const d=await r.json();
     
-    const d = await r.json();
-    if (!r.ok) {
-      setStatus('HATA: ' + (d.message || 'bilinmeyen hata'), 'err');
-      startBtn.disabled = false;
+    if(!r.ok){
+      setStatus('VAPI HATA: '+(d.message||'bilinmeyen'),'err');
+      log('VAPI error: '+JSON.stringify(d).substring(0,200),'err');
+      startBtn.disabled=false;
       return;
     }
     
-    const roomUrl = d.webCallUrl || d.url;
-    if (!roomUrl) {
-      setStatus('HATA: oda URL\'i gelmedi', 'err');
-      startBtn.disabled = false;
+    const roomUrl=d.webCallUrl||d.url;
+    currentCallId=d.id;
+    if(!roomUrl){
+      setStatus('URL alınamadı','err');
+      log('Response: '+JSON.stringify(d).substring(0,200),'err');
+      startBtn.disabled=false;
       return;
     }
     
-    setStatus('✓ Oda hazır! Aşağıdaki iframe\'de "Join call" butonuna tıkla.', 'ok');
-    frame.src = roomUrl;
-    frame.style.display = 'block';
+    log('Call ID: '+(currentCallId||'?').substring(0,20)+'...','ok');
+    log('Oda URL alındı, iframe yükleniyor','ok');
+    setStatus('✓ Oda hazır! "Allow" de, Ayşe konuşmaya başlayacak.','ok');
     
-    // 30 dakika sonra buton yeniden aktif olsun
-    setTimeout(() => { startBtn.disabled = false; }, 30000);
+    // Yeni iframe'e src ata
+    const fr=document.getElementById('callFrame');
+    fr.src=roomUrl;
+    container.style.display='block';
     
-  } catch(e) {
-    setStatus('HATA: ' + e.message, 'err');
-    startBtn.disabled = false;
+    stopBtn.disabled=false;
+    startBtn.disabled=false; // yeni arama istenirse açık kalsın
+    
+  }catch(e){
+    setStatus('HATA: '+e.message,'err');
+    log('Exception: '+e.message,'err');
+    startBtn.disabled=false;
   }
+};
+
+stopBtn.onclick=async()=>{
+  log('Aramayı bitiriyorum...');
+  resetCallFrame();
+  setStatus('Arama kapatıldı. Yeni test için "AYŞE\'Yİ ARA" ya bas.','info');
+  stopBtn.disabled=true;
+  startBtn.disabled=false;
+  
+  // VAPI'de de çağrıyı sonlandırmaya çalış (end signal)
+  if(currentCallId){
+    try{
+      await fetch('https://api.vapi.ai/call/'+currentCallId+'/end',{
+        method:'POST',
+        headers:{'Authorization':'Bearer dc27d818-f510-49e2-aeb4-b5f51fce5fa0'}
+      });
+      log('VAPI call sonlandırıldı','ok');
+    }catch(e){log('VAPI end ignore: '+e.message);}
+  }
+  currentCallId=null;
 };
 </script>
 </body>
