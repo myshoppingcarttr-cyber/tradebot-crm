@@ -3,7 +3,7 @@ var _SB="https://muwynsxukmxjquoqcbac.supabase.co";
 var _SK="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3luc3h1a214anF1b3FjYmFjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjExMzQwMCwiZXhwIjoyMDkxNjg5NDAwfQ.33AsVo1mIeNHznTKnr6IUjVTLP_puNeNFJMS8-GsO30";
 var _SH={apikey:_SK,Authorization:"Bearer "+_SK};
 var _SC=Object.assign({},_SH,{"Content-Type":"application/json"});
-var _p=1,_ps=100,_flt={},_srt="skor.desc.nullslast",_sel=new Set(),_dat=[];
+var _p=1,_ps=100,_flt={},_srt="skor.desc",_sel=new Set(),_dat=[];
 var _PER=[
   {id:"94cfd7da-c8da-42fc-96e2-0f93472c524a",ad:"Sistem Yoneticisi"},
   {id:"61dd9140-5210-49dc-9790-ca4cae5eed77",ad:"Furkan Ekmen"},
@@ -146,7 +146,7 @@ function _amFil(){
 }
 
 function _amSrt(col){
-  _srt=(_srt.startsWith(col)&&_srt.includes("desc"))?col+".asc.nullslast":col+".desc.nullslast";
+  _srt=(_srt.startsWith(col)&&_srt.includes("desc"))?col+".asc":col+".desc";
   _loadAM();
 }
 
@@ -232,7 +232,7 @@ function _detay(id){
   }).join("");
   var vid=c.vapi_call_id||"";
   var sid=id.substring(0,8);
-  var sesHtml=vid.length>10?"<div id='sbx"+sid+"' style='padding:6px 0 2px'><button id='sb"+sid+"' onclick='_sesAc(\""+id+"\",\""+vid+"\")'style='background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);border-radius:6px;padding:5px 14px;color:#22c55e;cursor:pointer;font-size:12px;font-weight:600'>Ã¢ÂÂ¶ Sesi Dinle</button></div>":"";
+  var sesHtml=vid.length>10?"<div id='sbx"+sid+"' style='padding:6px 0 2px'><button id='sb"+sid+"' onclick='_sesAc(\""+id+"\",\""+vid+"\")'style='background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);border-radius:6px;padding:5px 14px;color:#22c55e;cursor:pointer;font-size:12px;font-weight:600'>ÃÂ¢ÃÂÃÂ¶ Sesi Dinle</button></div>":"";
   var telBtn=ph?"<a href='tel:+"+ph+"' style='flex:1;background:#21212e;border:1px solid rgba(34,197,94,.3);border-radius:8px;padding:10px;font-size:14px;text-decoration:none;color:#22c55e;font-weight:600;text-align:center'>Ara</a>":"";
   var ov=document.createElement("div");
   ov.id="det-ov";
@@ -504,7 +504,7 @@ function _loadST(){
   var pid=sel?sel.value:"";
   var q=_SB+"/rest/v1/calls?agent_name=eq.Ayse&assigned_to=not.is.null";
   q+="&select=id,skor,satis_durumu,summary,assigned_name,personel_notu,etiket,customers(full_name,phone)";
-  q+="&order=skor.desc.nullslast&limit=200";
+  q+="&order=skor.desc&limit=200";
   if(pid)q=q.replace("&assigned_to=not.is.null","&assigned_to=eq."+pid);
   fetch(q,{headers:_SH})
     .then(function(r){return r.json();})
@@ -562,7 +562,7 @@ function _crmInit(){
   main.insertBefore(bar,main.firstChild);
   var _origLP2=window.loadPage;
   window.loadPage=function(pg){
-    // AM/ST ÃÂ¶zel div'leri sil
+    // AM/ST ÃÂÃÂ¶zel div'leri sil
     var _av=document.querySelector('[data-am-view]');if(_av)_av.remove();
     // pg-* inline style temizle
     document.querySelectorAll('[id^="pg-"]').forEach(function(p){p.style.display='';});
