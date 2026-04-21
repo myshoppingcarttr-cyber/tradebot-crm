@@ -232,7 +232,7 @@ function _detay(id){
   }).join("");
   var vid=c.vapi_call_id||"";
   var sid=id.substring(0,8);
-  var sesHtml=vid.length>10?"<div id='sbx"+sid+"' style='padding:6px 0 2px'><button id='sb"+sid+"' onclick='_sesAc(\""+id+"\",\""+vid+"\")'style='background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);border-radius:6px;padding:5px 14px;color:#22c55e;cursor:pointer;font-size:12px;font-weight:600'>▶ Sesi Dinle</button></div>":"";
+  var sesHtml=vid.length>10?"<div id='sbx"+sid+"' style='padding:6px 0 2px'><button id='sb"+sid+"' onclick='_sesAc(\""+id+"\",\""+vid+"\")'style='background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);border-radius:6px;padding:5px 14px;color:#22c55e;cursor:pointer;font-size:12px;font-weight:600'>â¶ Sesi Dinle</button></div>":"";
   var telBtn=ph?"<a href='tel:+"+ph+"' style='flex:1;background:#21212e;border:1px solid rgba(34,197,94,.3);border-radius:8px;padding:10px;font-size:14px;text-decoration:none;color:#22c55e;font-weight:600;text-align:center'>Ara</a>":"";
   var ov=document.createElement("div");
   ov.id="det-ov";
@@ -268,19 +268,52 @@ function _sesAc(callId,vid){
   var box=document.getElementById("sbx"+sid);
   if(!box)return;
   var ex=document.getElementById("spl"+sid);
-  if(ex){ex.remove();if(btn)btn.textContent="▶ Sesi Dinle";return;}
-  if(btn){btn.textContent="...";btn.disabled=true;}
+  if(ex){ex.remove();if(btn)btn.textContent="Sesi Dinle";var tx=document.getElementById("trx"+sid);if(tx)tx.remove();return;}
+  if(btn){btn.textContent="Yukleniyor...";btn.disabled=true;}
   fetch("https://api.vapi.ai/call/"+vid,{headers:{Authorization:"Bearer 74b7b21d-f286-4a56-b1ac-2bf37a91d088"}})
   .then(function(r){return r.json();}).then(function(v){
-    if(btn){btn.disabled=false;btn.textContent="⏹ Kapat";}
+    if(btn){btn.disabled=false;btn.textContent="Kapat";}
     var url=v.recordingUrl||(v.artifact&&v.artifact.recordingUrl)||"";
-    if(!url){box.insertAdjacentHTML("beforeend","<span style='color:#ef4444;font-size:11px;margin-left:6px'>Ses kaydi yok</span>");return;}
-    var a=document.createElement("audio");
-    a.id="spl"+sid;a.controls=true;a.src=url;
-    a.style.cssText="max-width:300px;height:32px;margin-left:6px;vertical-align:middle";
-    box.appendChild(a);a.play().catch(function(){});
+    var summary=(v.analysis&&v.analysis.summary)||"";
+    var msgs=(v.messages||[]).filter(function(m){return m.role!=="system";});
+    var dur=v.startedAt&&v.endedAt?Math.round((new Date(v.endedAt)-new Date(v.startedAt))/1000):0;
+    var durTxt=dur?Math.floor(dur/60)+":"+(dur%60<10?"0":"")+(dur%60):"-";
+    if(!url&&!msgs.length){box.insertAdjacentHTML("beforeend","<span style='color:#ef4444;font-size:11px;margin-left:6px'>Kayit ve transkript yok</span>");return;}
+    var cont=document.createElement("div");
+    cont.id="spl"+sid;
+    cont.style.cssText="margin-top:10px;padding:12px;background:rgba(201,169,110,.05);border:1px solid rgba(201,169,110,.2);border-radius:8px;max-width:100%";
+    var h="";
+    if(url){
+      h+="<div style='display:flex;gap:10px;align-items:center;margin-bottom:8px'>";
+      h+="<audio controls src='"+url+"' style='flex:1;height:34px'></audio>";
+      h+="<a href='"+url+"' download='call-"+sid+".wav' style='background:#21212e;border:1px solid rgba(34,197,94,.4);border-radius:4px;padding:4px 10px;font-size:11px;color:#22c55e;text-decoration:none;white-space:nowrap'>&#8681; WAV</a>";
+      h+="<span style='color:#888;font-size:11px'>"+durTxt+"</span>";
+      h+="</div>";
+    }
+    if(summary){
+      h+="<div style='background:rgba(123,110,168,.08);border-left:3px solid #7B6EA8;padding:8px 10px;margin:8px 0;border-radius:4px'>";
+      h+="<div style='color:#7B6EA8;font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:4px'>AI OZETI</div>";
+      h+="<div style='color:#ddd;font-size:12px;line-height:1.5'>"+summary.replace(/[<>]/g,"")+"</div>";
+      h+="</div>";
+    }
+    if(msgs.length){
+      h+="<div style='color:#C9A96E;font-size:10px;font-weight:700;letter-spacing:1px;margin:10px 0 6px'>TRANSKRIPT ("+msgs.length+" mesaj)</div>";
+      h+="<div style='max-height:240px;overflow-y:auto;padding:10px;background:#0a0a0f;border-radius:6px;font-size:12px;line-height:1.6'>";
+      msgs.forEach(function(m){
+        var sec=Math.round(m.secondsFromStart||0);
+        var isBot=m.role==="bot"||m.role==="assistant";
+        var color=isBot?"#C9A96E":"#74D672";
+        var label=isBot?"AYSE":"MUSTERI";
+        var txt=(m.message||"").replace(/[<>]/g,"");
+        h+="<div style='margin-bottom:8px'><span style='color:#666;font-size:10px'>["+sec+"s]</span> <span style='color:"+color+";font-weight:600;font-size:10px'>"+label+":</span> <span style='color:#ddd'>"+txt+"</span></div>";
+      });
+      h+="</div>";
+    }
+    cont.innerHTML=h;
+    box.parentNode.insertBefore(cont,box.nextSibling);
   }).catch(function(e){
-    if(btn){btn.disabled=false;btn.textContent="▶ Sesi Dinle";}
+    if(btn){btn.disabled=false;btn.textContent="Sesi Dinle";}
+    box.insertAdjacentHTML("beforeend","<span style='color:#ef4444;font-size:11px;margin-left:6px'>Yuklenirken hata</span>");
   });
 }
 function _kaydet(id){
@@ -313,7 +346,7 @@ function showAramaMerkezi(){
   var _v=document.createElement("div");_v.setAttribute("data-am-view","1");main.appendChild(_v);
   _v.innerHTML="<div style='padding:20px'>"
     +"<div style='display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:20px'>"
-    +"<h2 style='color:#C9A96E;margin:0;font-size:18px'>Arama Merkezi</h2>"
+    +"<h2 style='color:#C9A96E;margin:0;font-size:18px'>Arama Merkezi</h2>"+"<button onclick='_topluAra()' style='background:linear-gradient(135deg,#C9A96E,#d4b581);color:#181418;border:none;border-radius:6px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:1px'>Yeni Toplu Arama</button>"
     +"<div style='display:flex;flex-wrap:wrap;gap:8px'>"
     +"<select id='am-filgi' onchange='_amFil()' style='background:#21212e;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:6px 10px;color:#a8a4b0;font-size:12px'>"
     +"<option value='all'>Tum Ilgi</option><option value='yuksek'>Yuksek</option><option value='orta'>Orta</option><option value='dusuk'>Dusuk</option></select>"
@@ -354,6 +387,94 @@ function showAramaMerkezi(){
     +"<div id='am-pager' style='display:flex;flex-wrap:wrap;align-items:center;margin-top:14px;gap:4px'></div>"
     +"</div>";
   _loadAM();
+}
+
+
+function _topluAra(){
+  var old=document.getElementById("tara-ov");if(old)old.remove();
+  var ov=document.createElement("div");
+  ov.id="tara-ov";
+  ov.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px";
+  ov.innerHTML="<div style='background:#181418;border:1px solid rgba(201,169,110,.3);border-radius:12px;padding:28px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto'>"
+    +"<div style='display:flex;justify-content:space-between;align-items:center;margin-bottom:20px'>"
+    +"<h2 style='color:#C9A96E;margin:0;font-size:20px'>Toplu Arama Baslat</h2>"
+    +"<button onclick='document.getElementById(\"tara-ov\").remove()' style='background:none;border:none;color:#888;font-size:24px;cursor:pointer;padding:0'>&times;</button>"
+    +"</div>"
+    +"<div style='background:rgba(201,169,110,.05);border:1px solid rgba(201,169,110,.2);border-radius:8px;padding:14px;margin-bottom:16px;font-size:13px;color:#a8a4b0;line-height:1.6'>"
+    +"Ayse AI secilen musterileri arayacak. Son bir saatte aranan musterileri otomatik atlar."
+    +"</div>"
+    +"<div style='margin-bottom:14px'>"
+    +"<label style='display:block;color:#888;font-size:11px;margin-bottom:6px;letter-spacing:1px'>MUSTERI DURUMU</label>"
+    +"<select id='ta-status' style='width:100%;background:#21212e;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:10px 12px;color:#ddd;font-size:13px'>"
+    +"<option value='cold'>Cold - Yeni (aranmamis)</option>"
+    +"<option value='aranmiyor'>Aranmiyor</option>"
+    +"<option value='ilgileniyor'>Ilgileniyor - Sicak</option>"
+    +"<option value=''>Hepsi</option>"
+    +"</select></div>"
+    +"<div style='margin-bottom:14px'>"
+    +"<label style='display:block;color:#888;font-size:11px;margin-bottom:6px;letter-spacing:1px'>KAC KISIYE ARASIN</label>"
+    +"<input type='number' id='ta-limit' value='25' min='1' max='100' style='width:100%;background:#21212e;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:10px 12px;color:#ddd;font-size:13px'></div>"
+    +"<div style='margin-bottom:20px'>"
+    +"<label style='display:block;color:#888;font-size:11px;margin-bottom:6px;letter-spacing:1px'>PARALEL ARAMA</label>"
+    +"<select id='ta-conc' style='width:100%;background:#21212e;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:10px 12px;color:#ddd;font-size:13px'>"
+    +"<option value='2'>2 paralel (onerilen)</option>"
+    +"<option value='3'>3 paralel (hizli)</option>"
+    +"<option value='1'>1 paralel (yavas)</option>"
+    +"</select></div>"
+    +"<div id='ta-info' style='display:none;background:rgba(123,110,168,.08);border-left:3px solid #7B6EA8;padding:10px 14px;margin-bottom:14px;color:#ddd;font-size:12px;border-radius:4px'></div>"
+    +"<div style='display:flex;gap:10px;justify-content:flex-end'>"
+    +"<button onclick='document.getElementById(\"tara-ov\").remove()' style='background:#21212e;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:10px 18px;color:#888;cursor:pointer;font-size:13px'>Iptal</button>"
+    +"<button id='ta-btn' onclick='_taraBaslat()' style='background:#C9A96E;color:#181418;border:none;border-radius:6px;padding:10px 22px;font-weight:700;cursor:pointer;font-size:13px'>Baslat</button>"
+    +"</div></div>";
+  document.body.appendChild(ov);
+}
+
+function _taraBaslat(){
+  var status=document.getElementById("ta-status").value;
+  var limit=parseInt(document.getElementById("ta-limit").value)||25;
+  var conc=parseInt(document.getElementById("ta-conc").value)||2;
+  var btn=document.getElementById("ta-btn");
+  var info=document.getElementById("ta-info");
+  btn.disabled=true;btn.textContent="Yukleniyor...";
+  info.style.display="block";info.innerHTML="Musteri listesi hazirlaniyor...";
+  var since=new Date(Date.now()-3600000).toISOString();
+  fetch(_SB+"/rest/v1/calls?select=customer_id&created_at=gte."+encodeURIComponent(since),{headers:_SH})
+  .then(function(r){return r.json();}).then(function(rc){
+    var recentIds={};(rc||[]).forEach(function(c){if(c.customer_id)recentIds[c.customer_id]=1;});
+    var q="customers?select=id,full_name,phone&order=created_at.asc&limit="+(limit*3);
+    if(status)q+="&status=eq."+status;
+    return fetch(_SB+"/rest/v1/"+q,{headers:_SH}).then(function(r){return r.json();}).then(function(all){
+      var targets=(all||[]).filter(function(c){return !recentIds[c.id] && c.phone && c.phone.length===10;}).slice(0,limit);
+      if(!targets.length){info.innerHTML="<span style='color:#ef4444'>Uygun musteri yok. Son 1 saatte aranmis olabilirler.</span>";btn.disabled=false;btn.textContent="Baslat";return;}
+      info.innerHTML="<b style='color:#C9A96E'>"+targets.length+"</b> musteriye arama basliyor. Arka planda devam eder.<br><span style='color:#888;font-size:11px'>Sure: ~"+Math.ceil(targets.length*8/conc/60)+" dakika</span>";
+      btn.textContent="Baslatildi";btn.style.background="#22c55e";
+      window._taraProgress={total:targets.length,done:0,results:[]};
+      var queue=targets.slice();
+      var active=0;
+      function processOne(t){
+        active++;
+        fetch("https://ayse-whatsapp-server-enzt.onrender.com/make-call",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({customer_id:t.id,phone:t.phone})})
+        .then(function(r){return r.json();}).then(function(d){
+          window._taraProgress.done++;
+          window._taraProgress.results.push({name:t.full_name,ok:d.ok});
+          active--;scheduleNext();
+        }).catch(function(e){window._taraProgress.done++;active--;scheduleNext();});
+      }
+      function scheduleNext(){
+        while(active<conc && queue.length){
+          var t=queue.shift();
+          setTimeout((function(tt){return function(){processOne(tt);};})(t),500);
+        }
+      }
+      scheduleNext();
+      setTimeout(function(){
+        var ov2=document.getElementById("tara-ov");if(ov2)ov2.remove();
+        if(typeof _loadAM==="function")_loadAM();
+      },3500);
+    });
+  }).catch(function(e){
+    info.innerHTML="<span style='color:#ef4444'>Hata: "+e.message+"</span>";btn.disabled=false;btn.textContent="Baslat";
+  });
 }
 
 function showSatisTakip(){
@@ -441,7 +562,7 @@ function _crmInit(){
   main.insertBefore(bar,main.firstChild);
   var _origLP2=window.loadPage;
   window.loadPage=function(pg){
-    // AM/ST özel div'leri sil
+    // AM/ST Ã¶zel div'leri sil
     var _av=document.querySelector('[data-am-view]');if(_av)_av.remove();
     // pg-* inline style temizle
     document.querySelectorAll('[id^="pg-"]').forEach(function(p){p.style.display='';});
