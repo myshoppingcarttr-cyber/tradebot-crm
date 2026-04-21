@@ -145,7 +145,7 @@ function _amFil(){
   _p=1;_loadAM();
 }
 
-function _amSrt(col){
+function _amSrt(col){if(col&&col.indexOf("customers.")===0){col="created_at";}
   _srt=(_srt.startsWith(col)&&_srt.includes("desc"))?col+".asc":col+".desc";
   _loadAM();
 }
@@ -232,7 +232,7 @@ function _detay(id){
   }).join("");
   var vid=c.vapi_call_id||"";
   var sid=id.substring(0,8);
-  var sesHtml=vid.length>10?"<div id='sbx"+sid+"' style='padding:6px 0 2px'><button id='sb"+sid+"' onclick='_sesAc(\""+id+"\",\""+vid+"\")'style='background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);border-radius:6px;padding:5px 14px;color:#22c55e;cursor:pointer;font-size:12px;font-weight:600'>ÃÂ¢ÃÂÃÂ¶ Sesi Dinle</button></div>":"";
+  var sesHtml=vid.length>10?"<div id='sbx"+sid+"' style='padding:6px 0 2px'><button id='sb"+sid+"' onclick='_sesAc(\""+id+"\",\""+vid+"\")'style='background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);border-radius:6px;padding:5px 14px;color:#22c55e;cursor:pointer;font-size:12px;font-weight:600'>ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ¶ Sesi Dinle</button></div>":"";
   var telBtn=ph?"<a href='tel:+"+ph+"' style='flex:1;background:#21212e;border:1px solid rgba(34,197,94,.3);border-radius:8px;padding:10px;font-size:14px;text-decoration:none;color:#22c55e;font-weight:600;text-align:center'>Ara</a>":"";
   var ov=document.createElement("div");
   ov.id="det-ov";
@@ -378,7 +378,7 @@ function showAramaMerkezi(){
     +"<th style='padding:10px;color:#5a566a;font-size:11px;text-align:left'>Ozet</th>"
     +"<th style='padding:10px;color:#5a566a;font-size:11px;text-align:left'>Personel</th>"
     +"<th style='padding:10px;color:#5a566a;font-size:11px;text-align:left'>Sonuc</th>"
-    +"<th style='padding:10px;color:#5a566a;font-size:11px;text-align:center'>Ara</th>"
+    +"<th style='padding:10px;color:#5a566a;font-size:11px;cursor:pointer;text-align:center' onclick='_amSrt(\"duration_seconds\")'>Süre ↕</th>"
     +"<th style='padding:10px;color:#5a566a;font-size:11px;text-align:center'>Detay</th>"
     +"</tr></thead>"
     +"<tbody id='am-tb'>"
@@ -562,7 +562,7 @@ function _crmInit(){
   main.insertBefore(bar,main.firstChild);
   var _origLP2=window.loadPage;
   window.loadPage=function(pg){
-    // AM/ST ÃÂÃÂ¶zel div'leri sil
+    // AM/ST ÃÂÃÂÃÂÃÂ¶zel div'leri sil
     var _av=document.querySelector('[data-am-view]');if(_av)_av.remove();
     // pg-* inline style temizle
     document.querySelectorAll('[id^="pg-"]').forEach(function(p){p.style.display='';});
